@@ -76,8 +76,8 @@
                     </p>
                 @endif
 
-                @foreach($invoice->seller->generic as $key => $value)
-                    <p class="seller-generic">
+                @foreach($invoice->seller->custom_fields as $key => $value)
+                    <p class="seller-custom-field">
                         {{ ucfirst($key) }}: {{ $value }}
                     </p>
                 @endforeach
@@ -115,8 +115,8 @@
                     </p>
                 @endif
 
-                @foreach($invoice->buyer->generic as $key => $value)
-                    <p class="buyer-generic">
+                @foreach($invoice->buyer->custom_fields as $key => $value)
+                    <p class="buyer-custom-field">
                         {{ ucfirst($key) }}: {{ $value }}
                     </p>
                 @endforeach

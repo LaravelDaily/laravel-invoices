@@ -36,12 +36,12 @@ return [
          * Default attributes for Seller::class
          */
         'attributes' => [
-            'name'    => 'Towne, Smith and Ebert',
-            'address' => '89982 Pfeffer Falls Damianstad, CO 66972-8160',
-            'code'    => '41-1985581',
-            'vat'     => '123456789',
-            'phone'   => '760-355-3930',
-            'generic' => [
+            'name'          => 'Towne, Smith and Ebert',
+            'address'       => '89982 Pfeffer Falls Damianstad, CO 66972-8160',
+            'code'          => '41-1985581',
+            'vat'           => '123456789',
+            'phone'         => '760-355-3930',
+            'custom_fields' => [
                 /**
                  * Custom attributes for Seller::class
                  *

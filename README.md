@@ -45,7 +45,7 @@ $customer = new Buyer([
     'vat'     => '',
     'address' => 'Customer address',
     'code'    => 'customer_id',
-    'generic' => [
+    'custom_fields' => [
         'SWIFT'        => 'BANK101',
         'custom_field' => 'Additional customer info',
     ],
@@ -71,7 +71,7 @@ use LaravelDaily\Invoices\Classes\Party;
 $client = new Party([
     'name'    => 'Roosevelt Lloyd',
     'phone'   => '(520) 318-9486',
-    'generic' => [
+    'custom_fields' => [
         'note'        => 'IDDQD',
         'business id' => '365#GG',
     ],
@@ -81,7 +81,7 @@ $customer = new Party([
     'name'    => 'Ashley Medina',
     'address' => 'The Green Street 12',
     'code'    => '#22663214',
-    'generic' => [
+    'custom_fields' => [
         'order number' => '> 654321 <',
     ],
 ]);
@@ -167,7 +167,7 @@ return [
             'code'    => '41-1985581',
             'vat'     => '123456789',
             'phone'   => '760-355-3930',
-            'generic' => [
+            'custom_fields' => [
                 /**
                  * Custom attributes for Seller::class
                  *
