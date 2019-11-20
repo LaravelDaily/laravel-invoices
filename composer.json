@@ -1,0 +1,40 @@
+{
+    "name": "laraveldaily/laravel-invoices",
+    "description": "Missing invoices for Laravel",
+    "license": "GPL-3.0-only",
+    "authors": [
+        {
+            "name": "David Lun",
+            "email": "mysticcode@gmail.com",
+            "homepage": "https://lun.lt"
+        }
+    ],
+    "homepage": "https://github.com/LaravelDaily/laravel-invoices",
+    "keywords": ["Laravel", "Invoice", "Invoices"],
+    "require": {
+        "php": ">=7",
+        "barryvdh/laravel-dompdf": "^0.8.5"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "LaravelDaily\\Invoices\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaravelDaily\\Invoices\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelDaily\\Invoices\\InvoiceServiceProvider"
+            ],
+            "aliases": {
+                "Invoice": "LaravelDaily\\Invoices\\Facades\\Invoice"
+            }
+        }
+    }
+}
