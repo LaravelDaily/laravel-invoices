@@ -130,8 +130,10 @@
                 <thead>
                     <tr>
                         <th scope="col" class="border-0 pl-0">{{ __('invoice::invoice.service') }}</th>
-                        <th scope="col" class="text-center border-0">{{ __('invoice::invoice.units') }}</th>
-                        <th scope="col" class="text-center border-0">{{ __('invoice::invoice.amount') }}</th>
+                        @if($invoice->hasUnits)
+                            <th scope="col" class="text-center border-0">{{ __('invoice::invoice.units') }}</th>
+                        @endif
+                        <th scope="col" class="text-center border-0">{{ __('invoice::invoice.quantity') }}</th>
                         <th scope="col" class="text-right border-0">{{ __('invoice::invoice.price') }}</th>
                         @if($invoice->hasDiscount)
                             <th scope="col" class="text-center border-0">{{ __('invoice::invoice.discount') }}</th>
@@ -142,34 +144,28 @@
                 <tbody>
                     @foreach($invoice->items as $item)
                     <tr>
-                        <td class="pl-0">{{ $item['title'] }}</td>
-                        <td class="text-center">{{ $item['units'] }}</td>
-                        <td class="text-center">{{ $item['amount'] }}</td>
-                        <td class="text-right">{{ $item['price_per_unit'] }}</td>
-                        @if($invoice->hasDiscount)
-                            <td class="text-center">{{ $item['discount'] }}</td>
+                        <td class="pl-0">{{ $item->title }}</td>
+                        @if($invoice->hasUnits)
+                            <td class="text-center">{{ $item->units }}</td>
                         @endif
-                        <td class="text-right pr-0">{{ $item['total_price'] }}</td>
+                        <td class="text-center">{{ $item->quantity }}</td>
+                        <td class="text-right">{{ $item->price_per_unit }}</td>
+                        @if($invoice->hasDiscount)
+                            <td class="text-center">{{ $item->discount }}</td>
+                        @endif
+                        <td class="text-right pr-0">{{ $item->sub_total_price }}</td>
                     </tr>
                     @endforeach
-                    @if($invoice->hasDiscount)
                         <tr>
-                            <td colspan="4" class="border-0"></td>
-                            <td class="pl-0">Total discount</td>
-                            <td class="text-right pr-0">{{ $invoice->total_discount }}</td>
+                            <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
+                            <td class="text-right pl-0">Total discount</td>
+                            <td class="text-right pr-0">hehe {{ $invoice->total_discount }}</td>
                         </tr>
                         <tr>
-                            <td colspan="4" class="border-0"></td>
-                            <td class="pl-0">Total amount</td>
-                            <td class="text-right pr-0 total-amount">{{ $invoice->total_amount }}</td>
+                            <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
+                            <td class="text-right pl-0">Total amount</td>
+                            <td class="text-right pr-0 total-amount">hehe{{ $invoice->total_amount }}</td>
                         </tr>
-                    @else
-                        <tr>
-                            <td colspan="3" class="border-0"></td>
-                            <td class="pl-0">Total amount</td>
-                            <td class="text-right pr-0 total-amount">{{ $invoice->total_amount }}</td>
-                        </tr>
-                    @endif
                 </tbody>
             </table>
             <p>{{ trans('invoice::invoice.amount_in_words') }}: {{ $invoice->getAmountInWords() }}</p>

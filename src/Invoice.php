@@ -9,6 +9,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
 use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Classes\Seller;
 use LaravelDaily\Invoices\Contracts\PartyContract;
 use LaravelDaily\Invoices\Traits\InvoiceHelpers;
@@ -22,10 +23,7 @@ class Invoice
 {
     use InvoiceHelpers;
 
-    /**
-     * @var Collection
-     */
-    public $items;
+    const TABLE_COLUMNS = 4;
 
     /**
      * @var string
@@ -41,6 +39,11 @@ class Invoice
      * @var string
      */
     public $sequence;
+
+    /**
+     * @var Collection
+     */
+    public $items;
 
     /**
      * @var string
@@ -63,18 +66,34 @@ class Invoice
     public $buyer;
 
     /**
+     * @var
+     */
+    public $total_discount;
+
+    /**
+     * @var
+     */
+    public $total_amount;
+
+    /**
+     * @var bool
+     */
+    public $hasUnits;
+
+    /**
      * @var bool
      */
     public $hasDiscount;
 
     /**
-     * @var
+     * @var bool
      */
-    public $total_discount;
+    public $hasRendering;
+
     /**
-     * @var
+     * @var int
      */
-    public $total_amount;
+    public $table_columns;
 
     /**
      * @var string
@@ -92,9 +111,16 @@ class Invoice
      */
     public function __construct($name = 'Invoice')
     {
-        $this->name  = $name;
+        $this->name($name);
+        $this->serial($this->getDefaultSerial());
+        $this->sequence($this->getDefaultSequence());
+        $this->template();
+        $this->filename($this->getDefaultFilename($this->name));
+        $this->seller(app()->make(config('invoices.seller.class')));
+        $this->date(Carbon::now());
         $this->items = Collection::make([]);
-        $this->date  = Carbon::now();
+
+        $this->table_columns = self::TABLE_COLUMNS;
     }
 
     /**
@@ -107,30 +133,12 @@ class Invoice
     }
 
     /**
-     * @param string $title
-     * @param string $units
-     * @param string $amount
-     * @param string $price_per_unit
-     * @param string $total_price
-     * @param string $discount
+     * @param InvoiceItem $item
      * @return $this
      */
-    public function addItem(
-        string $title,
-        string $units,
-        string $amount,
-        string $price_per_unit,
-        string $total_price,
-        string $discount = ''
-    ) {
-        $this->items->push(Collection::make([
-            'title'          => $title,
-            'units'          => $units,
-            'amount'         => $amount,
-            'price_per_unit' => $price_per_unit,
-            'total_price'    => $total_price,
-            'discount'       => $discount,
-        ]));
+    public function addItem(InvoiceItem $item)
+    {
+        $this->items->push($item);
 
         return $this;
     }
@@ -154,8 +162,12 @@ class Invoice
      */
     public function render()
     {
-        $this->deriveDefaultValues();
-        // A4 =  210 mm x  297 mm =  595 pt x  842 pt
+        if ($this->pdf) {
+            return $this;
+        }
+
+        $this->beforeRender();
+
         $template = sprintf('invoice::templates.%s', $this->template);
         $view     = View::make($template, ['invoice' => $this]);
 

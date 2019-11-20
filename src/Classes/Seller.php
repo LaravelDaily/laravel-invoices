@@ -14,22 +14,27 @@ class Seller implements PartyContract
      * @var \Illuminate\Config\Repository|mixed
      */
     public $name;
+
     /**
      * @var \Illuminate\Config\Repository|mixed
      */
     public $address;
+
     /**
      * @var \Illuminate\Config\Repository|mixed
      */
     public $code;
+
     /**
      * @var \Illuminate\Config\Repository|mixed
      */
     public $vat;
+
     /**
      * @var \Illuminate\Config\Repository|mixed
      */
     public $phone;
+
     /**
      * @var \Illuminate\Config\Repository|mixed
      */

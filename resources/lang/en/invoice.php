@@ -18,7 +18,7 @@ return [
     'phone'           => 'Phone',
     'service'         => 'Service',
     'units'           => 'Units',
-    'amount'          => 'Amount',
+    'quantity'        => 'Qty',
     'price'           => 'Price',
     'discount'        => 'Discount',
     'sub_total'       => 'Sub total',

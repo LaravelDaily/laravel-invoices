@@ -63,12 +63,12 @@ class InvoiceServiceProvider extends ServiceProvider
         // Publishing the configuration file.
         $this->publishes([
             __DIR__ . '/../config/invoices.php' => config_path('invoices.php'),
-        ], 'invoice.config');
+        ], 'invoices.config');
 
         // Publishing the views.
         $this->publishes([
             __DIR__ . '/../resources/views' => base_path('resources/views/vendor/LaravelDaily'),
-        ], 'invoice.views');
+        ], 'invoices.views');
 
         // Publishing assets.
         /*$this->publishes([
@@ -78,7 +78,7 @@ class InvoiceServiceProvider extends ServiceProvider
         // Publishing the translation files.
         $this->publishes([
             __DIR__ . '/../resources/lang' => resource_path('lang/vendor/LaravelDaily'),
-        ], 'invoice.views');
+        ], 'invoices.views');
 
         // Registering package commands.
         // $this->commands([]);

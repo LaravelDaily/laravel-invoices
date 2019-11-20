@@ -50,9 +50,9 @@ trait InvoiceHelpers
      * @param string $date
      * @return $this
      */
-    public function date(string $date)
+    public function date(Carbon $date)
     {
-        $this->date = Carbon::parse($date);
+        $this->date = $date;
 
         return $this;
     }
@@ -209,37 +209,29 @@ trait InvoiceHelpers
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      * @throws Exception
      */
-    protected function deriveDefaultValues(): void
+    protected function beforeRender(): void
     {
-        if (!$this->sequence) {
-            // setter
-            $this->sequence($this->getDefaultSequence());
-        }
+        $this->validate();
+        $this->calculate();
+    }
 
-        if (!$this->serial) {
-            $this->serial($this->getDefaultSerial());
-        }
-
-        if (!$this->template) {
-            $this->template();
-        }
-
-        if (!$this->filename) {
-            $this->filename($this->getDefaultFilename($this->name));
-        }
-
-        if (!$this->seller) {
-            $this->seller(app()->make(config('invoices.seller.class')));
-        }
-
+    protected function validate()
+    {
         if (!$this->buyer) {
             throw new Exception('Buyer not defined.');
         }
+    }
 
-        if ($this->hasDiscount === null) {
-            $this->hasDiscount = !$this->items->filter(function ($item) {
-                return $item['discount'];
-            })->isEmpty();
-        }
+    protected function calculate()
+    {
+        $this->items->each(function ($item) {
+            $item->calculate();
+
+            (is_null($item->units)) ?: $this->hasUnits     = true;
+            ($item->discount <= 0.0) ?: $this->hasDiscount = true;
+        });
+
+        (!$this->hasUnits) ?: $this->table_columns++;
+        (!$this->hasDiscount) ?: $this->table_columns++;
     }
 }

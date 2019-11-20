@@ -19,6 +19,7 @@ return [
     ],
 
     'paper' => [
+        // A4 =  210 mm x  297 mm =  595 pt x  842 pt
         'size'        => 'a4',
         'orientation' => 'portrait',
     ],
@@ -51,18 +52,5 @@ return [
                 'SWIFT' => 'BANK101',
             ],
         ],
-    ],
-
-    /**
-     * For future uses
-     */
-    'units' => [
-        'unit' => 'Unit',
-        'hour' => 'Hour',
-        'km'   => 'Km',
-        'm2'   => 'm2',
-        'm'    => 'm',
-        'kg'   => 'kg',
-        'day'  => 'Day',
     ],
 ];
