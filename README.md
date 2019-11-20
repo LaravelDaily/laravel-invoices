@@ -194,19 +194,11 @@ return [
 ];
 ```
 
-## Change log
-
-Please see the [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
 ## Testing
 
 ``` bash
 $ composer test
 ```
-
-## Contributing
-
-Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details and a todolist.
 
 ## Security
 
@@ -219,7 +211,7 @@ If you discover any security related issues, please email mysticcode@gmail.com i
 
 ## License
 
-GPL-3.0-only. Please see the [license file](LICENSE) for more information.
+GPL-3.0-only. Please see the [license file](LICENSE.md) for more information.
 
 [ico-version]: https://img.shields.io/packagist/v/laraveldaily/laravel-invoices.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/laraveldaily/laravel-invoices.svg?style=flat-square
@@ -231,4 +223,4 @@ GPL-3.0-only. Please see the [license file](LICENSE) for more information.
 [link-travis]: https://travis-ci.org/laraveldaily/laravel-invoices
 [link-styleci]: https://styleci.io/repos/12345678
 [link-author]: https://github.com/mc0de
-[link-contributors]: ../../contributors
+

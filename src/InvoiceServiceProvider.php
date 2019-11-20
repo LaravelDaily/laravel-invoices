@@ -4,6 +4,10 @@ namespace LaravelDaily\Invoices;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class InvoiceServiceProvider
+ * @package LaravelDaily\Invoices
+ */
 class InvoiceServiceProvider extends ServiceProvider
 {
     /**

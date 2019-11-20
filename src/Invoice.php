@@ -3,6 +3,7 @@
 namespace LaravelDaily\Invoices;
 
 use Carbon\Carbon;
+use Exception;
 use Faker\Factory as FakerFactory;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
@@ -66,7 +67,13 @@ class Invoice
      */
     public $hasDiscount;
 
+    /**
+     * @var
+     */
     public $total_discount;
+    /**
+     * @var
+     */
     public $total_amount;
 
     /**
@@ -100,8 +107,12 @@ class Invoice
     }
 
     /**
-     * @param string $name
-     * @param int $price
+     * @param string $title
+     * @param string $units
+     * @param string $amount
+     * @param string $price_per_unit
+     * @param string $total_price
+     * @param string $discount
      * @return $this
      */
     public function addItem(
@@ -124,6 +135,10 @@ class Invoice
         return $this;
     }
 
+    /**
+     * @param $items
+     * @return $this
+     */
     public function addItems($items)
     {
         foreach ($items as $item) {
@@ -135,6 +150,7 @@ class Invoice
 
     /**
      * @return $this
+     * @throws Exception
      */
     public function render()
     {
@@ -150,6 +166,7 @@ class Invoice
 
     /**
      * @return mixed
+     * @throws Exception
      */
     public function stream()
     {
@@ -160,35 +177,12 @@ class Invoice
 
     /**
      * @return mixed
+     * @throws Exception
      */
     public function download()
     {
         $this->render();
 
         return $this->pdf->download($this->filename);
-    }
-
-    public function addFakeItem()
-    {
-        $faker = FakerFactory::create();
-        $item  = [
-            'title'          => $faker->words(rand(3, 4), true),
-            'units'          => $faker->randomElement(array_values(config('invoices.units'))),
-            'amount'         => $faker->numberBetween(1, 20),
-            'price_per_unit' => $faker->numberBetween(100, 10000),
-            'total_price'    => $faker->randomFloat(2, 100, 1000),
-            'discount'       => $faker->numberBetween(1, 20),
-        ];
-
-        $this->addItem(...array_values($item));
-    }
-
-    public function addFakeItems(int $amount = 2)
-    {
-        for ($i = 0; $i < $amount; $i++) {
-            $this->addFakeItem();
-        }
-
-        return $this;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>{{ $invoice->name }}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -28,7 +28,7 @@
     <body>
         {{-- Header --}}
         <div style="clear:both;position:relative;margin-top:48pt;overflow:hidden">
-            <div style="position:absolute;left:0pt;width:250pt">
+            <div style="position:absolute;left:0;width:250pt">
                 <h4 class="text-uppercase">
                     <strong>{{ $invoice->name }}</strong>
                 </h4>
@@ -43,7 +43,7 @@
 
         {{-- Seller - Buyer --}}
         <div style="clear:both; position:relative;margin-top:24pt;overflow:hidden">
-            <div style="position:absolute; left:0pt; width:237pt;">
+            <div style="position:absolute; left:0; width:237pt;">
                 <h2>{{ __('invoice::invoice.seller') }}</h2>
                 <hr>
                 @if($invoice->seller->name)

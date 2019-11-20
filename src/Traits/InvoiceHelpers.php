@@ -7,9 +7,16 @@ use Exception;
 use LaravelDaily\Invoices\Contracts\PartyContract;
 use NumberFormatter;
 
+/**
+ * Trait InvoiceHelpers
+ * @package LaravelDaily\Invoices\Traits
+ */
 trait InvoiceHelpers
 {
-    // Setters
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function name(string $name)
     {
         $this->name = $name;
@@ -17,6 +24,10 @@ trait InvoiceHelpers
         return $this;
     }
 
+    /**
+     * @param string $serial
+     * @return $this
+     */
     public function serial(string $serial)
     {
         $this->serial = $serial;
@@ -24,6 +35,10 @@ trait InvoiceHelpers
         return $this;
     }
 
+    /**
+     * @param $sequence
+     * @return $this
+     */
     public function sequence($sequence)
     {
         $this->sequence = str_pad((string) $sequence, config('invoices.invoice.padding'), 0, STR_PAD_LEFT);
@@ -31,6 +46,10 @@ trait InvoiceHelpers
         return $this;
     }
 
+    /**
+     * @param string $date
+     * @return $this
+     */
     public function date(string $date)
     {
         $this->date = Carbon::parse($date);
@@ -38,6 +57,10 @@ trait InvoiceHelpers
         return $this;
     }
 
+    /**
+     * @param string $amount
+     * @return $this
+     */
     public function totalDiscount(string $amount)
     {
         $this->total_discount = $amount;
@@ -45,6 +68,10 @@ trait InvoiceHelpers
         return $this;
     }
 
+    /**
+     * @param string $amount
+     * @return $this
+     */
     public function totalAmount(string $amount)
     {
         $this->total_amount = $amount;
@@ -52,6 +79,10 @@ trait InvoiceHelpers
         return $this;
     }
 
+    /**
+     * @param PartyContract $seller
+     * @return $this
+     */
     public function seller(PartyContract $seller)
     {
         $this->seller = $seller;
@@ -59,6 +90,10 @@ trait InvoiceHelpers
         return $this;
     }
 
+    /**
+     * @param PartyContract $buyer
+     * @return $this
+     */
     public function buyer(PartyContract $buyer)
     {
         $this->buyer = $buyer;
@@ -66,6 +101,10 @@ trait InvoiceHelpers
         return $this;
     }
 
+    /**
+     * @param string $template
+     * @return $this
+     */
     public function template($template = 'default')
     {
         $this->template = $template;
@@ -73,6 +112,10 @@ trait InvoiceHelpers
         return $this;
     }
 
+    /**
+     * @param string $filename
+     * @return $this
+     */
     public function filename(string $filename)
     {
         $this->filename = sprintf('%s.pdf', $filename);
@@ -81,16 +124,26 @@ trait InvoiceHelpers
     }
 
     // Getters
+
+    /**
+     * @return mixed
+     */
     public function getDate()
     {
         return $this->date->toDateString(config('invoices.invoice.date_format'));
     }
 
+    /**
+     * @return mixed
+     */
     public function getPayUntil()
     {
         return $this->date->addWeek()->toDateString(config('invoices.invoice.date_format'));
     }
 
+    /**
+     * @return string
+     */
     public function getAmountInWords()
     {
         $formatter = new NumberFormatter(config('invoices.invoice.locale'), NumberFormatter::SPELLOUT);
@@ -110,6 +163,9 @@ trait InvoiceHelpers
         return ucfirst($result) . ' ct.';
     }
 
+    /**
+     * @return string
+     */
     public function getSS()
     {
         return sprintf(
@@ -120,18 +176,26 @@ trait InvoiceHelpers
         );
     }
 
-    // Default values for future
-
+    /**
+     * @return \Illuminate\Config\Repository|mixed
+     */
     protected function getDefaultSequence()
     {
         return config('invoices.invoice.sequence');
     }
 
+    /**
+     * @return \Illuminate\Config\Repository|mixed
+     */
     protected function getDefaultSerial()
     {
         return config('invoices.invoice.serial');
     }
 
+    /**
+     * @param string $name
+     * @return string
+     */
     protected function getDefaultFilename(string $name)
     {
         if ($name === '') {
@@ -141,6 +205,10 @@ trait InvoiceHelpers
         return sprintf('%s_%s_%s', $name, $this->serial, $this->sequence);
     }
 
+    /**
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws Exception
+     */
     protected function deriveDefaultValues(): void
     {
         if (!$this->sequence) {
