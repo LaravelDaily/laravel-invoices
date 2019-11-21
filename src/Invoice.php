@@ -4,15 +4,14 @@ namespace LaravelDaily\Invoices;
 
 use Carbon\Carbon;
 use Exception;
-use Faker\Factory as FakerFactory;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
-use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
-use LaravelDaily\Invoices\Classes\Seller;
 use LaravelDaily\Invoices\Contracts\PartyContract;
+use LaravelDaily\Invoices\Traits\CurrencyFormatter;
+use LaravelDaily\Invoices\Traits\DateFormatter;
 use LaravelDaily\Invoices\Traits\InvoiceHelpers;
+use LaravelDaily\Invoices\Traits\SerialNumberFormatter;
 use PDF;
 
 /**
@@ -22,6 +21,9 @@ use PDF;
 class Invoice
 {
     use InvoiceHelpers;
+    use CurrencyFormatter;
+    use DateFormatter;
+    use SerialNumberFormatter;
 
     const TABLE_COLUMNS = 4;
 
@@ -29,31 +31,6 @@ class Invoice
      * @var string
      */
     public $name;
-
-    /**
-     * @var string
-     */
-    public $serial;
-
-    /**
-     * @var string
-     */
-    public $sequence;
-
-    /**
-     * @var Collection
-     */
-    public $items;
-
-    /**
-     * @var string
-     */
-    public $filename;
-
-    /**
-     * @var Carbon
-     */
-    protected $date;
 
     /**
      * @var PartyContract
@@ -66,12 +43,27 @@ class Invoice
     public $buyer;
 
     /**
-     * @var
+     * @var Collection
+     */
+    public $items;
+
+    /**
+     * @var string
+     */
+    public $template;
+
+    /**
+     * @var string
+     */
+    public $filename;
+
+    /**
+     * @var float
      */
     public $total_discount;
 
     /**
-     * @var
+     * @var float
      */
     public $total_amount;
 
@@ -96,11 +88,6 @@ class Invoice
     public $table_columns;
 
     /**
-     * @var string
-     */
-    public $template;
-
-    /**
      * @var PDF
      */
     public $pdf;
@@ -108,17 +95,39 @@ class Invoice
     /**
      * Invoice constructor.
      * @param string $name
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function __construct($name = 'Invoice')
     {
-        $this->name($name);
-        $this->serial($this->getDefaultSerial());
-        $this->sequence($this->getDefaultSequence());
-        $this->template();
+        // Invoice
+        $this->name     = $name;
+        $this->seller   = app()->make(config('invoices.seller.class'));
+        $this->items    = Collection::make([]);
+        $this->template = 'default';
+
+        // Date
+        $this->date           = Carbon::now();
+        $this->date_format    = config('invoices.date.format');
+        $this->pay_until_days = config('invoices.date.pay_until_days');
+
+        // Serial Number
+        $this->series               = config('invoices.serial_number.series');
+        $this->sequence_padding     = config('invoices.serial_number.sequence_padding');
+        $this->delimiter            = config('invoices.serial_number.delimiter');
+        $this->serial_number_format = config('invoices.serial_number.format');
+        $this->sequence(config('invoices.serial_number.sequence'));
+
+        // Filename
         $this->filename($this->getDefaultFilename($this->name));
-        $this->seller(app()->make(config('invoices.seller.class')));
-        $this->date(Carbon::now());
-        $this->items = Collection::make([]);
+
+        // Currency
+        $this->currency_code                = config('invoices.currency.code');
+        $this->currency_fraction            = config('invoices.currency.fraction');
+        $this->currency_symbol              = config('invoices.currency.symbol');
+        $this->currency_decimals            = config('invoices.currency.decimals');
+        $this->currency_decimal_point       = config('invoices.currency.decimal_point');
+        $this->currency_thousands_separator = config('invoices.currency.thousands_separator');
+        $this->currency_format              = config('invoices.currency.format');
 
         $this->table_columns = self::TABLE_COLUMNS;
     }
@@ -126,6 +135,7 @@ class Invoice
     /**
      * @param string $name
      * @return Invoice
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public static function make($name = 'Invoice')
     {
@@ -168,7 +178,7 @@ class Invoice
 
         $this->beforeRender();
 
-        $template = sprintf('invoice::templates.%s', $this->template);
+        $template = sprintf('invoices::templates.%s', $this->template);
         $view     = View::make($template, ['invoice' => $this]);
 
         $this->pdf = PDF::setOptions(['enable_php' => true])->loadHtml($view);

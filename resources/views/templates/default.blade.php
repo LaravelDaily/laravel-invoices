@@ -35,8 +35,8 @@
             </div>
 
             <div style="margin-left:373pt">
-                <p>{{ __('invoice::invoice.serial') }} <strong>{{ $invoice->getSS() }}</strong></p>
-                <p>{{ __('invoice::invoice.date') }}: <strong>{{ $invoice->getDate() }}</strong></p>
+                <p>{{ __('invoices::invoice.serial') }} <strong>{{ $invoice->getSerialNumber() }}</strong></p>
+                <p>{{ __('invoices::invoice.date') }}: <strong>{{ $invoice->getDate() }}</strong></p>
             </div>
         </div>
 
@@ -44,7 +44,7 @@
         {{-- Seller - Buyer --}}
         <div style="clear:both; position:relative;margin-top:24pt;overflow:hidden">
             <div style="position:absolute; left:0; width:237pt;">
-                <h2>{{ __('invoice::invoice.seller') }}</h2>
+                <h2>{{ __('invoices::invoice.seller') }}</h2>
                 <hr>
                 @if($invoice->seller->name)
                     <p class="seller-name">
@@ -54,25 +54,25 @@
 
                 @if($invoice->seller->address)
                     <p class="seller-address">
-                        {{ __('invoice::invoice.address') }}: {{ $invoice->seller->address }}
+                        {{ __('invoices::invoice.address') }}: {{ $invoice->seller->address }}
                     </p>
                 @endif
 
                 @if($invoice->seller->code)
                     <p class="seller-code">
-                        {{ __('invoice::invoice.code') }}: {{ $invoice->seller->code }}
+                        {{ __('invoices::invoice.code') }}: {{ $invoice->seller->code }}
                     </p>
                 @endif
 
                 @if($invoice->seller->vat)
                     <p class="seller-vat">
-                        {{ __('invoice::invoice.vat') }}: {{ $invoice->seller->vat }}
+                        {{ __('invoices::invoice.vat') }}: {{ $invoice->seller->vat }}
                     </p>
                 @endif
 
                 @if($invoice->seller->phone)
                     <p class="seller-phone">
-                        {{ __('invoice::invoice.phone') }}: {{ $invoice->seller->phone }}
+                        {{ __('invoices::invoice.phone') }}: {{ $invoice->seller->phone }}
                     </p>
                 @endif
 
@@ -83,7 +83,7 @@
                 @endforeach
             </div>
             <div style="margin-left:261pt; width:237pt;">
-                <h2>{{ __('invoice::invoice.buyer') }}</h2>
+                <h2>{{ __('invoices::invoice.buyer') }}</h2>
                 <hr>
                 @if($invoice->buyer->name)
                     <p class="buyer-name">
@@ -93,25 +93,25 @@
 
                 @if($invoice->buyer->address)
                     <p class="buyer-address">
-                        {{ __('invoice::invoice.address') }}: {{ $invoice->buyer->address }}
+                        {{ __('invoices::invoice.address') }}: {{ $invoice->buyer->address }}
                     </p>
                 @endif
 
                 @if($invoice->buyer->code)
                     <p class="buyer-code">
-                        {{ __('invoice::invoice.code') }}: {{ $invoice->buyer->code }}
+                        {{ __('invoices::invoice.code') }}: {{ $invoice->buyer->code }}
                     </p>
                 @endif
 
                 @if($invoice->buyer->vat)
                     <p class="buyer-vat">
-                        {{ __('invoice::invoice.vat') }}: {{ $invoice->buyer->vat }}
+                        {{ __('invoices::invoice.vat') }}: {{ $invoice->buyer->vat }}
                     </p>
                 @endif
 
                 @if($invoice->buyer->phone)
                     <p class="buyer-phone">
-                        {{ __('invoice::invoice.phone') }}: {{ $invoice->buyer->phone }}
+                        {{ __('invoices::invoice.phone') }}: {{ $invoice->buyer->phone }}
                     </p>
                 @endif
 
@@ -129,16 +129,16 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" class="border-0 pl-0">{{ __('invoice::invoice.service') }}</th>
+                        <th scope="col" class="border-0 pl-0">{{ __('invoices::invoice.service') }}</th>
                         @if($invoice->hasUnits)
-                            <th scope="col" class="text-center border-0">{{ __('invoice::invoice.units') }}</th>
+                            <th scope="col" class="text-center border-0">{{ __('invoices::invoice.units') }}</th>
                         @endif
-                        <th scope="col" class="text-center border-0">{{ __('invoice::invoice.quantity') }}</th>
-                        <th scope="col" class="text-right border-0">{{ __('invoice::invoice.price') }}</th>
+                        <th scope="col" class="text-center border-0">{{ __('invoices::invoice.quantity') }}</th>
+                        <th scope="col" class="text-right border-0">{{ __('invoices::invoice.price') }}</th>
                         @if($invoice->hasDiscount)
-                            <th scope="col" class="text-center border-0">{{ __('invoice::invoice.discount') }}</th>
+                            <th scope="col" class="text-center border-0">{{ __('invoices::invoice.discount') }}</th>
                         @endif
-                        <th scope="col" class="text-right border-0 pr-0">{{ __('invoice::invoice.sub_total') }}</th>
+                        <th scope="col" class="text-right border-0 pr-0">{{ __('invoices::invoice.sub_total') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -149,31 +149,43 @@
                             <td class="text-center">{{ $item->units }}</td>
                         @endif
                         <td class="text-center">{{ $item->quantity }}</td>
-                        <td class="text-right">{{ $item->price_per_unit }}</td>
+                        <td class="text-right">
+                            {{ $invoice->formatCurrency($item->price_per_unit) }}
+                        </td>
                         @if($invoice->hasDiscount)
-                            <td class="text-center">{{ $item->discount }}</td>
+                            <td class="text-center">
+                                {{ $invoice->formatCurrency($item->discount) }}
+                            </td>
                         @endif
-                        <td class="text-right pr-0">{{ $item->sub_total_price }}</td>
+                        <td class="text-right pr-0">
+                            {{ $invoice->formatCurrency($item->sub_total_price) }}
+                        </td>
                     </tr>
                     @endforeach
+                    @if($invoice->hasDiscount)
                         <tr>
                             <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                            <td class="text-right pl-0">Total discount</td>
-                            <td class="text-right pr-0">hehe {{ $invoice->total_discount }}</td>
+                            <td class="text-right pl-0">{{ __('invoices::invoice.total_discount') }}</td>
+                            <td class="text-right pr-0">
+                                {{ $invoice->formatCurrency($invoice->total_discount) }}
+                            </td>
                         </tr>
+                    @endif
                         <tr>
                             <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                            <td class="text-right pl-0">Total amount</td>
-                            <td class="text-right pr-0 total-amount">hehe{{ $invoice->total_amount }}</td>
+                            <td class="text-right pl-0">{{ __('invoices::invoice.total_amount') }}</td>
+                            <td class="text-right pr-0 total-amount">
+                                {{ $invoice->formatCurrency($invoice->total_amount) }}
+                            </td>
                         </tr>
                 </tbody>
             </table>
-            <p>{{ trans('invoice::invoice.amount_in_words') }}: {{ $invoice->getAmountInWords() }}</p>
+            <p>{{ trans('invoices::invoice.amount_in_words') }}: {{ $invoice->getTotalAmountInWords() }}</p>
         </div>
 
         {{-- Footer --}}
         <div style="clear:both; position:relative; margin-top:24pt">
-            <p>{{ trans('invoice::invoice.pay_until') }}: {{ $invoice->getPayUntil() }}</p>
+            <p>{{ trans('invoices::invoice.pay_until') }}: {{ $invoice->getPayUntilDate() }}</p>
         </div>
         <script type="text/php">
             if (isset($pdf) && $PAGE_COUNT > 1) {

@@ -17,8 +17,8 @@ class InvoiceServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'invoice');
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'invoice');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'invoices');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'invoices');
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 

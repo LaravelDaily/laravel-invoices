@@ -2,10 +2,9 @@
 
 namespace LaravelDaily\Invoices\Traits;
 
-use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Str;
 use LaravelDaily\Invoices\Contracts\PartyContract;
-use NumberFormatter;
 
 /**
  * Trait InvoiceHelpers
@@ -25,56 +24,23 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param string $serial
+     * @param float $total_discount
      * @return $this
      */
-    public function serial(string $serial)
+    public function totalDiscount(float $total_discount)
     {
-        $this->serial = $serial;
+        $this->total_discount = $total_discount;
 
         return $this;
     }
 
     /**
-     * @param $sequence
+     * @param float $total_amount
      * @return $this
      */
-    public function sequence($sequence)
+    public function totalAmount(float $total_amount)
     {
-        $this->sequence = str_pad((string) $sequence, config('invoices.invoice.padding'), 0, STR_PAD_LEFT);
-
-        return $this;
-    }
-
-    /**
-     * @param string $date
-     * @return $this
-     */
-    public function date(Carbon $date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * @param string $amount
-     * @return $this
-     */
-    public function totalDiscount(string $amount)
-    {
-        $this->total_discount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * @param string $amount
-     * @return $this
-     */
-    public function totalAmount(string $amount)
-    {
-        $this->total_amount = $amount;
+        $this->total_amount = $total_amount;
 
         return $this;
     }
@@ -105,7 +71,7 @@ trait InvoiceHelpers
      * @param string $template
      * @return $this
      */
-    public function template($template = 'default')
+    public function template(string $template = 'default')
     {
         $this->template = $template;
 
@@ -123,75 +89,6 @@ trait InvoiceHelpers
         return $this;
     }
 
-    // Getters
-
-    /**
-     * @return mixed
-     */
-    public function getDate()
-    {
-        return $this->date->toDateString(config('invoices.invoice.date_format'));
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPayUntil()
-    {
-        return $this->date->addWeek()->toDateString(config('invoices.invoice.date_format'));
-    }
-
-    /**
-     * @return string
-     */
-    public function getAmountInWords()
-    {
-        $formatter = new NumberFormatter(config('invoices.invoice.locale'), NumberFormatter::SPELLOUT);
-        $int       = explode('.', $this->total_amount);
-        $result    = [];
-
-        foreach ($int as $value) {
-            if ($value == '0') {
-                $result[] = '0';
-            } else {
-                $result[] = $formatter->format($value);
-            }
-        }
-
-        $result = implode(' Eur and ', $result);
-
-        return ucfirst($result) . ' ct.';
-    }
-
-    /**
-     * @return string
-     */
-    public function getSS()
-    {
-        return sprintf(
-            '%s%s%s',
-            $this->serial,
-            config('invoices.invoice.delimiter'),
-            $this->sequence
-        );
-    }
-
-    /**
-     * @return \Illuminate\Config\Repository|mixed
-     */
-    protected function getDefaultSequence()
-    {
-        return config('invoices.invoice.sequence');
-    }
-
-    /**
-     * @return \Illuminate\Config\Repository|mixed
-     */
-    protected function getDefaultSerial()
-    {
-        return config('invoices.invoice.serial');
-    }
-
     /**
      * @param string $name
      * @return string
@@ -199,14 +96,21 @@ trait InvoiceHelpers
     protected function getDefaultFilename(string $name)
     {
         if ($name === '') {
-            return sprintf('%s_%s', $this->serial, $this->sequence);
+            return sprintf('%s_%s', $this->series, $this->sequence);
         }
 
-        return sprintf('%s_%s_%s', $name, $this->serial, $this->sequence);
+        return sprintf('%s_%s_%s', Str::snake($name), $this->series, $this->sequence);
     }
 
     /**
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return mixed
+     */
+    public function getTotalAmountInWords()
+    {
+        return $this->getAmountInWords($this->total_amount);
+    }
+
+    /**
      * @throws Exception
      */
     protected function beforeRender(): void
@@ -215,6 +119,9 @@ trait InvoiceHelpers
         $this->calculate();
     }
 
+    /**
+     * @throws Exception
+     */
     protected function validate()
     {
         if (!$this->buyer) {
@@ -222,16 +129,35 @@ trait InvoiceHelpers
         }
     }
 
+    /**
+     * @return $this
+     */
     protected function calculate()
     {
-        $this->items->each(function ($item) {
-            $item->calculate();
+        $total_amount   = 0;
+        $total_discount = 0;
 
-            (is_null($item->units)) ?: $this->hasUnits     = true;
-            ($item->discount <= 0.0) ?: $this->hasDiscount = true;
+        $this->items->each(function ($item) use (&$total_amount, &$total_discount) {
+            $item->calculate($this->currency_decimals);
+
+            (is_null($item->units)) ?: $this->hasUnits   = true;
+            ($item->discount <= 0) ?: $this->hasDiscount = true;
+
+            $total_amount += $item->sub_total_price;
+            $total_discount += $item->discount;
         });
 
         (!$this->hasUnits) ?: $this->table_columns++;
         (!$this->hasDiscount) ?: $this->table_columns++;
+
+        if (is_null($this->total_amount)) {
+            $this->total_amount = $total_amount;
+        }
+
+        if (is_null($this->total_discount)) {
+            $this->total_discount = $total_discount;
+        }
+
+        return $this;
     }
 }

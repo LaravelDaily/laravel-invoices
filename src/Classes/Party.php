@@ -23,7 +23,7 @@ class Party implements PartyContract
 
     /**
      * @param $key
-     * @return |null |null
+     * @return mixed|null
      */
     public function __get($key)
     {

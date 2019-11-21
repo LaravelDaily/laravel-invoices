@@ -1,21 +1,39 @@
 <?php
 
 return [
-    'invoice' => [
+    'date' => [
         /**
-         * The format of full invoice number AA.00001
+         * Carbon date format
          */
-        'serial'      => 'AA',
-        'sequence'    => 1,
-        'padding'     => 5,
-        'delimiter'   => '.',
-        'date_format' => '%Y-%m-%d',
+        'format'         => 'Y-m-d',
         /**
-         * Locale used in NumberFormatter
-         *
-         * Amount in words: Four hundred fifty Eur and 0 ct.
+         * Due date for payment since invoice's date.
          */
-        'locale'      => 'en',
+        'pay_until_days' => 7,
+    ],
+
+    'serial_number' => [
+        'series'           => 'AA',
+        'sequence'         => 1,
+        'sequence_padding' => 5,
+        'delimiter'        => '.',
+        /**
+         * Supported tags {SERIES}, {DELIMITER}, {SEQUENCE}
+         */
+        'format'           => '{SERIES}{DELIMITER}{SEQUENCE}',
+    ],
+
+    'currency' => [
+        'code'                => 'eur',
+        'fraction'            => 'ct.',
+        'symbol'              => '€',
+        'decimals'            => 2,
+        'decimal_point'       => '.',
+        'thousands_separator' => '',
+        /**
+         * Supported tags {VALUE}, {SYMBOL}, {CODE}
+         */
+        'format'              => '{VALUE} {SYMBOL}',
     ],
 
     'paper' => [
