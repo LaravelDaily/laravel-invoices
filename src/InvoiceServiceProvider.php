@@ -71,9 +71,9 @@ class InvoiceServiceProvider extends ServiceProvider
         ], 'invoices.views');
 
         // Publishing assets.
-        /*$this->publishes([
-            __DIR__.'/../resources/assets' => public_path('vendor/LaravelDaily'),
-        ], 'invoice.views');*/
+        $this->publishes([
+            __DIR__ . '/../resources/assets' => public_path('vendor/LaravelDaily'),
+        ], 'invoices.views');
 
         // Publishing the translation files.
         $this->publishes([

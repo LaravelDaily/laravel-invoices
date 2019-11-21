@@ -15,8 +15,18 @@ Easy to use, easy to install and extend. Originally package was developed on PHP
 
 Via Composer
 
-``` bash
+```bash
 $ composer require laraveldaily/laravel-invoices
+```
+
+#### Publish views
+```bash
+$ php artisan vendor:publish --tag=invoices.views --force
+```
+
+#### Publish config
+```bash
+$ php artisan vendor:publish --tag=invoices.config --force
 ```
 
 ### Laravel 5.5+
