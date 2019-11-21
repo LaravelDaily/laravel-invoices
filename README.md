@@ -51,26 +51,22 @@ use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
 
 $customer = new Buyer([
-    'name'    => 'Customer1',
-    'vat'     => '',
-    'address' => 'Customer address',
-    'code'    => 'customer_id',
+    'name'          => 'John Doe',
     'custom_fields' => [
-        'SWIFT'        => 'BANK101',
-        'custom_field' => 'Additional customer info',
+        'email' => 'test@example.com',
     ],
 ]);
 
+$item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2);
+
 $invoice = Invoice::make()
-    ->sequence(65)
     ->buyer($customer)
-    ->addItem('My Service', 'Hour', '10', '50.00 €', '500.00 €')
-    ->totalAmount('500.00 €');
+    ->addItem($item);
 
 return $invoice->stream();
 ```
 
-See result [Invoice_AA_00065.pdf](examples/Invoice_AA_00065.pdf).
+See result [Invoice_AA_00001.pdf](examples/Invoice_AA_00001.pdf).
 
 ## Advanced Usage
 
@@ -78,57 +74,64 @@ See result [Invoice_AA_00065.pdf](examples/Invoice_AA_00065.pdf).
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Party;
 
-$client = new Party([
-    'name'    => 'Roosevelt Lloyd',
-    'phone'   => '(520) 318-9486',
-    'custom_fields' => [
-        'note'        => 'IDDQD',
-        'business id' => '365#GG',
-    ],
-]);
+        $client = new Party([
+            'name'          => 'Roosevelt Lloyd',
+            'phone'         => '(520) 318-9486',
+            'custom_fields' => [
+                'note'        => 'IDDQD',
+                'business id' => '365#GG',
+            ],
+        ]);
 
-$customer = new Party([
-    'name'    => 'Ashley Medina',
-    'address' => 'The Green Street 12',
-    'code'    => '#22663214',
-    'custom_fields' => [
-        'order number' => '> 654321 <',
-    ],
-]);
+        $customer = new Party([
+            'name'          => 'Ashley Medina',
+            'address'       => 'The Green Street 12',
+            'code'          => '#22663214',
+            'custom_fields' => [
+                'order number' => '> 654321 <',
+            ],
+        ]);
 
-$items = [
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-    ['My Service', 'Hour', '10', '50.00 €', '500.00 €', '10%'],
-];
+        $items = [
+            (new InvoiceItem())->title('Service 1')->pricePerUnit(47.79)->qty(2)->discount(10),
+            (new InvoiceItem())->title('Service 2')->pricePerUnit(71.96)->qty(2),
+            (new InvoiceItem())->title('Service 3')->pricePerUnit(4.56),
+            (new InvoiceItem())->title('Service 4')->pricePerUnit(87.51)->qty(7)->discount(4)->units('kg'),
+            (new InvoiceItem())->title('Service 5')->pricePerUnit(71.09)->qty(7)->discountByPercent(9),
+            (new InvoiceItem())->title('Service 6')->pricePerUnit(76.32)->qty(9),
+            (new InvoiceItem())->title('Service 7')->pricePerUnit(58.18)->qty(3)->discount(3),
+            (new InvoiceItem())->title('Service 8')->pricePerUnit(42.99)->qty(4)->discountByPercent(3),
+            (new InvoiceItem())->title('Service 9')->pricePerUnit(33.24)->qty(6)->units('m2'),
+            (new InvoiceItem())->title('Service 11')->pricePerUnit(97.45)->qty(2),
+            (new InvoiceItem())->title('Service 12')->pricePerUnit(92.82),
+            (new InvoiceItem())->title('Service 13')->pricePerUnit(12.98),
+            (new InvoiceItem())->title('Service 14')->pricePerUnit(160)->units('hours'),
+            (new InvoiceItem())->title('Service 15')->pricePerUnit(62.21)->discountByPercent(5),
+            (new InvoiceItem())->title('Service 16')->pricePerUnit(2.80),
+            (new InvoiceItem())->title('Service 17')->pricePerUnit(56.21),
+            (new InvoiceItem())->title('Service 18')->pricePerUnit(66.81)->discountByPercent(8),
+            (new InvoiceItem())->title('Service 19')->pricePerUnit(76.37),
+            (new InvoiceItem())->title('Service 20')->pricePerUnit(55.80),
+        ];
 
-$invoice = Invoice::make('future invoice')
-    ->serial('BIG')
-    ->sequence(667)
-    ->seller($client)
-    ->buyer($customer)
-    ->date('2009-11-20')
-    ->filename($client->name . ' ' . $customer->name)
-    ->addItems($items)
-    ->totalDiscount('900.00 €')
-    ->totalAmount('8100.00 €');
+        $invoice = Invoice::make('receipt')
+            ->series('BIG')
+            ->sequence(667)
+            ->serialNumberFormat('{SEQUENCE}/{SERIES}')
+            ->seller($client)
+            ->buyer($customer)
+            ->date(now()->subWeeks(3))
+            ->dateFormat('m/d/Y')
+            ->payUntilDays(14)
+            ->currencySymbol('$')
+            ->currencyCode('USD')
+            ->currencyFormat('{SYMBOL}{VALUE}')
+            ->currencyThousandsSeparator('.')
+            ->currencyDecimalPoint(',')
+            ->filename($client->name . ' ' . $customer->name)
+            ->addItems($items);
 
-return $invoice->stream();
+        return $invoice->stream();
 ```
 
 See result [Roosevelt Lloyd Ashley Medina.pdf](examples/Roosevelt%20Lloyd%20Ashley%20Medina.pdf).
@@ -137,27 +140,69 @@ See result [Roosevelt Lloyd Ashley Medina.pdf](examples/Roosevelt%20Lloyd%20Ashl
 
 ``` php
 return [
-    'invoice' => [
+    'date' => [
         /**
-         * The format of full invoice number AA.00001
+         * Carbon date format
          */
-        'serial'      => 'AA',
-        'sequence'    => 1,
-        'padding'     => 5,
-        'delimiter'   => '.',
-        'date_format' => '%Y-%m-%d',
+        'format'         => 'Y-m-d',
         /**
-         * Locale used in NumberFormatter
+         * Due date for payment since invoice's date.
+         */
+        'pay_until_days' => 7,
+    ],
+
+    'serial_number' => [
+        'series'           => 'AA',
+        'sequence'         => 1,
+        /**
+         * Sequence will be padded accordingly, for ex. 00001
+         */
+        'sequence_padding' => 5,
+        'delimiter'        => '.',
+        /**
+         * Supported tags {SERIES}, {DELIMITER}, {SEQUENCE}
+         * Example: AA.00001
+         */
+        'format'           => '{SERIES}{DELIMITER}{SEQUENCE}',
+    ],
+
+    'currency' => [
+        'code'                => 'eur',
+        /**
+         * Usually cents
+         * Used when spelling out the amount and if your currency has decimals.
          *
-         * Amount in words: Four hundred fifty Eur and 0 ct.
+         * Example: Amount in words: Eight hundred fifty thousand sixty-eight EUR and fifteen ct.
          */
-        'locale'      => 'en',
+        'fraction'            => 'ct.',
+        'symbol'              => '€',
+        /**
+         * Example: 19.00
+         */
+        'decimals'            => 2,
+        /**
+         * Example: 1.99
+         */
+        'decimal_point'       => '.',
+        /**
+         * By default empty.
+         * Example: 1,999.00
+         */
+        'thousands_separator' => '',
+        /**
+         * Supported tags {VALUE}, {SYMBOL}, {CODE}
+         * Example: 1.99 €
+         */
+        'format'              => '{VALUE} {SYMBOL}',
     ],
 
     'paper' => [
+        // A4 = 210 mm x 297 mm = 595 pt x 842 pt
         'size'        => 'a4',
         'orientation' => 'portrait',
     ],
+
+    'disk' => 'local',
 
     'seller' => [
         /**
@@ -172,11 +217,11 @@ return [
          * Default attributes for Seller::class
          */
         'attributes' => [
-            'name'    => 'Towne, Smith and Ebert',
-            'address' => '89982 Pfeffer Falls Damianstad, CO 66972-8160',
-            'code'    => '41-1985581',
-            'vat'     => '123456789',
-            'phone'   => '760-355-3930',
+            'name'          => 'Towne, Smith and Ebert',
+            'address'       => '89982 Pfeffer Falls Damianstad, CO 66972-8160',
+            'code'          => '41-1985581',
+            'vat'           => '123456789',
+            'phone'         => '760-355-3930',
             'custom_fields' => [
                 /**
                  * Custom attributes for Seller::class
@@ -188,21 +233,63 @@ return [
             ],
         ],
     ],
-
-    /**
-     * For future uses
-     */
-    'units' => [
-        'unit' => 'Unit',
-        'hour' => 'Hour',
-        'km'   => 'Km',
-        'm2'   => 'm2',
-        'm'    => 'm',
-        'kg'   => 'kg',
-        'day'  => 'Day',
-    ],
 ];
 ```
+
+## Available Methods
+Almost every configuration values can be overrided dinamically by methods.
+
+## Invoice
+#### General
+- addItem(InvoiceItem $item)
+- addItems(Iterable)
+- name(string)
+- seller(PartyContract)
+- buyer(PartyContract)
+- template(string)
+- filename(string) - overrides automatic filename
+- **totalDiscount(float) - If not provided calculates itself**
+- **totalAmount(float) - If not provided calculates itself**
+
+#### Serial number
+- series(string)
+- sequence(int)
+- delimiter(string)
+- sequencePadding(int)
+- serialNumberFormat(string)
+
+#### Date
+- date(Carbon)
+- dateFormat(string) - Carbon format of date
+- payUntilDays(int) - Days payment due since invoice issued
+- getDate() - returns formatted date
+- getPayUntilDate() - return formatted due date
+
+#### Currency
+- currencyCode(string) - EUR, USD etc.
+- currencyFraction(string) - Cents, Centimes, Pennies etc.
+- currencySymbol(string)
+- currencyDecimals(int)
+- currencyDecimalPoint(string)
+- currencyThousandsSeparator(string)
+- currencyFormat(string)
+- formatCurrency(float) - Formats float value to string, used in template, '$ 1,99'
+- getAmountInWords(float) - Spells out float to words (only english)
+
+#### File
+- stream() - opens invoice in browser
+- download() - offers to download invoice
+- save($disk) - saves invoice to storage, use ->filename() for filename
+- url() - return url of saved invoice
+
+## InvoiceItem
+- title(string) - product or service name
+- units(string) - measurement units of item (adds units columns if set)
+- qty(float) - amount of units of item
+- pricePerUnit(float)
+- discount(float) - discount in currency
+- discountByPercent(float) - discount by percents discountByPercent(15) means 15%
+- **subTotalPrice(float) - If not provided calculates itself**
 
 ## Testing
 

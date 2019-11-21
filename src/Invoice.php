@@ -164,7 +164,7 @@ class Invoice
     public function addItems($items)
     {
         foreach ($items as $item) {
-            $this->addItem(...array_values($item));
+            $this->addItem($item);
         }
 
         return $this;
