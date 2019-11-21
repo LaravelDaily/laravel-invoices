@@ -42,6 +42,8 @@ return [
         'orientation' => 'portrait',
     ],
 
+    'disk' => 'local',
+
     'seller' => [
         /**
          * Class used in templates via $invoice->seller

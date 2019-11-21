@@ -3,6 +3,7 @@
 namespace LaravelDaily\Invoices\Traits;
 
 use Exception;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use LaravelDaily\Invoices\Contracts\PartyContract;
 

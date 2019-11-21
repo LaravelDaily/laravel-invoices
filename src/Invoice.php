@@ -2,17 +2,19 @@
 
 namespace LaravelDaily\Invoices;
 
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Contracts\PartyContract;
 use LaravelDaily\Invoices\Traits\CurrencyFormatter;
 use LaravelDaily\Invoices\Traits\DateFormatter;
 use LaravelDaily\Invoices\Traits\InvoiceHelpers;
+use LaravelDaily\Invoices\Traits\SavesFiles;
 use LaravelDaily\Invoices\Traits\SerialNumberFormatter;
-use PDF;
 
 /**
  * Class Invoices
@@ -20,9 +22,10 @@ use PDF;
  */
 class Invoice
 {
-    use InvoiceHelpers;
     use CurrencyFormatter;
     use DateFormatter;
+    use InvoiceHelpers;
+    use SavesFiles;
     use SerialNumberFormatter;
 
     const TABLE_COLUMNS = 4;
@@ -129,6 +132,7 @@ class Invoice
         $this->currency_thousands_separator = config('invoices.currency.thousands_separator');
         $this->currency_format              = config('invoices.currency.format');
 
+        $this->disk          = config('invoices.disk');
         $this->table_columns = self::TABLE_COLUMNS;
     }
 
