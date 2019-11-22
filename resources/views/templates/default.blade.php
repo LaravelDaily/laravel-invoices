@@ -148,7 +148,7 @@
                     <th scope="col" class="text-center border-0">{{ __('invoices::invoice.quantity') }}</th>
                     <th scope="col" class="text-right border-0">{{ __('invoices::invoice.price') }}</th>
                     @if($invoice->hasDiscount)
-                        <th scope="col" class="text-center border-0">{{ __('invoices::invoice.discount') }}</th>
+                        <th scope="col" class="text-right border-0">{{ __('invoices::invoice.discount') }}</th>
                     @endif
                     <th scope="col" class="text-right border-0 pr-0">{{ __('invoices::invoice.sub_total') }}</th>
                 </tr>
@@ -165,7 +165,7 @@
                         {{ $invoice->formatCurrency($item->price_per_unit) }}
                     </td>
                     @if($invoice->hasDiscount)
-                        <td class="text-center">
+                        <td class="text-right">
                             {{ $invoice->formatCurrency($item->discount) }}
                         </td>
                     @endif
