@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
+use LaravelDaily\Invoices\Classes\Party;
 use LaravelDaily\Invoices\Contracts\PartyContract;
 use LaravelDaily\Invoices\Traits\CurrencyFormatter;
 use LaravelDaily\Invoices\Traits\DateFormatter;
@@ -144,6 +145,24 @@ class Invoice
     public static function make($name = 'Invoice')
     {
         return new self($name);
+    }
+
+    /**
+     * @param array $attributes
+     * @return Party
+     */
+    public static function makeParty(array $attributes = [])
+    {
+        return new Party($attributes);
+    }
+
+    /**
+     * @param string $title
+     * @return InvoiceItem
+     */
+    public static function makeItem(string $title = '')
+    {
+        return (new InvoiceItem())->title($title);
     }
 
     /**

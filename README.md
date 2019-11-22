@@ -139,6 +139,22 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 See result [Roosevelt Lloyd Ashley Medina.pdf](examples/Roosevelt%20Lloyd%20Ashley%20Medina.pdf).
 
+### Alternatives using facade
+
+Optionally you can use a facade to make new party or item
+
+```php
+use Invoice;
+
+$customer = Invoice::makeParty([
+    'name' => 'John Doe',
+]);
+
+$item = Invoice::makeItem('Your service or product title')->pricePerUnit(9.99);
+
+return Invoice::make()->buyer($customer)->addItem($item)->stream();
+```
+
 ## Config
 
 ``` php

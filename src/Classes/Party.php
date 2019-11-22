@@ -10,12 +10,16 @@ use LaravelDaily\Invoices\Contracts\PartyContract;
  */
 class Party implements PartyContract
 {
+    public $custom_fields;
+
     /**
      * Party constructor.
      * @param $properties
      */
     public function __construct($properties)
     {
+        $this->custom_fields = [];
+
         foreach ($properties as $property => $value) {
             $this->{$property} = $value;
         }
