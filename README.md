@@ -19,17 +19,12 @@ Via Composer
 $ composer require laraveldaily/laravel-invoices
 ```
 
-#### Publish views
+After installing Laravel Invoices, publish its assets, views, translations and config using the `invoices:install` Artisan command:
 ```bash
-$ php artisan vendor:publish --tag=invoices.views --force
+$ php artisan invoices:install
 ```
 
-#### Publish config
-```bash
-$ php artisan vendor:publish --tag=invoices.config --force
-```
-
-### Laravel 5.5+
+### For Laravel version < 5.5
 
 If you don't use auto-discovery, add the ServiceProvider to the providers array in `config/app.php`
 
