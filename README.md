@@ -11,6 +11,17 @@ This laravel package provides an easy to use interface in order to generate Invo
 
 Easy to use, easy to install and extend. Originally package was developed on PHP 7.3.11 and Laravel 6.2, but should work on lower versions too.
 
+## Features
+- Taxes - fixed or rate - for item or for invoice
+- Discounts - fixed or by percentage - for item or for invoice
+- Automatic calculation - provide minimal set of information, or calculate yourself and provide what to print
+- Due date
+- Easy to customize currency format
+- Serial numbers as you like it
+- Templates
+- Translations
+- Global settings and overrides on the fly
+
 ## Installation
 
 Via Composer
@@ -22,6 +33,13 @@ $ composer require laraveldaily/laravel-invoices
 After installing Laravel Invoices, publish its assets, views, translations and config using the `invoices:install` Artisan command:
 ```bash
 $ php artisan invoices:install
+```
+
+### Updates
+
+Since it is evolving fast you might want to have latest template after update using Artisan command:
+```bash
+$ php artisan vendor:publish --tag=invoices.views --force
 ```
 
 ### For Laravel version < 5.5
@@ -267,8 +285,11 @@ Almost every configuration value can be overrided dinamically by methods.
 - buyer(PartyContract)
 - template(string)
 - filename(string) - overrides automatic filename
+- taxRate(float)
 - **totalDiscount(float) - If not provided calculates itself**
+- **totalTaxes(float) - If not provided calculates itself**
 - **totalAmount(float) - If not provided calculates itself**
+- **taxableAmount(float) - If not provided calculates itself**
 
 #### Serial number
 - series(string)
@@ -308,6 +329,8 @@ Almost every configuration value can be overrided dinamically by methods.
 - pricePerUnit(float)
 - discount(float) - discount in currency
 - discountByPercent(float) - discount by percents discountByPercent(15) means 15%
+- tax(float)
+- taxByPercent(float)
 - **subTotalPrice(float) - If not provided calculates itself**
 
 ## Testing
