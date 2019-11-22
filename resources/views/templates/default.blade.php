@@ -142,13 +142,16 @@
             <thead>
                 <tr>
                     <th scope="col" class="border-0 pl-0">{{ __('invoices::invoice.service') }}</th>
-                    @if($invoice->hasUnits)
+                    @if($invoice->hasItemUnits)
                         <th scope="col" class="text-center border-0">{{ __('invoices::invoice.units') }}</th>
                     @endif
                     <th scope="col" class="text-center border-0">{{ __('invoices::invoice.quantity') }}</th>
                     <th scope="col" class="text-right border-0">{{ __('invoices::invoice.price') }}</th>
-                    @if($invoice->hasDiscount)
+                    @if($invoice->hasItemDiscount)
                         <th scope="col" class="text-right border-0">{{ __('invoices::invoice.discount') }}</th>
+                    @endif
+                    @if($invoice->hasItemTax)
+                        <th scope="col" class="text-right border-0">{{ __('invoices::invoice.tax') }}</th>
                     @endif
                     <th scope="col" class="text-right border-0 pr-0">{{ __('invoices::invoice.sub_total') }}</th>
                 </tr>
@@ -157,16 +160,21 @@
                 @foreach($invoice->items as $item)
                 <tr>
                     <td class="pl-0">{{ $item->title }}</td>
-                    @if($invoice->hasUnits)
+                    @if($invoice->hasItemUnits)
                         <td class="text-center">{{ $item->units }}</td>
                     @endif
                     <td class="text-center">{{ $item->quantity }}</td>
                     <td class="text-right">
                         {{ $invoice->formatCurrency($item->price_per_unit) }}
                     </td>
-                    @if($invoice->hasDiscount)
+                    @if($invoice->hasItemDiscount)
                         <td class="text-right">
                             {{ $invoice->formatCurrency($item->discount) }}
+                        </td>
+                    @endif
+                    @if($invoice->hasItemTax)
+                        <td class="text-right">
+                            {{ $invoice->formatCurrency($item->tax) }}
                         </td>
                     @endif
                     <td class="text-right pr-0">
@@ -174,12 +182,40 @@
                     </td>
                 </tr>
                 @endforeach
-                @if($invoice->hasDiscount)
+                {{-- Summary --}}
+                @if($invoice->hasItemOrInvoiceDiscount())
                     <tr>
                         <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                         <td class="text-right pl-0">{{ __('invoices::invoice.total_discount') }}</td>
                         <td class="text-right pr-0">
                             {{ $invoice->formatCurrency($invoice->total_discount) }}
+                        </td>
+                    </tr>
+                @endif
+                @if($invoice->taxable_amount)
+                    <tr>
+                        <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
+                        <td class="text-right pl-0">{{ __('invoices::invoice.taxable_amount') }}</td>
+                        <td class="text-right pr-0">
+                            {{ $invoice->formatCurrency($invoice->taxable_amount) }}
+                        </td>
+                    </tr>
+                @endif
+                @if($invoice->tax_rate)
+                    <tr>
+                        <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
+                        <td class="text-right pl-0">{{ __('invoices::invoice.tax_rate') }}</td>
+                        <td class="text-right pr-0">
+                            {{ $invoice->tax_rate }}%
+                        </td>
+                    </tr>
+                @endif
+                @if($invoice->hasItemOrInvoiceTax())
+                    <tr>
+                        <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
+                        <td class="text-right pl-0">{{ __('invoices::invoice.total_taxes') }}</td>
+                        <td class="text-right pr-0">
+                            {{ $invoice->formatCurrency($invoice->total_taxes) }}
                         </td>
                     </tr>
                 @endif

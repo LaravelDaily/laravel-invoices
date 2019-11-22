@@ -3,7 +3,6 @@
 namespace LaravelDaily\Invoices\Traits;
 
 use Exception;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use LaravelDaily\Invoices\Contracts\PartyContract;
 
@@ -25,12 +24,72 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param float $total_discount
+     * @param float $amount
+     * @param bool $byPercent
+     * @return $this
+     * @throws Exception
+     */
+    public function totalTaxes(float $amount, bool $byPercent = false)
+    {
+        if ($this->hasTax()) {
+            throw new Exception('Invoice: unable to set tax twice.');
+        }
+
+        $this->total_taxes             = $amount;
+        !$byPercent ?: $this->tax_rate = $amount;
+
+        return $this;
+    }
+
+    /**
+     * @param float $amount
+     * @return $this
+     * @throws Exception
+     */
+    public function taxRate(float $amount)
+    {
+        $this->totalTaxes($amount, true);
+
+        return $this;
+    }
+
+    /**
+     * @param float $taxable_amount
      * @return $this
      */
-    public function totalDiscount(float $total_discount)
+    public function taxableAmount(float $taxable_amount)
     {
-        $this->total_discount = $total_discount;
+        $this->taxable_amount = $taxable_amount;
+
+        return $this;
+    }
+
+    /**
+     * @param float $total_discount
+     * @param bool $byPercent
+     * @return $this
+     * @throws Exception
+     */
+    public function totalDiscount(float $total_discount, bool $byPercent = false)
+    {
+        if ($this->hasDiscount()) {
+            throw new Exception('Invoice: unable to set discount twice.');
+        }
+
+        $this->total_discount                     = $total_discount;
+        !$byPercent ?: $this->discount_by_percent = $total_discount;
+
+        return $this;
+    }
+
+    /**
+     * @param float $discount
+     * @return $this
+     * @throws Exception
+     */
+    public function discountByPercent(float $discount)
+    {
+        $this->totalDiscount($discount, true);
 
         return $this;
     }
@@ -135,30 +194,124 @@ trait InvoiceHelpers
      */
     protected function calculate()
     {
-        $total_amount   = 0;
-        $total_discount = 0;
+        $total_amount   = null;
+        $total_discount = null;
+        $total_taxes    = null;
 
-        $this->items->each(function ($item) use (&$total_amount, &$total_discount) {
-            $item->calculate($this->currency_decimals);
+        $this->items->each(
+            function ($item) use (&$total_amount, &$total_discount, &$total_taxes) {
+                // Gates
+                if ($item->hasTax() && $this->hasTax()) {
+                    throw new Exception('Invoice: you must have taxes only on items or only on invoice.');
+                }
 
-            (is_null($item->units)) ?: $this->hasUnits   = true;
-            ($item->discount <= 0) ?: $this->hasDiscount = true;
+                if ($item->hasDiscount() && $this->hasDiscount()) {
+                    throw new Exception('Invoice: you must have discounts only on items or only on invoice.');
+                }
 
-            $total_amount += $item->sub_total_price;
-            $total_discount += $item->discount;
-        });
+                $item->calculate($this->currency_decimals);
 
-        (!$this->hasUnits) ?: $this->table_columns++;
-        (!$this->hasDiscount) ?: $this->table_columns++;
+                (!$item->hasUnits()) ?: $this->hasItemUnits = true;
 
-        if (is_null($this->total_amount)) {
-            $this->total_amount = $total_amount;
-        }
+                if ($item->hasDiscount()) {
+                    $total_discount += $item->discount;
+                    $this->hasItemDiscount = true;
+                }
 
-        if (is_null($this->total_discount)) {
-            $this->total_discount = $total_discount;
-        }
+                if ($item->hasTax()) {
+                    $total_taxes += $item->tax;
+                    $this->hasItemTax = true;
+                }
+
+                // Totals
+                $total_amount += $item->sub_total_price;
+            });
+
+        $this->applyColspan();
+
+        /**
+         * Apply calculations for provided overrides with:
+         * totalAmount(), totalDiscount(), discountByPercent(), totalTaxes(), taxRate()
+         * or use values calculated from items.
+         */
+        (!is_null($this->total_amount)) ?: $this->total_amount                = $total_amount;
+        $this->hasDiscount() ? $this->applyDiscount() : $this->total_discount = $total_discount;
+        $this->hasTax() ? $this->applyTaxes() : $this->total_taxes            = $total_taxes;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTax()
+    {
+        return !is_null($this->total_taxes);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDiscount()
+    {
+        return !is_null($this->total_discount);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasItemOrInvoiceTax()
+    {
+        return $this->hasTax() || $this->hasItemTax;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasItemOrInvoiceDiscount()
+    {
+        return $this->hasDiscount() || $this->hasItemDiscount;
+    }
+
+    public function applyColspan(): void
+    {
+        (!$this->hasItemUnits) ?: $this->table_columns++;
+        (!$this->hasItemDiscount) ?: $this->table_columns++;
+        (!$this->hasItemTax) ?: $this->table_columns++;
+    }
+
+    public function applyDiscount(): void
+    {
+        $total = $this->total_amount;
+
+        if ($this->discount_by_percent) {
+            $ratio       = $this->total_discount / 100;
+            $newPrice    = round($total * (1 - $ratio), $this->currency_decimals);
+            $newDiscount = $total - $newPrice;
+
+            $this->totalAmount($newPrice);
+            $this->total_discount = $newDiscount;
+        } else {
+            $newPrice = $total - $this->total_discount;
+            $this->totalAmount($newPrice);
+        }
+    }
+
+    public function applyTaxes() :void
+    {
+        $this->taxable_amount = $this->total_amount;
+        $total                = $this->taxable_amount;
+
+        if ($this->tax_rate) {
+            $ratio    = $this->total_taxes / 100;
+            $newPrice = round($total * (1 + $ratio), $this->currency_decimals);
+            $newTax   = $newPrice - $total;
+
+            $this->totalAmount($newPrice);
+            $this->total_taxes = $newTax;
+        } else {
+            $newPrice = $total + $this->total_taxes;
+            $this->totalAmount($newPrice);
+        }
     }
 }

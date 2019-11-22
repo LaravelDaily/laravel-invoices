@@ -6,7 +6,6 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Classes\Party;
@@ -64,7 +63,27 @@ class Invoice
     /**
      * @var float
      */
+    public $discount_by_percent;
+
+    /**
+     * @var float
+     */
     public $total_discount;
+
+    /**
+     * @var float
+     */
+    public $tax_rate;
+
+    /**
+     * @var float
+     */
+    public $taxable_amount;
+
+    /**
+     * @var float
+     */
+    public $total_taxes;
 
     /**
      * @var float
@@ -74,12 +93,17 @@ class Invoice
     /**
      * @var bool
      */
-    public $hasUnits;
+    public $hasItemUnits;
 
     /**
      * @var bool
      */
-    public $hasDiscount;
+    public $hasItemDiscount;
+
+    /**
+     * @var bool
+     */
+    public $hasItemTax;
 
     /**
      * @var bool

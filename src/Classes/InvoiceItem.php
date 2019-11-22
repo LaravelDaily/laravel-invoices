@@ -41,23 +41,28 @@ class InvoiceItem
     public $discount;
 
     /**
-     * @var float
-     */
-    public $discount_original_percent;
-
-    /**
      * @var bool
      */
-    public $discount_by_percent;
+    public $discount_percentage;
+
+    /**
+     * @var float
+     */
+    public $tax;
+
+    /**
+     * @var float
+     */
+    public $tax_percentage;
 
     /**
      * InvoiceItem constructor.
      */
     public function __construct()
     {
-        $this->quantity            = 1.0;
-        $this->discount            = 0.0;
-        $this->discount_by_percent = false;
+        $this->quantity = 1.0;
+        $this->discount = 0.0;
+        $this->tax      = 0.0;
     }
 
     /**
@@ -119,15 +124,34 @@ class InvoiceItem
      * @param float $amount
      * @param bool $byPercent
      * @return $this
+     * @throws Exception
      */
     public function discount(float $amount, bool $byPercent = false)
     {
-        $this->discount            = $amount;
-        $this->discount_by_percent = $byPercent;
-
-        if ($byPercent) {
-            $this->discount_original_percent = $amount;
+        if ($this->hasDiscount()) {
+            throw new Exception('InvoiceItem: unable to set discount twice.');
         }
+
+        $this->discount                           = $amount;
+        !$byPercent ?: $this->discount_percentage = $amount;
+
+        return $this;
+    }
+
+    /**
+     * @param float $amount
+     * @param bool $byPercent
+     * @return $this
+     * @throws Exception
+     */
+    public function tax(float $amount, bool $byPercent = false)
+    {
+        if ($this->hasTax()) {
+            throw new Exception('InvoiceItem: unable to set tax twice.');
+        }
+
+        $this->tax                           = $amount;
+        !$byPercent ?: $this->tax_percentage = $amount;
 
         return $this;
     }
@@ -135,6 +159,7 @@ class InvoiceItem
     /**
      * @param float $amount
      * @return $this
+     * @throws Exception
      */
     public function discountByPercent(float $amount)
     {
@@ -144,30 +169,106 @@ class InvoiceItem
     }
 
     /**
+     * @param float $amount
+     * @return $this
+     * @throws Exception
+     */
+    public function taxByPercent(float $amount)
+    {
+        $this->tax($amount, true);
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasUnits()
+    {
+        return !is_null($this->units);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDiscount()
+    {
+        return $this->discount !== 0.0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTax()
+    {
+        return $this->tax !== 0.0;
+    }
+
+    /**
      * @param int $decimals
      * @return $this
      */
-    public function calculate(int $decimals = 2)
+    public function calculate(int $decimals)
     {
         if (!is_null($this->sub_total_price)) {
             return $this;
         }
 
-        $total = $this->quantity * $this->price_per_unit;
+        $this->calculateSubTotal($decimals);
+        $this->applyDiscount($decimals);
+        $this->applyTax($decimals);
 
-        if ($this->discount_by_percent) {
+        return $this;
+    }
+
+    /**
+     * @param int $decimals
+     */
+    public function calculateSubTotal(int $decimals)
+    {
+        $total = round($this->quantity * $this->price_per_unit, $decimals);
+
+        $this->subTotalPrice($total);
+    }
+
+    /**
+     * @param int $decimals
+     */
+    public function applyDiscount(int $decimals)
+    {
+        $total = $this->sub_total_price;
+
+        if ($this->discount_percentage) {
             $ratio       = $this->discount / 100;
             $newPrice    = round($total * (1 - $ratio), $decimals);
             $newDiscount = $total - $newPrice;
 
             $this->subTotalPrice($newPrice);
-            $this->discount($newDiscount);
+            $this->discount = $newDiscount;
         } else {
             $newPrice = $total - $this->discount;
             $this->subTotalPrice($newPrice);
         }
+    }
 
-        return $this;
+    /**
+     * @param int $decimals
+     */
+    public function applyTax(int $decimals)
+    {
+        $total = $this->sub_total_price;
+
+        if ($this->tax_percentage) {
+            $ratio    = $this->tax / 100;
+            $newPrice = round($total * (1 + $ratio), $decimals);
+            $newTax   = $newPrice - $total;
+
+            $this->subTotalPrice($newPrice);
+            $this->tax = $newTax;
+        } else {
+            $newPrice = $total + $this->tax;
+            $this->subTotalPrice($newPrice);
+        }
     }
 
     /**
