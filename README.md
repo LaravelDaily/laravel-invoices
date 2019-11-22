@@ -47,9 +47,9 @@ If you want to use the facade to generate invoices, add this to your facades in 
 
 **RandomController.php**
 ```php
-use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 $customer = new Buyer([
     'name'          => 'John Doe',
@@ -74,6 +74,7 @@ See result [Invoice_AA_00001.pdf](examples/invoice_AA_00001.pdf).
 ``` php
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 
         $client = new Party([
             'name'          => 'Roosevelt Lloyd',
@@ -130,8 +131,14 @@ use LaravelDaily\Invoices\Classes\Party;
             ->currencyThousandsSeparator('.')
             ->currencyDecimalPoint(',')
             ->filename($client->name . ' ' . $customer->name)
-            ->addItems($items);
+            ->addItems($items)
+            // You can additionally save generated invoice to configured disk
+            ->save('public');
+            
+        $link = $invoice->url();
+        // Then send email to party with link
 
+        // And return invoice itself to browser or have a different view
         return $invoice->stream();
 ```
 
@@ -238,7 +245,7 @@ return [
 ```
 
 ## Available Methods
-Almost every configuration values can be overrided dinamically by methods.
+Almost every configuration value can be overrided dinamically by methods.
 
 ## Invoice
 #### General
@@ -305,7 +312,6 @@ If you discover any security related issues, please email mysticcode@gmail.com i
 ## Credits
 
 - [David Lun][link-author]
-- [All Contributors][link-contributors]
 
 ## License
 
