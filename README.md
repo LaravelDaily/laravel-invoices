@@ -47,6 +47,7 @@ If you want to use the facade to generate invoices, add this to your facades in 
 
 **RandomController.php**
 ```php
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
 
@@ -66,7 +67,7 @@ $invoice = Invoice::make()
 return $invoice->stream();
 ```
 
-See result [Invoice_AA_00001.pdf](examples/Invoice_AA_00001.pdf).
+See result [Invoice_AA_00001.pdf](examples/invoice_AA_00001.pdf).
 
 ## Advanced Usage
 
