@@ -17,15 +17,31 @@ class InvoiceServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'invoices');
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'invoices');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->registerResources();
+        $this->defineAssetPublishing();
+    }
 
-        // Publishing is only necessary when using the CLI.
-        if ($this->app->runningInConsole()) {
-            $this->bootForConsole();
-        }
+    /**
+     * Register the Invoices routes.
+     *
+     * @return void
+     */
+    protected function registerResources()
+    {
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'invoices');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'invoices');
+    }
+
+    /**
+     * Define the asset publishing configuration.
+     *
+     * @return void
+     */
+    protected function defineAssetPublishing()
+    {
+        $this->publishes([
+            INVOICES_PATH . '/public' => public_path('vendor/invoices'),
+        ], 'invoices.assets');
     }
 
     /**
@@ -35,12 +51,76 @@ class InvoiceServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/invoices.php', 'invoices');
+        if (!defined('INVOICES_PATH')) {
+            define('INVOICES_PATH', realpath(__DIR__ . '/../'));
+        }
 
-        // Register the service the package provides.
+        $this->configure();
+        $this->offerPublishing();
+        $this->registerServices();
+        $this->registerCommands();
+
+    }
+
+    /**
+     * Setup the configuration for Invoices.
+     *
+     * @return void
+     */
+    protected function configure()
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../config/invoices.php', 'invoices');
+    }
+
+    /**
+     * Setup the resource publishing groups for Invoices.
+     *
+     * @return void
+     */
+    protected function offerPublishing()
+    {
+        if ($this->app->runningInConsole()) {
+            // Publishing the configuration file.
+            $this->publishes([
+                __DIR__ . '/../config/invoices.php' => config_path('invoices.php'),
+            ], 'invoices.config');
+
+            // Publishing the views.
+            $this->publishes([
+                __DIR__ . '/../resources/views' => base_path('resources/views/vendor/invoices'),
+            ], 'invoices.views');
+
+            // Publishing the translation files.
+            $this->publishes([
+                __DIR__ . '/../resources/lang' => resource_path('lang/vendor/invoices'),
+            ], 'invoices.translations');
+        }
+    }
+
+    /**
+     * Register Invoices' services in the container.
+     *
+     * @return void
+     */
+    protected function registerServices()
+    {
         $this->app->singleton('invoice', function ($app) {
             return new Invoice;
         });
+    }
+
+    /**
+     * Register the Invoices Artisan commands.
+     *
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\InstallCommand::class,
+            ]);
+        }
     }
 
     /**
@@ -51,36 +131,5 @@ class InvoiceServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['invoice'];
-    }
-
-    /**
-     * Console-specific booting.
-     *
-     * @return void
-     */
-    protected function bootForConsole()
-    {
-        // Publishing the configuration file.
-        $this->publishes([
-            __DIR__ . '/../config/invoices.php' => config_path('invoices.php'),
-        ], 'invoices.config');
-
-        // Publishing the views.
-        $this->publishes([
-            __DIR__ . '/../resources/views' => base_path('resources/views/vendor/LaravelDaily'),
-        ], 'invoices.views');
-
-        // Publishing assets.
-        $this->publishes([
-            __DIR__ . '/../resources/assets' => public_path('vendor/LaravelDaily'),
-        ], 'invoices.views');
-
-        // Publishing the translation files.
-        $this->publishes([
-            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/LaravelDaily'),
-        ], 'invoices.views');
-
-        // Registering package commands.
-        // $this->commands([]);
     }
 }

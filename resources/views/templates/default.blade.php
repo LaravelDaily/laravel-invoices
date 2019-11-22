@@ -4,7 +4,7 @@
         <title>{{ $invoice->name }}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-        <link rel="stylesheet" href="{{ asset('vendor/LaravelDaily/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('/vendor/invoices/bootstrap.min.css') }}">
 
         <style type="text/css" media="screen">
             html {
