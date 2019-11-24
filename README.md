@@ -39,7 +39,17 @@ $ php artisan invoices:install
 
 Since it is evolving fast you might want to have latest template after update using Artisan command:
 ```bash
+$ php artisan invoices:update
+```
+> It will give a warning if you really want to override default resources
+
+Or alternatively it can be done separately.
+```bash
 $ php artisan vendor:publish --tag=invoices.views --force
+```
+
+```bash
+$ php artisan vendor:publish --tag=invoices.translations --force
 ```
 
 ### For Laravel version < 5.5
@@ -108,16 +118,16 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
         ]);
 
         $items = [
-            (new InvoiceItem())->title('Service 1')->pricePerUnit(47.79)->qty(2)->discount(10),
-            (new InvoiceItem())->title('Service 2')->pricePerUnit(71.96)->qty(2),
+            (new InvoiceItem())->title('Service 1')->pricePerUnit(47.79)->quantity(2)->discount(10),
+            (new InvoiceItem())->title('Service 2')->pricePerUnit(71.96)->quantity(2),
             (new InvoiceItem())->title('Service 3')->pricePerUnit(4.56),
-            (new InvoiceItem())->title('Service 4')->pricePerUnit(87.51)->qty(7)->discount(4)->units('kg'),
-            (new InvoiceItem())->title('Service 5')->pricePerUnit(71.09)->qty(7)->discountByPercent(9),
-            (new InvoiceItem())->title('Service 6')->pricePerUnit(76.32)->qty(9),
-            (new InvoiceItem())->title('Service 7')->pricePerUnit(58.18)->qty(3)->discount(3),
-            (new InvoiceItem())->title('Service 8')->pricePerUnit(42.99)->qty(4)->discountByPercent(3),
-            (new InvoiceItem())->title('Service 9')->pricePerUnit(33.24)->qty(6)->units('m2'),
-            (new InvoiceItem())->title('Service 11')->pricePerUnit(97.45)->qty(2),
+            (new InvoiceItem())->title('Service 4')->pricePerUnit(87.51)->quantity(7)->discount(4)->units('kg'),
+            (new InvoiceItem())->title('Service 5')->pricePerUnit(71.09)->quantity(7)->discountByPercent(9),
+            (new InvoiceItem())->title('Service 6')->pricePerUnit(76.32)->quantity(9),
+            (new InvoiceItem())->title('Service 7')->pricePerUnit(58.18)->quantity(3)->discount(3),
+            (new InvoiceItem())->title('Service 8')->pricePerUnit(42.99)->quantity(4)->discountByPercent(3),
+            (new InvoiceItem())->title('Service 9')->pricePerUnit(33.24)->quantity(6)->units('m2'),
+            (new InvoiceItem())->title('Service 11')->pricePerUnit(97.45)->quantity(2),
             (new InvoiceItem())->title('Service 12')->pricePerUnit(92.82),
             (new InvoiceItem())->title('Service 13')->pricePerUnit(12.98),
             (new InvoiceItem())->title('Service 14')->pricePerUnit(160)->units('hours'),
@@ -128,6 +138,13 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
             (new InvoiceItem())->title('Service 19')->pricePerUnit(76.37),
             (new InvoiceItem())->title('Service 20')->pricePerUnit(55.80),
         ];
+
+        $notes = [
+            'your multiline',
+            'additional notes',
+            'in regards of delivery or something else',
+        ];
+        $notes = implode("<br>", $notes);
 
         $invoice = Invoice::make('receipt')
             ->series('BIG')
@@ -145,6 +162,7 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
             ->currencyDecimalPoint(',')
             ->filename($client->name . ' ' . $customer->name)
             ->addItems($items)
+            ->notes($notes)
             // You can additionally save generated invoice to configured disk
             ->save('public');
             
@@ -297,6 +315,7 @@ Almost every configuration value can be overrided dinamically by methods.
 - delimiter(string)
 - sequencePadding(int)
 - serialNumberFormat(string)
+- getSerialNumber() - returns formatted serial number
 
 #### Date
 - date(Carbon)
@@ -313,8 +332,9 @@ Almost every configuration value can be overrided dinamically by methods.
 - currencyDecimalPoint(string)
 - currencyThousandsSeparator(string)
 - currencyFormat(string)
-- formatCurrency(float) - Formats float value to string, used in template, '$ 1,99'
 - getAmountInWords(float) - Spells out float to words (only english)
+- getTotalAmountInWords() - spells out total_amount
+- formatCurrency(float) - returns formatted value with currency settings '$ 1,99'
 
 #### File
 - stream() - opens invoice in browser
