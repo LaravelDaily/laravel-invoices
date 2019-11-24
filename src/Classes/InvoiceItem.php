@@ -91,7 +91,7 @@ class InvoiceItem
      * @param float $quantity
      * @return $this
      */
-    public function qty(float $quantity)
+    public function quantity(float $quantity)
     {
         $this->quantity = $quantity;
 
