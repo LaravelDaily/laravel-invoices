@@ -16,7 +16,7 @@ return [
     'code'            => 'Code',
     'vat'             => 'VAT code',
     'phone'           => 'Phone',
-    'service'         => 'Service',
+    'description'     => 'Description',
     'units'           => 'Units',
     'quantity'        => 'Qty',
     'price'           => 'Price',
@@ -30,5 +30,6 @@ return [
     'total_amount'    => 'Total amount',
     'pay_until'       => 'Please pay until',
     'amount_in_words' => 'Amount in words',
+    'notes'           => 'Notes',
 
 ];
