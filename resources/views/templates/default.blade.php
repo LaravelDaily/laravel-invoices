@@ -27,6 +27,9 @@
 
     <body>
         {{-- Header --}}
+        @if($invoice->logo)
+            <img src="{{ $invoice->getLogo() }}" alt="logo" height="100">
+        @endif
         <table class="table mt-5">
             <tbody>
                 <tr>

@@ -30,6 +30,13 @@ trait InvoiceHelpers
         return $this;
     }
 
+    public function logo(string $logo)
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
     /**
      * @param float $amount
      * @param bool $byPercent
@@ -175,6 +182,15 @@ trait InvoiceHelpers
     public function getTotalAmountInWords()
     {
         return $this->getAmountInWords($this->total_amount);
+    }
+
+    public function getLogo()
+    {
+        $type   = pathinfo($this->logo, PATHINFO_EXTENSION);
+        $data   = file_get_contents($this->logo);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        return $base64;
     }
 
     /**

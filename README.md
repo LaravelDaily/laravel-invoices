@@ -163,6 +163,7 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
             ->filename($client->name . ' ' . $customer->name)
             ->addItems($items)
             ->notes($notes)
+            ->logo(public_path('vendor/invoices/sample-logo.png'))
             // You can additionally save generated invoice to configured disk
             ->save('public');
             
@@ -302,6 +303,8 @@ Almost every configuration value can be overrided dinamically by methods.
 - seller(PartyContract)
 - buyer(PartyContract)
 - template(string)
+- logo(string) - path to logo
+- getLogo() - returns base64 encoded image, used in template to avoid path issues
 - filename(string) - overrides automatic filename
 - taxRate(float)
 - **totalDiscount(float) - If not provided calculates itself**
