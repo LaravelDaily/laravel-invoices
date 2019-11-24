@@ -141,7 +141,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col" class="border-0 pl-0">{{ __('invoices::invoice.service') }}</th>
+                    <th scope="col" class="border-0 pl-0">{{ __('invoices::invoice.description') }}</th>
                     @if($invoice->hasItemUnits)
                         <th scope="col" class="text-center border-0">{{ __('invoices::invoice.units') }}</th>
                     @endif
@@ -157,6 +157,7 @@
                 </tr>
             </thead>
             <tbody>
+                {{-- Items --}}
                 @foreach($invoice->items as $item)
                 <tr>
                     <td class="pl-0">{{ $item->title }}</td>
@@ -228,6 +229,12 @@
                     </tr>
             </tbody>
         </table>
+
+        @if($invoice->notes)
+            <p>
+                {{ trans('invoices::invoice.notes') }}: {!! $invoice->notes !!}
+            </p>
+        @endif
 
         <p>
             {{ trans('invoices::invoice.amount_in_words') }}: {{ $invoice->getTotalAmountInWords() }}

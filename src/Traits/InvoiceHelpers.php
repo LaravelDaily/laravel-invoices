@@ -23,6 +23,13 @@ trait InvoiceHelpers
         return $this;
     }
 
+    public function notes(string $notes)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
     /**
      * @param float $amount
      * @param bool $byPercent
@@ -297,7 +304,7 @@ trait InvoiceHelpers
         }
     }
 
-    public function applyTaxes() :void
+    public function applyTaxes(): void
     {
         $this->taxable_amount = $this->total_amount;
         $total                = $this->taxable_amount;

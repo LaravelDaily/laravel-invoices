@@ -61,6 +61,11 @@ class Invoice
     public $filename;
 
     /**
+     * @var string
+     */
+    public $notes;
+
+    /**
      * @var float
      */
     public $discount_by_percent;
