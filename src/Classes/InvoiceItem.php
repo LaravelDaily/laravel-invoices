@@ -3,6 +3,7 @@
 namespace LaravelDaily\Invoices\Classes;
 
 use Exception;
+use LaravelDaily\Invoices\Services\PricingService;
 
 /**
  * Class InvoiceItem
@@ -214,9 +215,9 @@ class InvoiceItem
             return $this;
         }
 
-        $this->calculateSubTotal($decimals);
-        $this->applyDiscount($decimals);
-        $this->applyTax($decimals);
+        $this->sub_total_price = PricingService::applyQuantity($this->price_per_unit, $this->quantity, $decimals);
+        $this->calculateDiscount($decimals);
+        $this->calculateTax($decimals);
 
         return $this;
     }
@@ -224,51 +225,35 @@ class InvoiceItem
     /**
      * @param int $decimals
      */
-    public function calculateSubTotal(int $decimals)
+    public function calculateDiscount(int $decimals): void
     {
-        $total = round($this->quantity * $this->price_per_unit, $decimals);
-
-        $this->subTotalPrice($total);
-    }
-
-    /**
-     * @param int $decimals
-     */
-    public function applyDiscount(int $decimals)
-    {
-        $total = $this->sub_total_price;
+        $subTotal = $this->sub_total_price;
 
         if ($this->discount_percentage) {
-            $ratio       = $this->discount / 100;
-            $newPrice    = round($total * (1 - $ratio), $decimals);
-            $newDiscount = $total - $newPrice;
-
-            $this->subTotalPrice($newPrice);
-            $this->discount = $newDiscount;
+            $newSubTotal = PricingService::applyDiscount($subTotal, $this->discount_percentage, $decimals, true);
         } else {
-            $newPrice = $total - $this->discount;
-            $this->subTotalPrice($newPrice);
+            $newSubTotal = PricingService::applyDiscount($subTotal, $this->discount, $decimals);
         }
+
+        $this->sub_total_price = $newSubTotal;
+        $this->discount        = $subTotal - $newSubTotal;
     }
 
     /**
      * @param int $decimals
      */
-    public function applyTax(int $decimals)
+    public function calculateTax(int $decimals): void
     {
-        $total = $this->sub_total_price;
+        $subTotal = $this->sub_total_price;
 
         if ($this->tax_percentage) {
-            $ratio    = $this->tax / 100;
-            $newPrice = round($total * (1 + $ratio), $decimals);
-            $newTax   = $newPrice - $total;
-
-            $this->subTotalPrice($newPrice);
-            $this->tax = $newTax;
+            $newSubTotal = PricingService::applyDiscount($subTotal, $this->tax_percentage, $decimals, true);
         } else {
-            $newPrice = $total + $this->tax;
-            $this->subTotalPrice($newPrice);
+            $newSubTotal = PricingService::applyDiscount($subTotal, $this->tax, $decimals);
         }
+
+        $this->sub_total_price = $newSubTotal;
+        $this->tax             = $newSubTotal - $subTotal;
     }
 
     /**

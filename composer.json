@@ -6,7 +6,8 @@
         {
             "name": "David Lun",
             "email": "mysticcode@gmail.com",
-            "homepage": "https://lun.lt"
+            "homepage": "https://lun.lt",
+            "role": "Developer"
         }
     ],
     "homepage": "https://github.com/LaravelDaily/laravel-invoices",
@@ -16,16 +17,25 @@
         "barryvdh/laravel-dompdf": "^0.8.5"
     },
     "require-dev": {
+        "phpunit/phpunit": "^8.4",
+        "symfony/var-dumper": "^5.0"
     },
     "autoload": {
         "psr-4": {
-            "LaravelDaily\\Invoices\\": "src/"
+            "LaravelDaily\\Invoices\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "LaravelDaily\\Invoices\\Tests\\": "tests"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
     },
     "extra": {
         "laravel": {

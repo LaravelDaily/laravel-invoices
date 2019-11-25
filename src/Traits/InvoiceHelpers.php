@@ -5,6 +5,7 @@ namespace LaravelDaily\Invoices\Traits;
 use Exception;
 use Illuminate\Support\Str;
 use LaravelDaily\Invoices\Contracts\PartyContract;
+use LaravelDaily\Invoices\Services\PricingService;
 
 /**
  * Trait InvoiceHelpers
@@ -91,7 +92,7 @@ trait InvoiceHelpers
         }
 
         $this->total_discount                     = $total_discount;
-        !$byPercent ?: $this->discount_by_percent = $total_discount;
+        !$byPercent ?: $this->discount_percentage = $total_discount;
 
         return $this;
     }
@@ -257,9 +258,9 @@ trait InvoiceHelpers
          * totalAmount(), totalDiscount(), discountByPercent(), totalTaxes(), taxRate()
          * or use values calculated from items.
          */
-        (!is_null($this->total_amount)) ?: $this->total_amount                = $total_amount;
-        $this->hasDiscount() ? $this->applyDiscount() : $this->total_discount = $total_discount;
-        $this->hasTax() ? $this->applyTaxes() : $this->total_taxes            = $total_taxes;
+        (!is_null($this->total_amount)) ?: $this->total_amount                    = $total_amount;
+        $this->hasDiscount() ? $this->calculateDiscount() : $this->total_discount = $total_discount;
+        $this->hasTax() ? $this->calculateTax() : $this->total_taxes              = $total_taxes;
 
         return $this;
     }
@@ -303,38 +304,32 @@ trait InvoiceHelpers
         (!$this->hasItemTax) ?: $this->table_columns++;
     }
 
-    public function applyDiscount(): void
+    public function calculateDiscount(): void
     {
-        $total = $this->total_amount;
+        $totalAmount = $this->total_amount;
 
-        if ($this->discount_by_percent) {
-            $ratio       = $this->total_discount / 100;
-            $newPrice    = round($total * (1 - $ratio), $this->currency_decimals);
-            $newDiscount = $total - $newPrice;
-
-            $this->totalAmount($newPrice);
-            $this->total_discount = $newDiscount;
+        if ($this->discount_percentage) {
+            $newTotalAmount = PricingService::applyDiscount($totalAmount, $this->discount_percentage, $this->currency_decimals, true);
         } else {
-            $newPrice = $total - $this->total_discount;
-            $this->totalAmount($newPrice);
+            $newTotalAmount = PricingService::applyDiscount($totalAmount, $this->total_discount, $this->currency_decimals);
         }
+
+        $this->total_amount   = $newTotalAmount;
+        $this->total_discount = $totalAmount - $newTotalAmount;
     }
 
-    public function applyTaxes(): void
+    public function calculateTax(): void
     {
         $this->taxable_amount = $this->total_amount;
-        $total                = $this->taxable_amount;
+        $totalAmount          = $this->taxable_amount;
 
         if ($this->tax_rate) {
-            $ratio    = $this->total_taxes / 100;
-            $newPrice = round($total * (1 + $ratio), $this->currency_decimals);
-            $newTax   = $newPrice - $total;
-
-            $this->totalAmount($newPrice);
-            $this->total_taxes = $newTax;
+            $newTotalAmount = PricingService::applyTax($totalAmount, $this->tax_rate, $this->currency_decimals, true);
         } else {
-            $newPrice = $total + $this->total_taxes;
-            $this->totalAmount($newPrice);
+            $newTotalAmount = PricingService::applyTax($totalAmount, $this->total_taxes, $this->currency_decimals);
         }
+
+        $this->total_amount = $newTotalAmount;
+        $this->total_taxes  = $newTotalAmount - $totalAmount;
     }
 }

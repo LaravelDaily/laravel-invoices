@@ -73,7 +73,7 @@ class Invoice
     /**
      * @var float
      */
-    public $discount_by_percent;
+    public $discount_percentage;
 
     /**
      * @var float
