@@ -5,11 +5,11 @@
 [![Latest Unstable Version](https://poser.pugx.org/laraveldaily/laravel-invoices/v/unstable)](https://packagist.org/packages/laraveldaily/laravel-invoices)
 [![License](https://poser.pugx.org/laraveldaily/laravel-invoices/license)](https://packagist.org/packages/laraveldaily/laravel-invoices)
 
-Missing invoices for Laravel.
+This Laravel package provides an easy to use interface to generate **Invoice PDF files** with your provided data. 
 
-This laravel package provides an easy to use interface in order to generate Invoices with your provided data. The invoice can be stored, downloaded, streamed on any of the filesystems you have configured. Supports different templates and locales.
+Invoice file can be stored, downloaded, streamed on any of the filesystems you have configured. Supports different templates and locales.
 
-Easy to use, easy to install and extend. Originally package was developed on PHP 7.3.11 and Laravel 6.2, but should work on lower versions too.
+Originally package was developed on PHP 7.3.11 and Laravel 6.2, but should work on lower versions too.
 
 ## Features
 - Taxes - fixed or rate - for item or for invoice
@@ -20,7 +20,7 @@ Easy to use, easy to install and extend. Originally package was developed on PHP
 - Serial numbers as you like it
 - Templates
 - Translations
-- Global settings and overrides on the fly
+- Global settings and overrides on-the-fly
 
 ## Installation
 
