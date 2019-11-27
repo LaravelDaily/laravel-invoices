@@ -247,9 +247,9 @@ class InvoiceItem
         $subTotal = $this->sub_total_price;
 
         if ($this->tax_percentage) {
-            $newSubTotal = PricingService::applyDiscount($subTotal, $this->tax_percentage, $decimals, true);
+            $newSubTotal = PricingService::applyTax($subTotal, $this->tax_percentage, $decimals, true);
         } else {
-            $newSubTotal = PricingService::applyDiscount($subTotal, $this->tax, $decimals);
+            $newSubTotal = PricingService::applyTax($subTotal, $this->tax, $decimals);
         }
 
         $this->sub_total_price = $newSubTotal;
