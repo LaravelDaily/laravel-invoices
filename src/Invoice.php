@@ -239,10 +239,11 @@ class Invoice
         if (!$this->pdf) {
             $this->beforeRender();
 
-            $view = sprintf('invoices::templates.%s', $this->template);
-            $data = ['invoice' => $this];
+            $template = sprintf('invoices::templates.%s', $this->template);
+            $view     = View::make($template, ['invoice' => $this]);
+            $html     = mb_convert_encoding($view, 'HTML-ENTITIES', 'UTF-8');
 
-            $this->pdf    = PDF::setOptions(['enable_php' => true])->loadView($view, $data, [], 'utf-8');
+            $this->pdf    = PDF::setOptions(['enable_php' => true])->loadHtml($html);
             $this->output = $this->pdf->output();
         }
 
