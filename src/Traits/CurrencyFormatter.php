@@ -148,6 +148,7 @@ trait CurrencyFormatter
      */
     public function getAmountInWords(float $amount)
     {
+        $amount    = number_format($amount, $this->currency_decimals, '.', '');
         $formatter = new NumberFormatter('en', NumberFormatter::SPELLOUT);
 
         $value = explode('.', $amount);
