@@ -27,7 +27,7 @@ trait SavesFiles
 
         $this->render();
 
-        Storage::disk($this->disk)->put($this->filename, $this->pdf->output());
+        Storage::disk($this->disk)->put($this->filename, $this->output);
 
         return $this;
     }

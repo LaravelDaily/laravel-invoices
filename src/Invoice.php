@@ -5,6 +5,7 @@ namespace LaravelDaily\Invoices;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
@@ -15,6 +16,7 @@ use LaravelDaily\Invoices\Traits\DateFormatter;
 use LaravelDaily\Invoices\Traits\InvoiceHelpers;
 use LaravelDaily\Invoices\Traits\SavesFiles;
 use LaravelDaily\Invoices\Traits\SerialNumberFormatter;
+use Symfony\Component\HttpFoundation\Response as BaseResponse;
 
 /**
  * Class Invoices
@@ -131,6 +133,11 @@ class Invoice
     public $pdf;
 
     /**
+     * @var string
+     */
+    public $output;
+
+    /**
      * Invoice constructor.
      * @param string $name
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
@@ -229,16 +236,15 @@ class Invoice
      */
     public function render()
     {
-        if ($this->pdf) {
-            return $this;
+        if (!$this->pdf) {
+            $this->beforeRender();
+
+            $view = sprintf('invoices::templates.%s', $this->template);
+            $data = ['invoice' => $this];
+
+            $this->pdf    = PDF::setOptions(['enable_php' => true])->loadView($view, $data, [], 'utf-8');
+            $this->output = $this->pdf->output();
         }
-
-        $this->beforeRender();
-
-        $template = sprintf('invoices::templates.%s', $this->template);
-        $view     = View::make($template, ['invoice' => $this]);
-
-        $this->pdf = PDF::setOptions(['enable_php' => true])->loadHtml($view);
 
         return $this;
     }
@@ -251,7 +257,10 @@ class Invoice
     {
         $this->render();
 
-        return $this->pdf->stream($this->filename);
+        return new Response($this->output, BaseResponse::HTTP_OK, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $this->filename . '"',
+        ]);
     }
 
     /**
@@ -262,6 +271,10 @@ class Invoice
     {
         $this->render();
 
-        return $this->pdf->download($this->filename);
+        return new Response($this->output, BaseResponse::HTTP_OK, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $this->filename . '"',
+            'Content-Length'      => strlen($this->output),
+        ]);
     }
 }

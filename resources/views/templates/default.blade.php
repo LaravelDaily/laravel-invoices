@@ -7,6 +7,9 @@
         <link rel="stylesheet" href="{{ asset('/vendor/invoices/bootstrap.min.css') }}">
 
         <style type="text/css" media="screen">
+            * {
+                font-family: "DejaVu Sans";
+            }
             html {
                 margin: 0;
             }
@@ -15,7 +18,6 @@
                 margin: 36pt;
             }
             body, h1, h2, h3, h4, h5, h6, table, th, tr, td, p, div {
-                font-family: sans-serif;
                 line-height: 1.1;
             }
             .total-amount {
