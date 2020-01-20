@@ -117,11 +117,6 @@ class Invoice
     public $hasItemTax;
 
     /**
-     * @var bool
-     */
-    public $hasRendering;
-
-    /**
      * @var int
      */
     public $table_columns;
