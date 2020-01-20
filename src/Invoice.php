@@ -169,7 +169,7 @@ class Invoice
         $this->currency_format              = config('invoices.currency.format');
 
         $this->disk          = config('invoices.disk');
-        $this->table_columns = self::TABLE_COLUMNS;
+        $this->table_columns = static::TABLE_COLUMNS;
     }
 
     /**
@@ -179,7 +179,7 @@ class Invoice
      */
     public static function make($name = 'Invoice')
     {
-        return new self($name);
+        return new static($name);
     }
 
     /**
