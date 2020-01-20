@@ -16,7 +16,6 @@ use LaravelDaily\Invoices\Traits\DateFormatter;
 use LaravelDaily\Invoices\Traits\InvoiceHelpers;
 use LaravelDaily\Invoices\Traits\SavesFiles;
 use LaravelDaily\Invoices\Traits\SerialNumberFormatter;
-use Symfony\Component\HttpFoundation\Response as BaseResponse;
 
 /**
  * Class Invoices
@@ -258,7 +257,7 @@ class Invoice
     {
         $this->render();
 
-        return new Response($this->output, BaseResponse::HTTP_OK, [
+        return new Response($this->output, Response::HTTP_OK, [
             'Content-Type'        => 'application/pdf',
             'Content-Disposition' => 'inline; filename="' . $this->filename . '"',
         ]);
@@ -272,7 +271,7 @@ class Invoice
     {
         $this->render();
 
-        return new Response($this->output, BaseResponse::HTTP_OK, [
+        return new Response($this->output, Response::HTTP_OK, [
             'Content-Type'        => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="' . $this->filename . '"',
             'Content-Length'      => strlen($this->output),
