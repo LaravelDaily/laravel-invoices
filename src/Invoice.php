@@ -250,7 +250,7 @@ class Invoice
     }
 
     /**
-     * @return mixed
+     * @return Response
      * @throws Exception
      */
     public function stream()
@@ -264,7 +264,7 @@ class Invoice
     }
 
     /**
-     * @return mixed
+     * @return Response
      * @throws Exception
      */
     public function download()
