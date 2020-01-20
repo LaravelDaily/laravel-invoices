@@ -15,6 +15,7 @@
     "require": {
         "php": ">=7",
         "barryvdh/laravel-dompdf": "^0.8.5",
+        "illuminate/support": "^6",
         "symfony/http-foundation": "^4.3.4"
     },
     "require-dev": {
