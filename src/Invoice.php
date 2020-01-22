@@ -16,7 +16,6 @@ use LaravelDaily\Invoices\Traits\DateFormatter;
 use LaravelDaily\Invoices\Traits\InvoiceHelpers;
 use LaravelDaily\Invoices\Traits\SavesFiles;
 use LaravelDaily\Invoices\Traits\SerialNumberFormatter;
-use Symfony\Component\HttpFoundation\Response as BaseResponse;
 
 /**
  * Class Invoices
@@ -118,11 +117,6 @@ class Invoice
     public $hasItemTax;
 
     /**
-     * @var bool
-     */
-    public $hasRendering;
-
-    /**
      * @var int
      */
     public $table_columns;
@@ -175,7 +169,7 @@ class Invoice
         $this->currency_format              = config('invoices.currency.format');
 
         $this->disk          = config('invoices.disk');
-        $this->table_columns = self::TABLE_COLUMNS;
+        $this->table_columns = static::TABLE_COLUMNS;
     }
 
     /**
@@ -185,7 +179,7 @@ class Invoice
      */
     public static function make($name = 'Invoice')
     {
-        return new self($name);
+        return new static($name);
     }
 
     /**
@@ -251,28 +245,28 @@ class Invoice
     }
 
     /**
-     * @return mixed
+     * @return Response
      * @throws Exception
      */
     public function stream()
     {
         $this->render();
 
-        return new Response($this->output, BaseResponse::HTTP_OK, [
+        return new Response($this->output, Response::HTTP_OK, [
             'Content-Type'        => 'application/pdf',
             'Content-Disposition' => 'inline; filename="' . $this->filename . '"',
         ]);
     }
 
     /**
-     * @return mixed
+     * @return Response
      * @throws Exception
      */
     public function download()
     {
         $this->render();
 
-        return new Response($this->output, BaseResponse::HTTP_OK, [
+        return new Response($this->output, Response::HTTP_OK, [
             'Content-Type'        => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="' . $this->filename . '"',
             'Content-Length'      => strlen($this->output),
