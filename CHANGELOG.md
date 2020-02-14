@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changed to `laraveldaily/invoices` will be documented in this file.
+All notable changes to `laraveldaily/invoices` will be documented in this file.
 
 ## Version 1.3.8
 
