@@ -379,7 +379,7 @@ $ composer test
 
 If you discover any security related issues, please email mysticcode@gmail.com instead of using the issue tracker.
 
-## Credits
+## Author
 
 - [David Lun][link-author]
 
