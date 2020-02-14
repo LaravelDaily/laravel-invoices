@@ -225,6 +225,15 @@
                         </td>
                     </tr>
                 @endif
+                @if($invoice->shipping_amount)
+                    <tr>
+                        <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
+                        <td class="text-right pl-0">{{ __('invoices::invoice.shipping') }}</td>
+                        <td class="text-right pr-0">
+                            {{ $invoice->formatCurrency($invoice->shipping_amount) }}
+                        </td>
+                    </tr>
+                @endif
                     <tr>
                         <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                         <td class="text-right pl-0">{{ __('invoices::invoice.total_amount') }}</td>

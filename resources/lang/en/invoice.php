@@ -31,5 +31,6 @@ return [
     'pay_until'       => 'Please pay until',
     'amount_in_words' => 'Amount in words',
     'notes'           => 'Notes',
+    'shipping'        => 'Shipping',
 
 ];

@@ -14,6 +14,7 @@ Originally package was developed on PHP 7.3.11 and Laravel 6.2, but should work 
 ## Features
 - Taxes - fixed or rate - for item or for invoice
 - Discounts - fixed or by percentage - for item or for invoice
+- Shipping - add shipping price to your invoices
 - Automatic calculation - provide minimal set of information, or calculate yourself and provide what to print
 - Due date
 - Easy to customize currency format
@@ -21,6 +22,10 @@ Originally package was developed on PHP 7.3.11 and Laravel 6.2, but should work 
 - Templates
 - Translations
 - Global settings and overrides on-the-fly
+
+## Change log
+
+Please see the [changelog](CHANGELOG.md) for more information on what has changed recently.
 
 ## Installation
 
@@ -74,20 +79,25 @@ use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 
-$customer = new Buyer([
-    'name'          => 'John Doe',
-    'custom_fields' => [
-        'email' => 'test@example.com',
-    ],
-]);
+<...>
 
-$item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2);
+        $customer = new Buyer([
+            'name'          => 'John Doe',
+            'custom_fields' => [
+                'email' => 'test@example.com',
+            ],
+        ]);
 
-$invoice = Invoice::make()
-    ->buyer($customer)
-    ->addItem($item);
+        $item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2);
 
-return $invoice->stream();
+        $invoice = Invoice::make()
+            ->buyer($customer)
+            ->discountByPercent(10)
+            ->taxRate(15)
+            ->shipping(1.99)
+            ->addItem($item);
+
+        return $invoice->stream();
 ```
 
 See result [Invoice_AA_00001.pdf](examples/invoice_AA_00001.pdf).
@@ -98,6 +108,8 @@ See result [Invoice_AA_00001.pdf](examples/invoice_AA_00001.pdf).
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Party;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
+
+<...>
 
         $client = new Party([
             'name'          => 'Roosevelt Lloyd',
@@ -307,6 +319,7 @@ Almost every configuration value can be overrided dinamically by methods.
 - getLogo() - returns base64 encoded image, used in template to avoid path issues
 - filename(string) - overrides automatic filename
 - taxRate(float)
+- shipping(float) - shipping amount
 - **totalDiscount(float) - If not provided calculates itself**
 - **totalTaxes(float) - If not provided calculates itself**
 - **totalAmount(float) - If not provided calculates itself**
@@ -348,7 +361,7 @@ Almost every configuration value can be overrided dinamically by methods.
 ## InvoiceItem
 - title(string) - product or service name
 - units(string) - measurement units of item (adds units columns if set)
-- qty(float) - amount of units of item
+- quantity(float) - amount of units of item
 - pricePerUnit(float)
 - discount(float) - discount in currency
 - discountByPercent(float) - discount by percents discountByPercent(15) means 15%
@@ -384,4 +397,3 @@ GPL-3.0-only. Please see the [license file](LICENSE.md) for more information.
 [link-travis]: https://travis-ci.org/laraveldaily/laravel-invoices
 [link-styleci]: https://styleci.io/repos/12345678
 [link-author]: https://github.com/mc0de
-

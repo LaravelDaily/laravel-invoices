@@ -59,6 +59,17 @@ trait InvoiceHelpers
     /**
      * @param float $amount
      * @return $this
+     */
+    public function shipping(float $amount)
+    {
+        $this->shipping_amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * @param float $amount
+     * @return $this
      * @throws Exception
      */
     public function taxRate(float $amount)
@@ -258,9 +269,10 @@ trait InvoiceHelpers
          * totalAmount(), totalDiscount(), discountByPercent(), totalTaxes(), taxRate()
          * or use values calculated from items.
          */
-        (!is_null($this->total_amount)) ?: $this->total_amount                    = $total_amount;
+        $this->hasTotalAmount() ?: $this->total_amount                            = $total_amount;
         $this->hasDiscount() ? $this->calculateDiscount() : $this->total_discount = $total_discount;
         $this->hasTax() ? $this->calculateTax() : $this->total_taxes              = $total_taxes;
+        !$this->hasShipping() ?: $this->calculateShipping();
 
         return $this;
     }
@@ -279,6 +291,22 @@ trait InvoiceHelpers
     public function hasDiscount()
     {
         return !is_null($this->total_discount);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasShipping()
+    {
+        return !is_null($this->shipping_amount);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTotalAmount()
+    {
+        return !is_null($this->total_amount);
     }
 
     /**
@@ -331,5 +359,10 @@ trait InvoiceHelpers
 
         $this->total_amount = $newTotalAmount;
         $this->total_taxes  = $newTotalAmount - $totalAmount;
+    }
+
+    public function calculateShipping(): void
+    {
+        $this->total_amount = PricingService::applyTax($this->total_amount, $this->shipping_amount, $this->currency_decimals);
     }
 }

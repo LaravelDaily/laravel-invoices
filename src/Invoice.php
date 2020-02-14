@@ -94,6 +94,11 @@ class Invoice
     /**
      * @var float
      */
+    public $shipping_amount;
+
+    /**
+     * @var float
+     */
     public $total_taxes;
 
     /**
