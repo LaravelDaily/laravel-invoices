@@ -20,6 +20,10 @@
             body, h1, h2, h3, h4, h5, h6, table, th, tr, td, p, div {
                 line-height: 1.1;
             }
+            .party-header {
+                font-size: 1.5rem;
+                font-weight: 400;
+            }
             .total-amount {
                 font-size: 12px;
                 font-weight: 700;
@@ -52,12 +56,12 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="border-0 pl-0" width="48.5%">
-                        <h2>{{ __('invoices::invoice.seller') }}</h2>
+                    <th class="border-0 pl-0 party-header" width="48.5%">
+                        {{ __('invoices::invoice.seller') }}
                     </th>
                     <th class="border-0" width="3%"></th>
-                    <th class="border-0 pl-0">
-                        <h2>{{ __('invoices::invoice.buyer') }}</h2>
+                    <th class="border-0 pl-0 party-header">
+                        {{ __('invoices::invoice.buyer') }}
                     </th>
                 </tr>
             </thead>
@@ -183,6 +187,7 @@
                             {{ $invoice->formatCurrency($item->tax) }}
                         </td>
                     @endif
+
                     <td class="text-right pr-0">
                         {{ $invoice->formatCurrency($item->sub_total_price) }}
                     </td>
