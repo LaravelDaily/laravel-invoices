@@ -348,6 +348,10 @@ trait InvoiceHelpers
 
     public function calculateTax(): void
     {
+        if ($this->taxable_amount) {
+            return;
+        }
+
         $this->taxable_amount = $this->total_amount;
         $totalAmount          = $this->taxable_amount;
 
