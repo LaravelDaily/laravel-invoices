@@ -18,7 +18,7 @@ return [
     'vat'             => 'btw-identificatienummer',
     'kvk'             => 'KVK-nummer',
     'bank'            => 'Bank nummer',
-    'swift'           => 'SWIFT',
+    'swift'           => 'BIC code',
     'phone'           => 'Telefoon',
     'description'     => 'Omschrijving',
     'units'           => 'Eenheden',
