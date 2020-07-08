@@ -32,7 +32,7 @@ return [
     'total_taxes'     => 'Totaal belastingen',
     'tax_rate'        => 'Belastingtarief',
     'total_amount'    => 'Totaalbedrag',
-    'pay_until'       => 'Gelieve te betalen tot',
+    'pay_until'       => 'Gelieve te betalen voot',
     'amount_in_words' => 'Hoeveelheid in woorden',
     'notes'           => 'Opmerkingen',
     'shipping'        => 'Verzending',
