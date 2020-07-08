@@ -8,13 +8,17 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'serial'          => 'Serienummer.',
-    'date'            => 'Factuur datum',
+    'serial'          => 'factuurnummer',
+    'date'            => 'factuurdatum',
+    'delivery_date'   => 'datum levering',
     'seller'          => 'Verkoper',
     'buyer'           => 'Koper',
     'address'         => 'Adres',
     'code'            => 'Code',
-    'vat'             => 'BTW nummer',
+    'vat'             => 'btw-identificatienummer',
+    'kvk'             => 'KVK-nummer',
+    'bank'            => 'Bank nummer',
+    'swift'           => 'SWIFT',
     'phone'           => 'Telefoon',
     'description'     => 'Omschrijving',
     'units'           => 'Eenheden',
