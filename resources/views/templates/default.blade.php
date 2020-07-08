@@ -143,7 +143,7 @@
                         @foreach($invoice->buyer->custom_fields as $key => $value)
                             <p class="buyer-custom-field">
                                 @if('invoices::invoice.' . $key === __('invoices::invoice.' . $key))
-                                    {{ ucfirst($key) }}: {{ $value }}
+                                    {{ $key }}: {{ $value }}
                                 @else
                                     {{ __('invoices::invoice.' . $key) }}: {{ $value }}
                                 @endif
