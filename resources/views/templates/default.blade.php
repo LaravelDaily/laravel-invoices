@@ -254,11 +254,7 @@
                 {{ trans('invoices::invoice.notes') }}: {!! $invoice->notes !!}
             </p>
         @endif
-        @if($invoice->qr)
-        <p>
-        <img src="{{$qr}}">
-        </p>
-    @endif
+
 
         <p>
             {{ trans('invoices::invoice.amount_in_words') }}: {{ $invoice->getTotalAmountInWords() }}
@@ -266,7 +262,9 @@
         <p>
             {{ trans('invoices::invoice.pay_until') }}: {{ $invoice->getPayUntilDate() }}
         </p>
-
+        @if($invoice->qr)
+        <img src="{{$invoice->qr}}" height="100" width="100">
+        @endif
         <script type="text/php">
             if (isset($pdf) && $PAGE_COUNT > 1) {
                 $text = "Page {PAGE_NUM} / {PAGE_COUNT}";
