@@ -38,6 +38,13 @@ trait InvoiceHelpers
         return $this;
     }
 
+    public function qr(string $qr)
+    {
+        $this->qr = $qr;
+
+        return $this;
+    }
+
     /**
      * @param float $amount
      * @param bool $byPercent

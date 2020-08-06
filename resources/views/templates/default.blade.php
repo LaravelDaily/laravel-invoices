@@ -254,6 +254,11 @@
                 {{ trans('invoices::invoice.notes') }}: {!! $invoice->notes !!}
             </p>
         @endif
+        @if($invoice->qr)
+        <p>
+        <img src="{{$qr}}">
+        </p>
+    @endif
 
         <p>
             {{ trans('invoices::invoice.amount_in_words') }}: {{ $invoice->getTotalAmountInWords() }}

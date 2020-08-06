@@ -135,6 +135,11 @@ class Invoice
      * @var string
      */
     public $output;
+    /**
+     * @var string
+     * Base64 format.
+     */
+    public $qr;
 
     /**
      * Invoice constructor.
