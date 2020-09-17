@@ -5,7 +5,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/laraveldaily/laravel-invoices/v/unstable)](https://packagist.org/packages/laraveldaily/laravel-invoices)
 [![License](https://poser.pugx.org/laraveldaily/laravel-invoices/license)](https://packagist.org/packages/laraveldaily/laravel-invoices)
 
-This Laravel package provides an easy to use interface to generate **Invoice PDF files** with your provided data. 
+This Laravel package provides an easy to use interface to generate **Invoice PDF files** with your provided data.
 
 Invoice file can be stored, downloaded, streamed on any of the filesystems you have configured. Supports different templates and locales.
 
@@ -31,8 +31,16 @@ Please see the [changelog](CHANGELOG.md) for more information on what has change
 
 Via Composer
 
+### Laravel version 8
+
 ```bash
-$ composer require laraveldaily/laravel-invoices
+$ composer require laraveldaily/laravel-invoices:^2.0
+```
+
+### Laravel version <= 7
+
+```bash
+$ composer require laraveldaily/laravel-invoices:^1.3
 ```
 
 After installing Laravel Invoices, publish its assets, views, translations and config using the `invoices:install` Artisan command:
@@ -178,7 +186,7 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
             ->logo(public_path('vendor/invoices/sample-logo.png'))
             // You can additionally save generated invoice to configured disk
             ->save('public');
-            
+
         $link = $invoice->url();
         // Then send email to party with link
 
