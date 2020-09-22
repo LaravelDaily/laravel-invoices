@@ -4,7 +4,7 @@
         <title>{{ $invoice->name }}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-        <link rel="stylesheet" href="{{ public_path('vendor/invoices/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/invoices/bootstrap.min.css') }}">
 
         <style type="text/css" media="screen">
             * {
@@ -27,6 +27,9 @@
             .total-amount {
                 font-size: 12px;
                 font-weight: 700;
+            }
+            .border-0 {
+                border: none !important;
             }
         </style>
     </head>
