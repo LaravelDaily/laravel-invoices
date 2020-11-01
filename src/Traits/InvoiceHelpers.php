@@ -154,6 +154,17 @@ trait InvoiceHelpers
     }
 
     /**
+     * @param PartyContract $buyer
+     * @return $this
+     */
+    public function custom(array $custom)
+    {
+        $this->custom = $custom;
+
+        return $this;
+    }
+
+    /**
      * @param string $template
      * @return $this
      */
