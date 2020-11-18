@@ -144,12 +144,13 @@ trait CurrencyFormatter
 
     /**
      * @param float $amount
+     * @param string|null $locale
      * @return string
      */
-    public function getAmountInWords(float $amount)
+    public function getAmountInWords(float $amount, ?string $locale = null)
     {
         $amount    = number_format($amount, $this->currency_decimals, '.', '');
-        $formatter = new NumberFormatter('en', NumberFormatter::SPELLOUT);
+        $formatter = new NumberFormatter($locale ?? config('app.locale', 'en'), NumberFormatter::SPELLOUT);
 
         $value = explode('.', $amount);
 
