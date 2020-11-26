@@ -154,14 +154,19 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param PartyContract $buyer
+     * @param mixed
      * @return $this
      */
-    public function custom(array $custom)
+    public function setCustomData($value)
     {
-        $this->custom = $custom;
+        $this->userDefinedData = $value;
 
         return $this;
+    }
+
+    public function getCustomData()
+    {
+        return $this->userDefinedData;
     }
 
     /**
