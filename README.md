@@ -358,7 +358,7 @@ Almost every configuration value can be overrided dinamically by methods.
 - currencyDecimalPoint(string)
 - currencyThousandsSeparator(string)
 - currencyFormat(string)
-- getAmountInWords(float) - Spells out float to words (only english)
+- getAmountInWords(float, ?string) - Spells out float to words
 - getTotalAmountInWords() - spells out total_amount
 - formatCurrency(float) - returns formatted value with currency settings '$ 1,99'
 
