@@ -72,11 +72,6 @@ class Invoice
     public $logo;
 
     /**
-     * @var array
-     */
-    public $custom;
-
-    /**
      * @var float
      */
     public $discount_percentage;
@@ -142,6 +137,11 @@ class Invoice
     public $output;
 
     /**
+     * @var mixed
+     */
+    protected $userDefinedData;
+
+    /**
      * Invoice constructor.
      * @param string $name
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
@@ -177,9 +177,6 @@ class Invoice
         $this->currency_decimal_point       = config('invoices.currency.decimal_point');
         $this->currency_thousands_separator = config('invoices.currency.thousands_separator');
         $this->currency_format              = config('invoices.currency.format');
-
-        // Custom data
-        $this->custom = [];
 
         $this->disk          = config('invoices.disk');
         $this->table_columns = static::TABLE_COLUMNS;

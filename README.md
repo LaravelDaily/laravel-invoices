@@ -31,7 +31,7 @@ Please see the [changelog](CHANGELOG.md) for more information on what has change
 
 Via Composer
 
-### Laravel version 8
+### Laravel version <= 8
 
 ```bash
 $ composer require laraveldaily/laravel-invoices:^2.0
@@ -322,6 +322,8 @@ Almost every configuration value can be overrided dinamically by methods.
 - name(string)
 - seller(PartyContract)
 - buyer(PartyContract)
+- setCustomData(mixed) - allows user to attach additional data to invoice
+- getCustomData() - retrieves additional data to use in template
 - template(string)
 - logo(string) - path to logo
 - getLogo() - returns base64 encoded image, used in template to avoid path issues
