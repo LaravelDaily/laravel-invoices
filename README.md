@@ -1,3 +1,5 @@
+![![Banner]](https://banners.beyondco.de/Laravel%20Invoices.png?theme=light&packageManager=composer+require&packageName=laraveldaily%2Flaravel-invoices&pattern=architect&style=style_1&description=PDFs+made+easy&md=1&showWatermark=0&fontSize=100px&images=document-download)
+
 # Laravel Invoices
 
 [![Latest Stable Version](https://poser.pugx.org/laraveldaily/laravel-invoices/v/stable)](https://packagist.org/packages/laraveldaily/laravel-invoices)
