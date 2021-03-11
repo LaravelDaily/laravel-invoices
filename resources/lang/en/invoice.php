@@ -19,6 +19,7 @@ return [
     'description'     => 'Description',
     'units'           => 'Units',
     'quantity'        => 'Qty',
+    'free_ones'        => 'F/1',
     'price'           => 'Price',
     'discount'        => 'Discount',
     'tax'             => 'Tax',

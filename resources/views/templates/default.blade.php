@@ -250,6 +250,9 @@
                         <th scope="col" class="text-center border-0">{{ __('invoices::invoice.units') }}</th>
                     @endif
                     <th scope="col" class="text-center border-0">{{ __('invoices::invoice.quantity') }}</th>
+                    @if($invoice->hasFreeOnes)
+                        <th scope="col" class="text-right border-0">{{ __('invoices::invoice.free_ones') }}</th>
+                    @endif
                     <th scope="col" class="text-right border-0">{{ __('invoices::invoice.price') }}</th>
                     @if($invoice->hasItemDiscount)
                         <th scope="col" class="text-right border-0">{{ __('invoices::invoice.discount') }}</th>
@@ -269,6 +272,11 @@
                         <td class="text-center">{{ $item->units }}</td>
                     @endif
                     <td class="text-center">{{ $item->quantity }}</td>
+                    @if($invoice->hasFreeOnes)
+                        <td class="text-right">
+                            {{ $item->freeOnes }}
+                        </td>
+                    @endif
                     <td class="text-right">
                         {{ $invoice->formatCurrency($item->price_per_unit) }}
                     </td>

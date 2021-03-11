@@ -374,6 +374,7 @@ Almost every configuration value can be overrided dinamically by methods.
 - title(string) - product or service name
 - units(string) - measurement units of item (adds units columns if set)
 - quantity(float) - amount of units of item
+- freeOnes(float) - free item quantity(nothing to do with any calculations)
 - pricePerUnit(float)
 - discount(float) - discount in currency
 - discountByPercent(float) - discount by percents discountByPercent(15) means 15%

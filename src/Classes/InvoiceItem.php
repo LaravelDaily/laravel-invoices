@@ -29,6 +29,11 @@ class InvoiceItem
     /**
      * @var float
      */
+    public $freeOnes;
+
+    /**
+     * @var float
+     */
     public $price_per_unit;
 
     /**
@@ -62,6 +67,7 @@ class InvoiceItem
     public function __construct()
     {
         $this->quantity = 1.0;
+        $this->freeOnes = 0;
         $this->discount = 0.0;
         $this->tax      = 0.0;
     }
@@ -97,6 +103,26 @@ class InvoiceItem
         $this->quantity = $quantity;
 
         return $this;
+    }
+
+    /**
+     * @param float $freeOnes
+     * @return $this
+     */
+    public function freeOnes(float $freeOnes)
+    {
+        $this->freeOnes = $freeOnes;
+
+        return $this;
+    }
+
+    /**
+     * @param float $freeOnes
+     * @return $this
+     */
+    public function hasFreeOnes()
+    {
+        return !is_null($this->freeOnes);
     }
 
     /**

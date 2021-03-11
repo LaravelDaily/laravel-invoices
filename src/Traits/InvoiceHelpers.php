@@ -269,6 +269,10 @@ trait InvoiceHelpers
                     $this->hasItemDiscount = true;
                 }
 
+                if($item->hasFreeOnes()){
+                    $this->hasFreeOnes = true;
+                } 
+
                 if ($item->hasTax()) {
                     $total_taxes += $item->tax;
                     $this->hasItemTax = true;
@@ -312,6 +316,14 @@ trait InvoiceHelpers
     /**
      * @return bool
      */
+    public function hasFreeOnes()
+    {
+        return !is_null($this->freeOnes);
+    }
+
+    /**
+     * @return bool
+     */
     public function hasShipping()
     {
         return !is_null($this->shipping_amount);
@@ -345,6 +357,7 @@ trait InvoiceHelpers
     {
         (!$this->hasItemUnits) ?: $this->table_columns++;
         (!$this->hasItemDiscount) ?: $this->table_columns++;
+        (!$this->hasFreeOnes) ?: $this->table_columns++;
         (!$this->hasItemTax) ?: $this->table_columns++;
     }
 

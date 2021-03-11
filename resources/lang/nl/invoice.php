@@ -19,6 +19,7 @@ return [
     'description'     => 'Omschrijving',
     'units'           => 'Eenheid',
     'quantity'        => 'Aantal',
+    'free_ones'        => 'F/1',
     'price'           => 'Prijs',
     'discount'        => 'Korting',
     'tax'             => 'Belasting',

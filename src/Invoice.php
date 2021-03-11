@@ -114,6 +114,11 @@ class Invoice
     /**
      * @var bool
      */
+    public $hasItemFreeOnes;
+
+    /**
+     * @var bool
+     */
     public $hasItemDiscount;
 
     /**
