@@ -7,8 +7,8 @@
 [![Latest Unstable Version](https://poser.pugx.org/laraveldaily/laravel-invoices/v/unstable)](https://packagist.org/packages/laraveldaily/laravel-invoices)
 [![License](https://poser.pugx.org/laraveldaily/laravel-invoices/license)](https://packagist.org/packages/laraveldaily/laravel-invoices)
 
-[![version 2](https://img.shields.io/badge/v2%20maintenance-yes-green?style=flat)](#)
-[![version 1](https://img.shields.io/badge/v1%20maintenance-no-red?style=flat)](#)
+[![version 2](https://img.shields.io/badge/v2%20maintenance-yes-green?style=flat)](https://packagist.org/packages/laraveldaily/laravel-invoices)
+[![version 1](https://img.shields.io/badge/v1%20maintenance-no-red?style=flat)](https://packagist.org/packages/laraveldaily/laravel-invoices)
 
 This Laravel package provides an easy to use interface to generate **Invoice PDF files** with your provided data.
 
