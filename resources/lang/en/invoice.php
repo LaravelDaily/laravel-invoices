@@ -32,5 +32,9 @@ return [
     'amount_in_words' => 'Amount in words',
     'notes'           => 'Notes',
     'shipping'        => 'Shipping',
-
+    'insurer'         => 'Insurer',
+    'premium'         => 'Premium',
+    'excess'          => 'Excess',
+    'coverage'        => 'Coverage',
+    'remarks'         => 'Remarks',
 ];

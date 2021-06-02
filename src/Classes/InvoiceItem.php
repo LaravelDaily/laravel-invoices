@@ -19,6 +19,26 @@ class InvoiceItem
     /**
      * @var string
      */
+    public $premium;
+
+    /**
+     * @var string
+     */
+    public $excess;
+
+    /**
+     * @var string
+     */
+    public $coverage;
+
+    /**
+     * @var string
+     */
+    public $remarks;
+
+    /**
+     * @var string
+     */
     public $units;
 
     /**
@@ -29,7 +49,7 @@ class InvoiceItem
     /**
      * @var float
      */
-    public $price_per_unit;
+    public $price_per_unit = 1;
 
     /**
      * @var float
@@ -73,6 +93,50 @@ class InvoiceItem
     public function title(string $title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+     /**
+     * @param string $premium
+     * @return $this
+     */
+    public function premium(string $premium)
+    {
+        $this->premium = $premium;
+
+        return $this;
+    }
+    
+     /**
+     * @param string $excess
+     * @return $this
+     */
+    public function excess(string $excess)
+    {
+        $this->excess = $excess;
+
+        return $this;
+    }
+
+     /**
+     * @param string $coverage
+     * @return $this
+     */
+    public function coverage(string $coverage)
+    {
+        $this->coverage = $coverage;
+
+        return $this;
+    }
+
+     /**
+     * @param string $remarks
+     * @return $this
+     */
+    public function remarks(string $remarks)
+    {
+        $this->remarks = $remarks;
 
         return $this;
     }
