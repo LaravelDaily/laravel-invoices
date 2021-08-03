@@ -163,7 +163,7 @@ trait CurrencyFormatter
         }
 
         return sprintf(
-            '%s %s and %s %s',
+            trans('invoices::invoice.amount_in_words_format'),
             ucfirst($integer_value),
             strtoupper($this->currency_code),
             $fraction_value,
