@@ -217,6 +217,22 @@ $item = Invoice::makeItem('Your service or product title')->pricePerUnit(9.99);
 return Invoice::make()->buyer($customer)->addItem($item)->stream();
 ```
 
+## Templates
+
+After publishing assets you can modify or make your own template for invoices.
+
+Templates are stored in the `resources/views/vendor/invoices/templates` directory. There you will find `default.blade.php` template which is used by default.
+
+You can specify which template to use by calling `template` method on Invoice object.
+
+For example if you have `resources/views/vendor/invoices/templates/my_company.blade.php` it should look like this:
+
+```php
+Invoice::make('receipt')->template('my_company');
+```
+
+Too see how things work in a template you can view `default.blade.php` as an example.
+
 ## Config
 
 ``` php
