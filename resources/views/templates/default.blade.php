@@ -264,7 +264,12 @@
                 {{-- Items --}}
                 @foreach($invoice->items as $item)
                 <tr>
-                    <td class="pl-0">{{ $item->title }}</td>
+                    <td class="pl-0">
+                        {{ $item->title }}
+                        @if($item->description)
+                            <p class="description">{{ $item->description }}</p>
+                        @endif
+                    </td>
                     @if($invoice->hasItemUnits)
                         <td class="text-center">{{ $item->units }}</td>
                     @endif
