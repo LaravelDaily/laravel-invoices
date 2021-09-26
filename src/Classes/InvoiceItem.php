@@ -17,6 +17,11 @@ class InvoiceItem
     public $title;
 
     /**
+     * @var string|bool
+     */
+    public $description = false;
+
+    /**
      * @var string
      */
     public $units;
@@ -73,6 +78,17 @@ class InvoiceItem
     public function title(string $title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     */
+    public function description(string $description)
+    {
+        $this->description = $description;
 
         return $this;
     }
