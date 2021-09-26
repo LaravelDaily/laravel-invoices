@@ -123,6 +123,11 @@
             .border-0 {
                 border: none !important;
             }
+            .description {
+                margin-top: 0.25rem;
+                margin-bottom: 0;
+                color: #999;
+            }
         </style>
     </head>
 
