@@ -68,6 +68,11 @@ class Invoice
     /**
      * @var string
      */
+    public $status;
+
+    /**
+     * @var string
+     */
     public $logo;
 
     /**
