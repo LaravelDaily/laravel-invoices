@@ -24,6 +24,17 @@ trait InvoiceHelpers
         return $this;
     }
 
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function status(string $status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
     public function notes(string $notes)
     {
         $this->notes = $notes;
