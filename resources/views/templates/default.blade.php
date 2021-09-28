@@ -123,10 +123,18 @@
             .border-0 {
                 border: none !important;
             }
+
             .description {
                 margin-top: 0.25rem;
                 margin-bottom: 0;
                 color: #999;
+            }
+
+            .status {
+                color: #999;
+                font-size: 2rem;
+                font-weight: bold;
+                text-transform: uppercase;
             }
         </style>
     </head>
@@ -145,6 +153,7 @@
                         </h4>
                     </td>
                     <td class="border-0 pl-0">
+                        <p class="status">{{ $invoice->status }}</p>
                         <p>{{ __('invoices::invoice.serial') }} <strong>{{ $invoice->getSerialNumber() }}</strong></p>
                         <p>{{ __('invoices::invoice.date') }}: <strong>{{ $invoice->getDate() }}</strong></p>
                     </td>
