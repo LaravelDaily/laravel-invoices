@@ -160,6 +160,8 @@ class Invoice
         $this->items    = Collection::make([]);
         $this->template = 'default';
 
+        $this->status   = config('invoices.status');
+
         // Date
         $this->date           = Carbon::now();
         $this->date_format    = config('invoices.date.format');
