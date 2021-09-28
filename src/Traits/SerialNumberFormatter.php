@@ -3,8 +3,7 @@
 namespace LaravelDaily\Invoices\Traits;
 
 /**
- * Trait SerialNumberFormatter
- * @package LaravelDaily\Invoices\Traits
+ * Trait SerialNumberFormatter.
  */
 trait SerialNumberFormatter
 {
@@ -34,7 +33,6 @@ trait SerialNumberFormatter
     public $serial_number_format;
 
     /**
-     * @param string $series
      * @return $this
      */
     public function series(string $series)
@@ -45,18 +43,17 @@ trait SerialNumberFormatter
     }
 
     /**
-     * @param int $sequence
      * @return $this
      */
     public function sequence(int $sequence)
     {
         $this->sequence = str_pad((string) $sequence, $this->sequence_padding, 0, STR_PAD_LEFT);
+        $this->filename($this->getDefaultFilename($this->name));
 
         return $this;
     }
 
     /**
-     * @param string $delimiter
      * @return $this
      */
     public function delimiter(string $delimiter)
@@ -67,7 +64,6 @@ trait SerialNumberFormatter
     }
 
     /**
-     * @param int $value
      * @return $this
      */
     public function sequencePadding(int $value)
@@ -78,7 +74,6 @@ trait SerialNumberFormatter
     }
 
     /**
-     * @param string $format
      * @return $this
      */
     public function serialNumberFormat(string $format)

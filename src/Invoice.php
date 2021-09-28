@@ -18,8 +18,7 @@ use LaravelDaily\Invoices\Traits\SavesFiles;
 use LaravelDaily\Invoices\Traits\SerialNumberFormatter;
 
 /**
- * Class Invoices
- * @package LaravelDaily\Invoices
+ * Class Invoices.
  */
 class Invoice
 {
@@ -29,7 +28,7 @@ class Invoice
     use SavesFiles;
     use SerialNumberFormatter;
 
-    const TABLE_COLUMNS = 4;
+    public const TABLE_COLUMNS = 4;
 
     /**
      * @var string
@@ -143,7 +142,9 @@ class Invoice
 
     /**
      * Invoice constructor.
+     *
      * @param string $name
+     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function __construct($name = 'Invoice')
@@ -184,8 +185,10 @@ class Invoice
 
     /**
      * @param string $name
-     * @return Invoice
+     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @return Invoice
      */
     public static function make($name = 'Invoice')
     {
@@ -193,7 +196,6 @@ class Invoice
     }
 
     /**
-     * @param array $attributes
      * @return Party
      */
     public static function makeParty(array $attributes = [])
@@ -202,7 +204,6 @@ class Invoice
     }
 
     /**
-     * @param string $title
      * @return InvoiceItem
      */
     public static function makeItem(string $title = '')
@@ -211,7 +212,6 @@ class Invoice
     }
 
     /**
-     * @param InvoiceItem $item
      * @return $this
      */
     public function addItem(InvoiceItem $item)
@@ -223,6 +223,7 @@ class Invoice
 
     /**
      * @param $items
+     *
      * @return $this
      */
     public function addItems($items)
@@ -235,8 +236,9 @@ class Invoice
     }
 
     /**
-     * @return $this
      * @throws Exception
+     *
+     * @return $this
      */
     public function render()
     {
@@ -255,8 +257,9 @@ class Invoice
     }
 
     /**
-     * @return Response
      * @throws Exception
+     *
+     * @return Response
      */
     public function stream()
     {
@@ -269,8 +272,9 @@ class Invoice
     }
 
     /**
-     * @return Response
      * @throws Exception
+     *
+     * @return Response
      */
     public function download()
     {
