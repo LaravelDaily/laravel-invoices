@@ -334,7 +334,7 @@ return [
 ```
 
 ## Available Methods
-Almost every configuration value can be overrided dinamically by methods.
+Almost every configuration value can be overrided dynamically by methods.
 
 ## Invoice
 #### General
