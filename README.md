@@ -143,7 +143,7 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
         ]);
 
         $items = [
-            (new InvoiceItem())->title('Service 1')->pricePerUnit(47.79)->quantity(2)->discount(10),
+            (new InvoiceItem())->title('Service 1')->description('additional text')->pricePerUnit(47.79)->quantity(2)->discount(10),
             (new InvoiceItem())->title('Service 2')->pricePerUnit(71.96)->quantity(2),
             (new InvoiceItem())->title('Service 3')->pricePerUnit(4.56),
             (new InvoiceItem())->title('Service 4')->pricePerUnit(87.51)->quantity(7)->discount(4)->units('kg'),
@@ -391,6 +391,7 @@ Almost every configuration value can be overrided dynamically by methods.
 
 ## InvoiceItem
 - title(string) - product or service name
+- description(string) - additional information for service entry
 - units(string) - measurement units of item (adds units columns if set)
 - quantity(float) - amount of units of item
 - pricePerUnit(float)
