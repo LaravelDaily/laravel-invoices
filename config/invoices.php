@@ -65,6 +65,8 @@ return [
 
     'disk' => 'local',
 
+    'status' => 'Due',
+
     'seller' => [
         /**
          * Class used in templates via $invoice->seller

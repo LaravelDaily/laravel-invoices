@@ -68,6 +68,11 @@ class Invoice
     /**
      * @var string
      */
+    public $status;
+
+    /**
+     * @var string
+     */
     public $logo;
 
     /**
@@ -154,6 +159,8 @@ class Invoice
         $this->seller   = app()->make(config('invoices.seller.class'));
         $this->items    = Collection::make([]);
         $this->template = 'default';
+
+        $this->status   = config('invoices.status');
 
         // Date
         $this->date           = Carbon::now();
