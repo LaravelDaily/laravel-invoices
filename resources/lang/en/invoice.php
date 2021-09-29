@@ -1,13 +1,13 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Invoice Language Lines
     |--------------------------------------------------------------------------
     */
 
+    'invoice'                => 'Invoice',
     'serial'                 => 'Serial No.',
     'date'                   => 'Invoice date',
     'seller'                 => 'Seller',
@@ -33,5 +33,6 @@ return [
     'amount_in_words_format' => '%s %s and %s %s',
     'notes'                  => 'Notes',
     'shipping'               => 'Shipping',
-
+    'paid'                   => 'Paid',
+    'due'                    => 'Due',
 ];

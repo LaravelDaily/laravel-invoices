@@ -8,13 +8,11 @@ use LaravelDaily\Invoices\Contracts\PartyContract;
 use LaravelDaily\Invoices\Services\PricingService;
 
 /**
- * Trait InvoiceHelpers
- * @package LaravelDaily\Invoices\Traits
+ * Trait InvoiceHelpers.
  */
 trait InvoiceHelpers
 {
     /**
-     * @param string $name
      * @return $this
      */
     public function name(string $name)
@@ -25,7 +23,6 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param string $status
      * @return $this
      */
     public function status(string $status)
@@ -50,10 +47,9 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param float $amount
-     * @param bool $byPercent
-     * @return $this
      * @throws Exception
+     *
+     * @return $this
      */
     public function totalTaxes(float $amount, bool $byPercent = false)
     {
@@ -68,7 +64,6 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param float $amount
      * @return $this
      */
     public function shipping(float $amount)
@@ -79,9 +74,9 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param float $amount
-     * @return $this
      * @throws Exception
+     *
+     * @return $this
      */
     public function taxRate(float $amount)
     {
@@ -91,7 +86,6 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param float $taxable_amount
      * @return $this
      */
     public function taxableAmount(float $taxable_amount)
@@ -102,10 +96,9 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param float $total_discount
-     * @param bool $byPercent
-     * @return $this
      * @throws Exception
+     *
+     * @return $this
      */
     public function totalDiscount(float $total_discount, bool $byPercent = false)
     {
@@ -120,9 +113,9 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param float $discount
-     * @return $this
      * @throws Exception
+     *
+     * @return $this
      */
     public function discountByPercent(float $discount)
     {
@@ -132,7 +125,6 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param float $total_amount
      * @return $this
      */
     public function totalAmount(float $total_amount)
@@ -143,7 +135,6 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param PartyContract $seller
      * @return $this
      */
     public function seller(PartyContract $seller)
@@ -154,7 +145,6 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param PartyContract $buyer
      * @return $this
      */
     public function buyer(PartyContract $buyer)
@@ -166,6 +156,8 @@ trait InvoiceHelpers
 
     /**
      * @param mixed
+     * @param mixed $value
+     *
      * @return $this
      */
     public function setCustomData($value)
@@ -181,7 +173,6 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param string $template
      * @return $this
      */
     public function template(string $template = 'default')
@@ -192,7 +183,6 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param string $filename
      * @return $this
      */
     public function filename(string $filename)
@@ -200,19 +190,6 @@ trait InvoiceHelpers
         $this->filename = sprintf('%s.pdf', $filename);
 
         return $this;
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    protected function getDefaultFilename(string $name)
-    {
-        if ($name === '') {
-            return sprintf('%s_%s', $this->series, $this->sequence);
-        }
-
-        return sprintf('%s_%s_%s', Str::snake($name), $this->series, $this->sequence);
     }
 
     /**
@@ -225,83 +202,10 @@ trait InvoiceHelpers
 
     public function getLogo()
     {
-        $type   = pathinfo($this->logo, PATHINFO_EXTENSION);
-        $data   = file_get_contents($this->logo);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        $type = pathinfo($this->logo, PATHINFO_EXTENSION);
+        $data = file_get_contents($this->logo);
 
-        return $base64;
-    }
-
-    /**
-     * @throws Exception
-     */
-    protected function beforeRender(): void
-    {
-        $this->validate();
-        $this->calculate();
-    }
-
-    /**
-     * @throws Exception
-     */
-    protected function validate()
-    {
-        if (!$this->buyer) {
-            throw new Exception('Buyer not defined.');
-        }
-    }
-
-    /**
-     * @return $this
-     */
-    protected function calculate()
-    {
-        $total_amount   = null;
-        $total_discount = null;
-        $total_taxes    = null;
-
-        $this->items->each(
-            function ($item) use (&$total_amount, &$total_discount, &$total_taxes) {
-                // Gates
-                if ($item->hasTax() && $this->hasTax()) {
-                    throw new Exception('Invoice: you must have taxes only on items or only on invoice.');
-                }
-
-                if ($item->hasDiscount() && $this->hasDiscount()) {
-                    throw new Exception('Invoice: you must have discounts only on items or only on invoice.');
-                }
-
-                $item->calculate($this->currency_decimals);
-
-                (!$item->hasUnits()) ?: $this->hasItemUnits = true;
-
-                if ($item->hasDiscount()) {
-                    $total_discount += $item->discount;
-                    $this->hasItemDiscount = true;
-                }
-
-                if ($item->hasTax()) {
-                    $total_taxes += $item->tax;
-                    $this->hasItemTax = true;
-                }
-
-                // Totals
-                $total_amount += $item->sub_total_price;
-            });
-
-        $this->applyColspan();
-
-        /**
-         * Apply calculations for provided overrides with:
-         * totalAmount(), totalDiscount(), discountByPercent(), totalTaxes(), taxRate()
-         * or use values calculated from items.
-         */
-        $this->hasTotalAmount() ?: $this->total_amount                            = $total_amount;
-        $this->hasDiscount() ? $this->calculateDiscount() : $this->total_discount = $total_discount;
-        $this->hasTax() ? $this->calculateTax() : $this->total_taxes              = $total_taxes;
-        !$this->hasShipping() ?: $this->calculateShipping();
-
-        return $this;
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
     }
 
     /**
@@ -395,5 +299,97 @@ trait InvoiceHelpers
     public function calculateShipping(): void
     {
         $this->total_amount = PricingService::applyTax($this->total_amount, $this->shipping_amount, $this->currency_decimals);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDefaultFilename(string $name)
+    {
+        if ($name === '') {
+            return sprintf('%s_%s', $this->series, $this->sequence);
+        }
+
+        return sprintf('%s_%s_%s', Str::snake($name), $this->series, $this->sequence);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function beforeRender(): void
+    {
+        $this->validate();
+        $this->calculate();
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function validate()
+    {
+        if (!$this->buyer) {
+            throw new Exception('Buyer not defined.');
+        }
+
+        if (!$this->seller) {
+            throw new Exception('Seller not defined.');
+        }
+
+        if (!count($this->items)) {
+            throw new Exception('No items to invoice defined.');
+        }
+    }
+
+    /**
+     * @return $this
+     */
+    protected function calculate()
+    {
+        $total_amount   = null;
+        $total_discount = null;
+        $total_taxes    = null;
+
+        $this->items->each(
+            function ($item) use (&$total_amount, &$total_discount, &$total_taxes) {
+                // Gates
+                if ($item->hasTax() && $this->hasTax()) {
+                    throw new Exception('Invoice: you must have taxes only on items or only on invoice.');
+                }
+
+                if ($item->hasDiscount() && $this->hasDiscount()) {
+                    throw new Exception('Invoice: you must have discounts only on items or only on invoice.');
+                }
+
+                $item->calculate($this->currency_decimals);
+
+                (!$item->hasUnits()) ?: $this->hasItemUnits = true;
+
+                if ($item->hasDiscount()) {
+                    $total_discount += $item->discount;
+                    $this->hasItemDiscount = true;
+                }
+
+                if ($item->hasTax()) {
+                    $total_taxes += $item->tax;
+                    $this->hasItemTax = true;
+                }
+
+                // Totals
+                $total_amount += $item->sub_total_price;
+            });
+
+        $this->applyColspan();
+
+        /*
+         * Apply calculations for provided overrides with:
+         * totalAmount(), totalDiscount(), discountByPercent(), totalTaxes(), taxRate()
+         * or use values calculated from items.
+         */
+        $this->hasTotalAmount() ?: $this->total_amount                            = $total_amount;
+        $this->hasDiscount() ? $this->calculateDiscount() : $this->total_discount = $total_discount;
+        $this->hasTax() ? $this->calculateTax() : $this->total_taxes              = $total_taxes;
+        !$this->hasShipping() ?: $this->calculateShipping();
+
+        return $this;
     }
 }

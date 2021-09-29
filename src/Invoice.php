@@ -152,15 +152,13 @@ class Invoice
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function __construct($name = 'Invoice')
+    public function __construct($name = '')
     {
         // Invoice
-        $this->name     = $name;
+        $this->name     = $name ?: __('invoices::invoice.invoice');
         $this->seller   = app()->make(config('invoices.seller.class'));
         $this->items    = Collection::make([]);
         $this->template = 'default';
-
-        $this->status   = config('invoices.status');
 
         // Date
         $this->date           = Carbon::now();
@@ -197,7 +195,7 @@ class Invoice
      *
      * @return Invoice
      */
-    public static function make($name = 'Invoice')
+    public static function make($name = '')
     {
         return new static($name);
     }
@@ -249,18 +247,29 @@ class Invoice
      */
     public function render()
     {
-        if (!$this->pdf) {
-            $this->beforeRender();
-
-            $template = sprintf('invoices::templates.%s', $this->template);
-            $view     = View::make($template, ['invoice' => $this]);
-            $html     = mb_convert_encoding($view, 'HTML-ENTITIES', 'UTF-8');
-
-            $this->pdf    = PDF::setOptions(['enable_php' => true])->loadHtml($html);
-            $this->output = $this->pdf->output();
+        if ($this->pdf) {
+            return $this;
         }
 
+        $this->beforeRender();
+
+        $template = sprintf('invoices::templates.%s', $this->template);
+        $view     = View::make($template, ['invoice' => $this]);
+        $html     = mb_convert_encoding($view, 'HTML-ENTITIES', 'UTF-8');
+
+        $this->pdf    = PDF::setOptions(['enable_php' => true])->loadHtml($html);
+        $this->output = $this->pdf->output();
+
         return $this;
+    }
+
+    public function toHtml()
+    {
+        $this->beforeRender();
+
+        $template = sprintf('invoices::templates.%s', $this->template);
+
+        return View::make($template, ['invoice' => $this]);
     }
 
     /**

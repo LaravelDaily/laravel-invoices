@@ -1,13 +1,13 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Factuur Taal Lijnen
     |--------------------------------------------------------------------------
     */
 
+    'invoice'                => 'Factuur',
     'serial'                 => 'Factuurnummer',
     'date'                   => 'Factuurdatum',
     'seller'                 => 'Leverancier',
@@ -33,5 +33,6 @@ return [
     'amount_in_words_format' => '%s %s en %s %s',
     'notes'                  => 'Opmerkingen',
     'shipping'               => 'Verzending',
-
+    'paid'                   => 'Betaald',
+    'due'                    => 'Openstaand',
 ];

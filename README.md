@@ -143,7 +143,12 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
         ]);
 
         $items = [
-            (new InvoiceItem())->title('Service 1')->description('additional text')->pricePerUnit(47.79)->quantity(2)->discount(10),
+            (new InvoiceItem())
+                ->title('Service 1')
+                ->description('Your product or service description')
+                ->pricePerUnit(47.79)
+                ->quantity(2)
+                ->discount(10),
             (new InvoiceItem())->title('Service 2')->pricePerUnit(71.96)->quantity(2),
             (new InvoiceItem())->title('Service 3')->pricePerUnit(4.56),
             (new InvoiceItem())->title('Service 4')->pricePerUnit(87.51)->quantity(7)->discount(4)->units('kg'),
@@ -173,6 +178,9 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
 
         $invoice = Invoice::make('receipt')
             ->series('BIG')
+            // ability to include translated invoice status
+            // in case it was paid
+            ->status(__('invoices::invoice.paid'))
             ->sequence(667)
             ->serialNumberFormat('{SEQUENCE}/{SERIES}')
             ->seller($client)
@@ -341,6 +349,7 @@ Almost every configuration value can be overrided dynamically by methods.
 - addItem(InvoiceItem $item)
 - addItems(Iterable)
 - name(string)
+- status(string) - invoice status [paid/due] if needed
 - seller(PartyContract)
 - buyer(PartyContract)
 - setCustomData(mixed) - allows user to attach additional data to invoice
@@ -388,6 +397,7 @@ Almost every configuration value can be overrided dynamically by methods.
 - download() - offers to download invoice
 - save($disk) - saves invoice to storage, use ->filename() for filename
 - url() - return url of saved invoice
+- toHtml() - render html view instead of pdf
 
 ## InvoiceItem
 - title(string) - product or service name
