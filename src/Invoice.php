@@ -76,6 +76,11 @@ class Invoice
     public $logo;
 
     /**
+     * @var string
+     */
+    public $logoExtension;
+
+    /**
      * @var float
      */
     public $discount_percentage;

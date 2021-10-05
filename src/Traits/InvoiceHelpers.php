@@ -39,9 +39,10 @@ trait InvoiceHelpers
         return $this;
     }
 
-    public function logo(string $logo)
+    public function logo(string $logo, string $extension = null)
     {
         $this->logo = $logo;
+        $this->logoExtension = $extension;
 
         return $this;
     }
@@ -200,9 +201,9 @@ trait InvoiceHelpers
         return $this->getAmountInWords($this->total_amount);
     }
 
-    public function getLogo(string $type = null)
+    public function getLogo()
     {
-        $type = $type ?? pathinfo($this->logo, PATHINFO_EXTENSION);
+        $type = $this->logoExtension ?? pathinfo($this->logo, PATHINFO_EXTENSION);
         $data = file_get_contents($this->logo);
 
         return 'data:image/' . $type . ';base64,' . base64_encode($data);
