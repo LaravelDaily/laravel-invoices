@@ -35,4 +35,5 @@ return [
     'shipping'               => 'Verzending',
     'paid'                   => 'Betaald',
     'due'                    => 'Openstaand',
+    'due_date'               => 'Factuur vervaldag',
 ];

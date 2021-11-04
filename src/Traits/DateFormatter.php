@@ -25,6 +25,12 @@ trait DateFormatter
      */
     public $pay_until_days;
 
+
+    /**
+     * @var Carbon
+     */
+    public $due_date;
+
     /**
      * @param Carbon $date
      * @return $this
@@ -72,5 +78,22 @@ trait DateFormatter
     public function getPayUntilDate()
     {
         return $this->date->copy()->addDays($this->pay_until_days)->format($this->date_format);
+    }
+
+    /**
+     * @param Carbon $date
+     * @return $this
+     */
+    public function payDueDate(Carbon $dt){
+        $this->due_date = $dt;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayDueDate()
+    {
+        return $this->due_date ? $this->due_date->format($this->date_format) : null;
     }
 }

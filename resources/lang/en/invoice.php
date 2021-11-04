@@ -35,4 +35,5 @@ return [
     'shipping'               => 'Shipping',
     'paid'                   => 'Paid',
     'due'                    => 'Due',
+    'due_date'               => 'Invoice Due Date',
 ];
