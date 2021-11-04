@@ -152,7 +152,7 @@
                         <p>{{ __('invoices::invoice.date') }}: <strong>{{ $invoice->getDate() }}</strong></p>
 
                         @if($invoice->getPayDueDate())
-                        <p>{{ __('invoices::invoice.due_date') }}: <strong>{{ $invoice->getDate() }}</strong></p>
+                            <p>{{ __('invoices::invoice.due_date') }}: <strong>{{ $invoice->getPayDueDate() }}</strong></p>
                         @endif
                     </td>
                 </tr>
