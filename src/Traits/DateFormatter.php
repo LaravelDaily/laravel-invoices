@@ -21,7 +21,7 @@ trait DateFormatter
     public $date_format;
 
     /**
-     * @var int
+     * @var int|false
      */
     public $pay_until_days;
 
@@ -48,11 +48,15 @@ trait DateFormatter
     }
 
     /**
-     * @param int $days
+     * @param int|false $days
      * @return $this
      */
-    public function payUntilDays(int $days)
+    public function payUntilDays($days)
     {
+        if ($days === true) {
+            throw new \Error('Invalid value of `true` for attribute '.self::class.'::pay_until_days.');
+        }
+
         $this->pay_until_days = $days;
 
         return $this;
@@ -67,10 +71,14 @@ trait DateFormatter
     }
 
     /**
-     * @return mixed
+     * @return string|false
      */
     public function getPayUntilDate()
     {
+        if ($this->pay_until_days === false) {
+            return false;
+        }
+
         return $this->date->copy()->addDays($this->pay_until_days)->format($this->date_format);
     }
 }

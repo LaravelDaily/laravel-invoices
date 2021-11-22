@@ -1,3 +1,4 @@
+@php /** @var LaravelDaily\Invoices\Invoice $invoice */ @endphp
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -367,9 +368,12 @@
         <p>
             {{ trans('invoices::invoice.amount_in_words') }}: {{ $invoice->getTotalAmountInWords() }}
         </p>
-        <p>
-            {{ trans('invoices::invoice.pay_until') }}: {{ $invoice->getPayUntilDate() }}
-        </p>
+        
+        @if($invoice->getPayUntilDate() !== false)
+            <p>
+                {{ trans('invoices::invoice.pay_until') }}: {{ $invoice->getPayUntilDate() }}
+            </p>
+        @endif
 
         <script type="text/php">
             if (isset($pdf) && $PAGE_COUNT > 1) {
