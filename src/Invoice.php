@@ -163,7 +163,7 @@ class Invoice
         // Date
         $this->date           = Carbon::now();
         $this->date_format    = config('invoices.date.format');
-        $this->pay_until_days = config('invoices.date.pay_until_days');
+        $this->payUntilDays(config('invoices.date.pay_until_days'));
 
         // Serial Number
         $this->series               = config('invoices.serial_number.series');
