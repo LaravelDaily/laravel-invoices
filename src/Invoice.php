@@ -257,7 +257,7 @@ class Invoice
         $view     = View::make($template, ['invoice' => $this]);
         $html     = mb_convert_encoding($view, 'HTML-ENTITIES', 'UTF-8');
 
-        $this->pdf    = PDF::setOptions(['enable_php' => true])->loadHtml($html);
+        $this->pdf    = PDF::loadHtml($html);
         $this->output = $this->pdf->output();
 
         return $this;
