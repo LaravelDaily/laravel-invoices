@@ -36,6 +36,10 @@ Please see the [changelog](CHANGELOG.md) for more information on what has change
 
 Via Composer
 
+```bash
+$ composer require laraveldaily/laravel-invoices
+```
+
 ### Laravel version <= 8
 
 ```bash
