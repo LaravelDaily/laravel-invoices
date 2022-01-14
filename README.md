@@ -352,8 +352,8 @@ Almost every configuration value can be overrided dynamically by methods.
 - status(string) - invoice status [paid/due] if needed
 - seller(PartyContract)
 - buyer(PartyContract)
-- setCustomData(mixed) - allows user to attach additional data to invoice
-- getCustomData() - retrieves additional data to use in template
+- setCustomData(array) - allows user to attach additional data to invoice
+- getCustomData(key/null) - retrieves additional data to use in template
 - template(string)
 - logo(string) - path to logo
 - getLogo() - returns base64 encoded image, used in template to avoid path issues

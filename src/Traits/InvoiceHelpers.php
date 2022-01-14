@@ -155,20 +155,30 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param mixed
-     * @param mixed $value
+     * @param  mixed
+     * @param  mixed  $value
      *
      * @return $this
      */
-    public function setCustomData($value)
+    public function setCustomData(array $data)
     {
-        $this->userDefinedData = $value;
+        foreach ($data as $key => $value) {
+            $this->userDefinedData[$key] = $value;
+        }
 
         return $this;
     }
 
-    public function getCustomData()
+    /**
+     * @param $key
+     * @return array|mixed
+     */
+    public function getCustomData($key = null)
     {
+        if ($key) {
+            return $this->userDefinedData[$key];
+        }
+
         return $this->userDefinedData;
     }
 
