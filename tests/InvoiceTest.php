@@ -29,10 +29,8 @@ class InvoiceTest extends TestCase
         ];
     }
 
-    /**
-     * @return void
-     */
-    public function test_it_adds_new_data()
+    /** @test */
+    public function it_adds_new_data()
     {
         $data = [
             'invoice_paid' => true
