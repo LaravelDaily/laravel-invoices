@@ -265,8 +265,6 @@ class Invoice
 
     public function toHtml()
     {
-        $this->beforeRender();
-
         $template = sprintf('invoices::templates.%s', $this->template);
 
         return View::make($template, ['invoice' => $this]);
