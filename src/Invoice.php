@@ -141,9 +141,9 @@ class Invoice
     public $output;
 
     /**
-     * @var mixed
+     * @var array
      */
-    protected $userDefinedData;
+    protected $userDefinedData = [];
 
     /**
      * Invoice constructor.

@@ -155,9 +155,7 @@ trait InvoiceHelpers
     }
 
     /**
-     * @param  mixed
-     * @param  mixed  $value
-     *
+     * @param array $data
      * @return $this
      */
     public function setCustomData(array $data)
@@ -171,7 +169,7 @@ trait InvoiceHelpers
 
     /**
      * @param $key
-     * @return array|mixed
+     * @return mixed
      */
     public function getCustomData($key = null)
     {
