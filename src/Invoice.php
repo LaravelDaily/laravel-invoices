@@ -2,7 +2,7 @@
 
 namespace LaravelDaily\Invoices;
 
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Response;
@@ -131,7 +131,7 @@ class Invoice
     public $table_columns;
 
     /**
-     * @var PDF
+     * @var Pdf
      */
     public $pdf;
 
@@ -257,7 +257,7 @@ class Invoice
         $view     = View::make($template, ['invoice' => $this]);
         $html     = mb_convert_encoding($view, 'HTML-ENTITIES', 'UTF-8');
 
-        $this->pdf    = PDF::setOptions(['enable_php' => true])->loadHtml($html);
+        $this->pdf    = Pdf::setOptions(['enable_php' => true])->loadHtml($html);
         $this->output = $this->pdf->output();
 
         return $this;
