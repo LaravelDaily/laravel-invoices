@@ -398,6 +398,13 @@ Almost every configuration value can be overrided dynamically by methods.
 - getTotalAmountInWords() - spells out total_amount
 - formatCurrency(float) - returns formatted value with currency settings '$ 1,99'
 
+#### Quantity
+- quantityDecimals(int)
+- quantityThousandsSeparator(string)
+- quantityDecimalPoint(string)
+- formatQuantityFixed(float) - returns formatted value with quantity settings '1.00' or '1,00' or '1,25'
+- formatQuantityDynamic(float) - returns formatted value with quantity settings and dynamic decimal numbers '1' or '1,25'
+
 #### File
 - stream() - opens invoice in browser
 - download() - offers to download invoice
