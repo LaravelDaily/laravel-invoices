@@ -57,6 +57,22 @@ return [
         'format' => '{VALUE} {SYMBOL}',
     ],
 
+    'quantity' => [
+        /*
+         * Example: 19.00
+         */
+        'decimals' => 2,
+        /*
+         * Example: 1.99
+         */
+        'decimal_point' => '.',
+        /*
+         * By default empty.
+         * Example: 1,999.00
+         */
+        'thousands_separator' => '',
+    ],
+
     'paper' => [
         // A4 = 210 mm x 297 mm = 595 pt x 842 pt
         'size'        => 'a4',

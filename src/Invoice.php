@@ -187,9 +187,9 @@ class Invoice
         $this->currency_format              = config('invoices.currency.format');
 
         // Quantity
-        $this->quantity_decimals            = config('invoices.currency.decimals');
-        $this->quantity_decimal_point       = config('invoices.currency.decimal_point');
-        $this->quantity_thousands_separator = config('invoices.currency.thousands_separator');
+        $this->quantity_decimals            = config('invoices.quantity.decimals');
+        $this->quantity_decimal_point       = config('invoices.quantity.decimal_point');
+        $this->quantity_thousands_separator = config('invoices.quantity.thousands_separator');
 
         $this->disk          = config('invoices.disk');
         $this->table_columns = static::TABLE_COLUMNS;
