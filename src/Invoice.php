@@ -2,7 +2,7 @@
 
 namespace LaravelDaily\Invoices;
 
-use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Response;
@@ -131,7 +131,7 @@ class Invoice
     public $table_columns;
 
     /**
-     * @var Pdf
+     * @var PDF
      */
     public $pdf;
 
@@ -144,6 +144,11 @@ class Invoice
      * @var mixed
      */
     protected $userDefinedData;
+
+    /**
+     * @var array
+     */
+    public $options;
 
     /**
      * Invoice constructor.
@@ -186,6 +191,8 @@ class Invoice
 
         $this->disk          = config('invoices.disk');
         $this->table_columns = static::TABLE_COLUMNS;
+
+        $this->options = config('invoices.options') ?? ['enable_php' => true];
     }
 
     /**
@@ -257,7 +264,10 @@ class Invoice
         $view     = View::make($template, ['invoice' => $this]);
         $html     = mb_convert_encoding($view, 'HTML-ENTITIES', 'UTF-8');
 
-        $this->pdf    = Pdf::setOption(['enable_php' => true])->loadHtml($html);
+
+
+
+        $this->pdf    = PDF::setOptions($this->options)->loadHtml($html);
         $this->output = $this->pdf->output();
 
         return $this;
