@@ -2,7 +2,7 @@
 
 namespace LaravelDaily\Invoices;
 
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Response;
