@@ -59,7 +59,6 @@ class InvoiceServiceProvider extends ServiceProvider
         $this->offerPublishing();
         $this->registerServices();
         $this->registerCommands();
-
     }
 
     /**
@@ -105,7 +104,7 @@ class InvoiceServiceProvider extends ServiceProvider
     protected function registerServices()
     {
         $this->app->singleton('invoice', function ($app) {
-            return new Invoice;
+            return new Invoice();
         });
     }
 

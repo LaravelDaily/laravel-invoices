@@ -284,6 +284,5 @@ class InvoiceItem
         if (is_null($this->price_per_unit)) {
             throw new Exception('InvoiceItem: price_per_unit not defined.');
         }
-
     }
 }

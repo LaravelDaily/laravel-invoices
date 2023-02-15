@@ -376,7 +376,8 @@ trait InvoiceHelpers
 
                 // Totals
                 $total_amount += $item->sub_total_price;
-            });
+            }
+        );
 
         $this->applyColspan();
 
