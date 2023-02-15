@@ -146,6 +146,11 @@ class Invoice
     protected $userDefinedData;
 
     /**
+     * @var array
+     */
+    protected array $paperOptions;
+
+    /**
      * Invoice constructor.
      *
      * @param string $name
@@ -183,6 +188,9 @@ class Invoice
         $this->currency_decimal_point       = config('invoices.currency.decimal_point');
         $this->currency_thousands_separator = config('invoices.currency.thousands_separator');
         $this->currency_format              = config('invoices.currency.format');
+
+        //Paper
+        $this->paperOptions = config('invoices.paper');
 
         $this->disk          = config('invoices.disk');
         $this->table_columns = static::TABLE_COLUMNS;
@@ -257,7 +265,7 @@ class Invoice
         $view     = View::make($template, ['invoice' => $this]);
         $html     = mb_convert_encoding($view, 'HTML-ENTITIES', 'UTF-8');
 
-        $this->pdf    = Pdf::setOption(['enable_php' => true])->loadHtml($html);
+        $this->pdf    = Pdf::setOption(['enable_php' => true])->setPaper($this->paperOptions['size'], $this->paperOptions['orientation'])->loadHtml($html);
         $this->output = $this->pdf->output();
 
         return $this;
