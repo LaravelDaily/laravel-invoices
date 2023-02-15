@@ -58,8 +58,8 @@ trait InvoiceHelpers
             throw new Exception('Invoice: unable to set tax twice.');
         }
 
-        $this->total_taxes             = $amount;
-        !$byPercent ?: $this->tax_rate = $amount;
+        $this->total_taxes              = $amount;
+        ! $byPercent ?: $this->tax_rate = $amount;
 
         return $this;
     }
@@ -107,8 +107,8 @@ trait InvoiceHelpers
             throw new Exception('Invoice: unable to set discount twice.');
         }
 
-        $this->total_discount                     = $total_discount;
-        !$byPercent ?: $this->discount_percentage = $total_discount;
+        $this->total_discount                      = $total_discount;
+        ! $byPercent ?: $this->discount_percentage = $total_discount;
 
         return $this;
     }
@@ -213,7 +213,7 @@ trait InvoiceHelpers
      */
     public function hasTax()
     {
-        return !is_null($this->total_taxes);
+        return ! is_null($this->total_taxes);
     }
 
     /**
@@ -221,7 +221,7 @@ trait InvoiceHelpers
      */
     public function hasDiscount()
     {
-        return !is_null($this->total_discount);
+        return ! is_null($this->total_discount);
     }
 
     /**
@@ -229,7 +229,7 @@ trait InvoiceHelpers
      */
     public function hasShipping()
     {
-        return !is_null($this->shipping_amount);
+        return ! is_null($this->shipping_amount);
     }
 
     /**
@@ -237,7 +237,7 @@ trait InvoiceHelpers
      */
     public function hasTotalAmount()
     {
-        return !is_null($this->total_amount);
+        return ! is_null($this->total_amount);
     }
 
     /**
@@ -258,9 +258,9 @@ trait InvoiceHelpers
 
     public function applyColspan(): void
     {
-        (!$this->hasItemUnits) ?: $this->table_columns++;
-        (!$this->hasItemDiscount) ?: $this->table_columns++;
-        (!$this->hasItemTax) ?: $this->table_columns++;
+        (! $this->hasItemUnits) ?: $this->table_columns++;
+        (! $this->hasItemDiscount) ?: $this->table_columns++;
+        (! $this->hasItemTax) ?: $this->table_columns++;
     }
 
     public function calculateDiscount(): void
@@ -325,17 +325,17 @@ trait InvoiceHelpers
     /**
      * @throws Exception
      */
-    protected function validate()
+    public function validate()
     {
-        if (!$this->buyer) {
+        if (! $this->buyer) {
             throw new Exception('Buyer not defined.');
         }
 
-        if (!$this->seller) {
+        if (! $this->seller) {
             throw new Exception('Seller not defined.');
         }
 
-        if (!count($this->items)) {
+        if (! count($this->items)) {
             throw new Exception('No items to invoice defined.');
         }
     }
@@ -343,7 +343,7 @@ trait InvoiceHelpers
     /**
      * @return $this
      */
-    protected function calculate()
+    public function calculate()
     {
         $total_amount   = null;
         $total_discount = null;
@@ -362,7 +362,7 @@ trait InvoiceHelpers
 
                 $item->calculate($this->currency_decimals);
 
-                (!$item->hasUnits()) ?: $this->hasItemUnits = true;
+                (! $item->hasUnits()) ?: $this->hasItemUnits = true;
 
                 if ($item->hasDiscount()) {
                     $total_discount += $item->discount;
@@ -389,7 +389,7 @@ trait InvoiceHelpers
         $this->hasTotalAmount() ?: $this->total_amount                            = $total_amount;
         $this->hasDiscount() ? $this->calculateDiscount() : $this->total_discount = $total_discount;
         $this->hasTax() ? $this->calculateTax() : $this->total_taxes              = $total_taxes;
-        !$this->hasShipping() ?: $this->calculateShipping();
+        ! $this->hasShipping() ?: $this->calculateShipping();
 
         return $this;
     }
