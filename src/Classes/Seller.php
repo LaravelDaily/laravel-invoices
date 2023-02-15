@@ -6,7 +6,6 @@ use LaravelDaily\Invoices\Contracts\PartyContract;
 
 /**
  * Class Seller
- * @package LaravelDaily\Invoices\Classes
  */
 class Seller implements PartyContract
 {

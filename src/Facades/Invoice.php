@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * Class Invoice
- * @package LaravelDaily\Invoices\Facades
  */
 class Invoice extends Facade
 {

@@ -7,7 +7,6 @@ use LaravelDaily\Invoices\Services\PricingService;
 
 /**
  * Class InvoiceItem
- * @package LaravelDaily\Invoices\Classes
  */
 class InvoiceItem
 {
@@ -149,8 +148,8 @@ class InvoiceItem
             throw new Exception('InvoiceItem: unable to set discount twice.');
         }
 
-        $this->discount                           = $amount;
-        !$byPercent ?: $this->discount_percentage = $amount;
+        $this->discount                            = $amount;
+        ! $byPercent ?: $this->discount_percentage = $amount;
 
         return $this;
     }
@@ -167,8 +166,8 @@ class InvoiceItem
             throw new Exception('InvoiceItem: unable to set tax twice.');
         }
 
-        $this->tax                           = $amount;
-        !$byPercent ?: $this->tax_percentage = $amount;
+        $this->tax                            = $amount;
+        ! $byPercent ?: $this->tax_percentage = $amount;
 
         return $this;
     }
@@ -202,7 +201,7 @@ class InvoiceItem
      */
     public function hasUnits()
     {
-        return !is_null($this->units);
+        return ! is_null($this->units);
     }
 
     /**
@@ -227,7 +226,7 @@ class InvoiceItem
      */
     public function calculate(int $decimals)
     {
-        if (!is_null($this->sub_total_price)) {
+        if (! is_null($this->sub_total_price)) {
             return $this;
         }
 

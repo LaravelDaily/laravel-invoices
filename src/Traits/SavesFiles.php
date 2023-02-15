@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * Trait SavesFiles
- * @package LaravelDaily\Invoices\Traits
  */
 trait SavesFiles
 {

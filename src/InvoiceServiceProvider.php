@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 
 /**
  * Class InvoiceServiceProvider
- * @package LaravelDaily\Invoices
  */
 class InvoiceServiceProvider extends ServiceProvider
 {
@@ -51,7 +50,7 @@ class InvoiceServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (!defined('INVOICES_PATH')) {
+        if (! defined('INVOICES_PATH')) {
             define('INVOICES_PATH', realpath(__DIR__ . '/../'));
         }
 

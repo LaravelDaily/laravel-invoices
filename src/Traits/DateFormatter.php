@@ -6,7 +6,6 @@ use Carbon\Carbon;
 
 /**
  * Trait DateFormatter
- * @package LaravelDaily\Invoices\Traits
  */
 trait DateFormatter
 {

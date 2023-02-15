@@ -7,7 +7,6 @@ use NumberFormatter;
 
 /**
  * Trait CurrencyFormatter
- * @package LaravelDaily\Invoices\Traits
  */
 trait CurrencyFormatter
 {
