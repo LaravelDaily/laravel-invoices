@@ -36,7 +36,7 @@ Please see the [changelog](CHANGELOG.md) for more information on what has change
 
 Via Composer
 
-### Laravel version <= 9
+### Laravel version <= 10
 
 ```bash
 $ composer require laraveldaily/laravel-invoices:^3.0
