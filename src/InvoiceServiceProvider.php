@@ -97,11 +97,11 @@ class InvoiceServiceProvider extends ServiceProvider
 
     private function getPublishableLangPath(): string
     {
-        $splipVersion = explode('.', $this->app->version());
-
         if (function_exists('lang_path')) {
             return lang_path('vendor/invoices');
         }
+
+        $splipVersion = explode('.', $this->app->version());
 
         if ((int) $splipVersion[0] >= 9) {
             return base_path('lang/vendor/invoices');
