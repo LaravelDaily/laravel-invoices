@@ -90,7 +90,7 @@ class InvoiceServiceProvider extends ServiceProvider
 
             // Publishing the translation files.
             $this->publishes([
-                __DIR__ . '/../resources/lang' => resource_path('lang/vendor/invoices'),
+                __DIR__ . '/../resources/lang' => lang_path('vendor/invoices'),
             ], 'invoices.translations');
         }
     }
