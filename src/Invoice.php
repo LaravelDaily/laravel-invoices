@@ -198,7 +198,7 @@ class Invoice
         $this->paperOptions = config('invoices.paper');
 
         // DomPDF options
-        $this->options = config(['invoices.dompdf_options']) ?? ['enable_php' => true];
+        $this->options = config('invoices.dompdf_options') ?? ['enable_php' => true];
 
         $this->disk          = config('invoices.disk');
         $this->table_columns = static::TABLE_COLUMNS;
