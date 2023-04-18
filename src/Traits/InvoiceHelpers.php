@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Support\Str;
 use LaravelDaily\Invoices\Contracts\PartyContract;
 use LaravelDaily\Invoices\Services\PricingService;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Trait InvoiceHelpers.
@@ -203,9 +202,10 @@ trait InvoiceHelpers
 
     public function getLogo()
     {
-        $file = new File($this->logo);
+        $type = pathinfo($this->logo, PATHINFO_EXTENSION);
+        $data = file_get_contents($this->logo);
 
-        return 'data:' . $file->getMimeType() . ';base64,' . base64_encode($file->getContent());
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
     }
 
     /**
