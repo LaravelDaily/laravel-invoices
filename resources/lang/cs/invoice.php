@@ -8,7 +8,7 @@ return [
     */
 
     'invoice'                => 'faktura',
-    'serial'                 => 'faktura č..',
+    'serial'                 => 'faktura č.',
     'date'                   => 'datum',
     'seller'                 => 'prodejce',
     'buyer'                  => 'nakupující',
