@@ -2,7 +2,7 @@
 
 namespace LaravelDaily\Invoices\Traits;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 
 /**
  * Trait DateFormatter
@@ -10,7 +10,7 @@ use Carbon\Carbon;
 trait DateFormatter
 {
     /**
-     * @var Carbon
+     * @var CarbonInterface
      */
     public $date;
 
@@ -25,10 +25,10 @@ trait DateFormatter
     public $pay_until_days;
 
     /**
-     * @param Carbon $date
+     * @param CarbonInterface $date
      * @return $this
      */
-    public function date(Carbon $date)
+    public function date(CarbonInterface $date)
     {
         $this->date = $date;
 
