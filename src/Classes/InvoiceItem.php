@@ -70,6 +70,11 @@ class InvoiceItem
         $this->tax      = 0.0;
     }
 
+    public static function make($title)
+    {
+        return (new self())->title($title);
+    }
+
     /**
      * @param string $title
      * @return $this
