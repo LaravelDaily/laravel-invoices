@@ -14,8 +14,6 @@ This Laravel package provides an easy to use interface to generate **Invoice PDF
 
 Invoice file can be stored, downloaded, streamed on any of the filesystems you have configured. Supports different templates and locales.
 
-Originally package was developed on PHP 7.3.11 and Laravel 6.2, but should work on lower versions too.
-
 ## Features
 - Taxes - fixed or rate - for item or for invoice
 - Discounts - fixed or by percentage - for item or for invoice
@@ -27,10 +25,6 @@ Originally package was developed on PHP 7.3.11 and Laravel 6.2, but should work 
 - Templates
 - Translations
 - Global settings and overrides on-the-fly
-
-## Change log
-
-Please see the [changelog](CHANGELOG.md) for more information on what has changed recently.
 
 ## Installation
 
