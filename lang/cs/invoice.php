@@ -35,4 +35,5 @@ return [
     'shipping'               => 'Doprava',
     'paid'                   => 'Zaplaceno',
     'due'                    => 'Splatnost',
+    'page'                   => 'Strana',
 ];

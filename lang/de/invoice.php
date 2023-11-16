@@ -3,13 +3,13 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Invoice Language Lines
+    | German Invoice Language Lines
     |--------------------------------------------------------------------------
     */
 
     'invoice'                => 'Rechnung',
     'serial'                 => 'Rechnungsnr.',
-    'date'                   => 'Rechungsdatum',
+    'date'                   => 'Rechnungsdatum',
     'seller'                 => 'Verkäufer',
     'buyer'                  => 'Käufer',
     'address'                => 'Adresse',
@@ -35,4 +35,5 @@ return [
     'shipping'               => 'Versand',
     'paid'                   => 'Bezahlt',
     'due'                    => 'Fällig',
+    'page'                   => 'Seite',
 ];

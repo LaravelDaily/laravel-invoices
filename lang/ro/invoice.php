@@ -35,4 +35,5 @@ return [
     'shipping'               => 'Livrare',
     'paid'                   => 'Plătit',
     'due'                    => 'Data scadentă',
+    'page'                   => 'Pagină',
 ];

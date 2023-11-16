@@ -3,7 +3,7 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Invoice Language Lines
+    | English Invoice Language Lines
     |--------------------------------------------------------------------------
     */
 
@@ -35,4 +35,5 @@ return [
     'shipping'               => 'Shipping',
     'paid'                   => 'Paid',
     'due'                    => 'Due',
+    'page'                   => 'Page',
 ];
