@@ -380,7 +380,7 @@ Almost every configuration value can be overrided dynamically by methods.
 - getSerialNumber() - returns formatted serial number
 
 #### Date
-- date(Carbon)
+- date(CarbonInterface)
 - dateFormat(string) - Carbon format of date
 - payUntilDays(int) - Days payment due since invoice issued
 - getDate() - returns formatted date
