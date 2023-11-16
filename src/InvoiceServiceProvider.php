@@ -90,9 +90,24 @@ class InvoiceServiceProvider extends ServiceProvider
 
             // Publishing the translation files.
             $this->publishes([
-                __DIR__ . '/../resources/lang' => resource_path('lang/vendor/invoices'),
+                __DIR__ . '/../resources/lang' => $this->getPublishableLangPath(),
             ], 'invoices.translations');
         }
+    }
+
+    private function getPublishableLangPath(): string
+    {
+        if (function_exists('lang_path')) {
+            return lang_path('vendor/invoices');
+        }
+
+        $splipVersion = explode('.', $this->app->version());
+
+        if ((int) $splipVersion[0] >= 9) {
+            return base_path('lang/vendor/invoices');
+        }
+
+        return base_path('resources/lang/vendor/invoices');
     }
 
     /**
