@@ -7,11 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class PricingTest extends TestCase
 {
-    /**
-     * @test
-     * @return void
-     */
-    public function test_discount_value()
+    public function test_discount_value(): void
     {
         $target   = 49.99;
         $discount = 9.555;
@@ -19,14 +15,10 @@ class PricingTest extends TestCase
 
         $newPrice = PricingService::applyDiscount($target, $discount, $decimals);
 
-        $this->assertEquals($newPrice, 40.44);
+        $this->assertEquals(40.44, $newPrice);
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function test_discount_rate()
+    public function test_discount_rate(): void
     {
         $target   = 49.99;
         $discount = 15.666;
@@ -34,14 +26,10 @@ class PricingTest extends TestCase
 
         $newPrice = PricingService::applyDiscount($target, $discount, $decimals, true);
 
-        $this->assertEquals($newPrice, 42.16);
+        $this->assertEquals(42.16, $newPrice);
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function test_tax_value()
+    public function test_tax_value(): void
     {
         $target   = 49.99856;
         $tax      = 10.11111;
@@ -49,14 +37,10 @@ class PricingTest extends TestCase
 
         $newPrice = PricingService::applyTax($target, $tax, $decimals);
 
-        $this->assertEquals($newPrice, 60.11);
+        $this->assertEquals(60.11, $newPrice);
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function test_tax_rate()
+    public function test_tax_rate(): void
     {
         $target   = 49.99;
         $tax      = 21;
@@ -64,10 +48,10 @@ class PricingTest extends TestCase
 
         $newPrice = PricingService::applyTax($target, $tax, $decimals, true);
 
-        $this->assertEquals($newPrice, 60.49);
+        $this->assertEquals(60.49, $newPrice);
     }
 
-    public function test_quantity_price()
+    public function test_quantity_price(): void
     {
         $target   = 25.55;
         $quantity = 0.5;
@@ -75,6 +59,6 @@ class PricingTest extends TestCase
 
         $newPrice = PricingService::applyQuantity($target, $quantity, $decimals);
 
-        $this->assertEquals($newPrice, 12.78);
+        $this->assertEquals(12.78, $newPrice);
     }
 }
