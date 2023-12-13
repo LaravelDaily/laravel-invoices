@@ -8,13 +8,6 @@ use LaravelDaily\Invoices\Tests\TestCase;
 
 final class InstallCommandTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        app()->setLocale('nl');
-    }
-
     protected function defineEnvironment($app)
     {
         $app->config->set('app.locale', 'nl');
