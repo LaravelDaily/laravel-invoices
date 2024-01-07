@@ -3,7 +3,7 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Norwegian Invoice Language Lines
+    | Dutch Invoice Language Lines
     | Factuur Taal Lijnen
     |--------------------------------------------------------------------------
     */

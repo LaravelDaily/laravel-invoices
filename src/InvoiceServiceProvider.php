@@ -28,7 +28,7 @@ class InvoiceServiceProvider extends ServiceProvider
     protected function registerResources()
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'invoices');
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'invoices');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'invoices');
     }
 
     /**
