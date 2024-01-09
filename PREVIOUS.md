@@ -10,7 +10,7 @@ $ composer require laraveldaily/laravel-invoices:^2.0
 $ composer require laraveldaily/laravel-invoices:^1.3
 ```
 
-### For Laravel version < 5.5
+### If you're using Laravel version < 5.5
 
 If you don't use auto-discovery, add the ServiceProvider to the providers array in `config/app.php`
 
