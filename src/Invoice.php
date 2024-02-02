@@ -156,6 +156,11 @@ class Invoice
     protected $options;
 
     /**
+     * @var array
+     */
+    protected $data;
+
+    /**
      * Invoice constructor.
      *
      * @param string $name
@@ -202,6 +207,9 @@ class Invoice
 
         $this->disk          = config('invoices.disk');
         $this->table_columns = static::TABLE_COLUMNS;
+
+        // View data
+        $this->data = [];
     }
 
     /**
@@ -257,6 +265,24 @@ class Invoice
     }
 
     /**
+     * Add a piece of data the the rendering view.
+     *
+     * @param  string|array  $key
+     * @param  mixed  $value
+     * @return $this
+     */
+    public function with($key, $value = null)
+    {
+        if (is_array($key)) {
+            $this->data = array_merge($this->data, $key);
+        } else {
+            $this->data[$key] = $value;
+        }
+
+        return $this;
+    }
+
+    /**
      * @throws Exception
      *
      * @return $this
@@ -268,9 +294,10 @@ class Invoice
         }
 
         $this->beforeRender();
+        $this->with('invoice', $this);
 
         $template = sprintf('invoices::templates.%s', $this->template);
-        $view     = View::make($template, ['invoice' => $this]);
+        $view     = View::make($template, $this->data);
         $html     = mb_convert_encoding($view, 'HTML-ENTITIES', 'UTF-8');
 
         $this->pdf = PDF::setOptions($this->options)
