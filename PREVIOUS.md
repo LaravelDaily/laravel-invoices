@@ -1,3 +1,9 @@
+### Laravel version <= 9
+
+```bash
+$ composer require laraveldaily/laravel-invoices:^3.3
+```
+
 ### Laravel version <= 8
 
 ```bash
