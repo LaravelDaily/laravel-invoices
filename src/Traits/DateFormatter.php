@@ -62,7 +62,7 @@ trait DateFormatter
      */
     public function getDate()
     {
-        return $this->date->format($this->date_format);
+        return $this->date->isoFormat('LL');
     }
 
     /**
