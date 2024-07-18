@@ -9,7 +9,7 @@ return [
 
     'invoice'                => 'Faktura',
     'serial'                 => 'Nr seryjny',
-    'date'                   => 'Data faktury',
+    'date'                   => 'Data wystawienia',
     'seller'                 => 'Sprzedawca',
     'buyer'                  => 'Kupujący',
     'address'                => 'Adres',
