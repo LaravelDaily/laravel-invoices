@@ -118,6 +118,16 @@ class Invoice
     /**
      * @var bool
      */
+    public $hasItemCode;
+
+    /**
+     * @var bool
+     */
+    public $hasItemReference;
+
+    /**
+     * @var bool
+     */
     public $hasItemDiscount;
 
     /**

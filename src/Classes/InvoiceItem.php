@@ -16,6 +16,16 @@ class InvoiceItem
     public $title;
 
     /**
+     * @var string
+     */
+    public $code;
+
+    /**
+     * @var string
+     */
+    public $reference;
+
+    /**
      * @var string|bool
      */
     public $description = false;
@@ -82,6 +92,28 @@ class InvoiceItem
     public function title(string $title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @param string $code
+     * @return $this
+     */
+    public function code(string $code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @param string $reference
+     * @return $this
+     */
+    public function reference(string $reference)
+    {
+        $this->reference = $reference;
 
         return $this;
     }
@@ -207,6 +239,21 @@ class InvoiceItem
     public function hasUnits()
     {
         return ! is_null($this->units);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCode()
+    {
+        return ! is_null($this->code);
+    }
+    /**
+     * @return bool
+     */
+    public function hasReference()
+    {
+        return ! is_null($this->reference);
     }
 
     /**
