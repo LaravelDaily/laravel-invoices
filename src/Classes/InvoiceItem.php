@@ -1,9 +1,9 @@
 <?php
 
-namespace LaravelDaily\Invoices\Classes;
+namespace Jhosagid\Invoices\Classes;
 
 use Exception;
-use LaravelDaily\Invoices\Services\PricingService;
+use Jhosagid\Invoices\Services\PricingService;
 
 /**
  * Class InvoiceItem

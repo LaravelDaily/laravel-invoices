@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelDaily\Invoices\Facades;
+namespace Jhosagid\Invoices\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

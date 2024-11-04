@@ -1,14 +1,14 @@
-![![Banner]](https://banners.beyondco.de/Laravel%20Invoices.png?theme=light&packageManager=composer+require&packageName=laraveldaily%2Flaravel-invoices&pattern=architect&style=style_1&description=PDFs+made+easy&md=1&showWatermark=0&fontSize=100px&images=document-download)
+![![Banner]](https://banners.beyondco.de/Laravel%20Invoices.png?theme=light&packageManager=composer+require&packageName=jhosagid%2Flaravel-invoices&pattern=architect&style=style_1&description=PDFs+made+easy&md=1&showWatermark=0&fontSize=100px&images=document-download)
 
 # Laravel Invoices
 
-[![Latest Stable Version](https://poser.pugx.org/laraveldaily/laravel-invoices/v/stable?2)](https://packagist.org/packages/laraveldaily/laravel-invoices)
-[![Total Downloads](https://poser.pugx.org/laraveldaily/laravel-invoices/downloads?2)](https://packagist.org/packages/laraveldaily/laravel-invoices)
-[![Latest Unstable Version](https://poser.pugx.org/laraveldaily/laravel-invoices/v/unstable)](https://packagist.org/packages/laraveldaily/laravel-invoices)
-[![License](https://poser.pugx.org/laraveldaily/laravel-invoices/license)](https://packagist.org/packages/laraveldaily/laravel-invoices)
+[![Latest Stable Version](https://poser.pugx.org/jhosagid/laravel-invoices/v/stable?2)](https://packagist.org/packages/jhosagid/laravel-invoices)
+[![Total Downloads](https://poser.pugx.org/jhosagid/laravel-invoices/downloads?2)](https://packagist.org/packages/jhosagid/laravel-invoices)
+[![Latest Unstable Version](https://poser.pugx.org/jhosagid/laravel-invoices/v/unstable)](https://packagist.org/packages/jhosagid/laravel-invoices)
+[![License](https://poser.pugx.org/jhosagid/laravel-invoices/license)](https://packagist.org/packages/jhosagid/laravel-invoices)
 
-[![version 2](https://img.shields.io/badge/v4%20maintenance-yes-green?style=flat)](https://packagist.org/packages/laraveldaily/laravel-invoices)
-[![version 1](https://img.shields.io/badge/v3%20maintenance-no-red?style=flat)](https://packagist.org/packages/laraveldaily/laravel-invoices)
+[![version 2](https://img.shields.io/badge/v4%20maintenance-yes-green?style=flat)](https://packagist.org/packages/jhosagid/laravel-invoices)
+[![version 1](https://img.shields.io/badge/v3%20maintenance-no-red?style=flat)](https://packagist.org/packages/jhosagid/laravel-invoices)
 
 This Laravel package provides an easy to use interface to generate **Invoice PDF files** with your provided data.
 
@@ -31,7 +31,7 @@ Invoice file can be stored, downloaded, streamed on any of the filesystems you h
 Via Composer
 
 ```bash
-$ composer require laraveldaily/laravel-invoices:^4.0
+$ composer require jhosagid/laravel-invoices:^4.0
 ```
 
 > [Older versions](PREVIOUS.md)
@@ -65,9 +65,9 @@ $ php artisan vendor:publish --tag=invoices.translations --force
 
 **RandomController.php**
 ```php
-use LaravelDaily\Invoices\Invoice;
-use LaravelDaily\Invoices\Classes\Buyer;
-use LaravelDaily\Invoices\Classes\InvoiceItem;
+use Jhosagid\Invoices\Invoice;
+use Jhosagid\Invoices\Classes\Buyer;
+use Jhosagid\Invoices\Classes\InvoiceItem;
 
 // ...
 
@@ -95,9 +95,9 @@ See result [Invoice_AA_00001.pdf](examples/invoice_AA_00001.pdf).
 ## Advanced Usage
 
 ``` php
-use LaravelDaily\Invoices\Invoice;
-use LaravelDaily\Invoices\Classes\Party;
-use LaravelDaily\Invoices\Classes\InvoiceItem;
+use Jhosagid\Invoices\Invoice;
+use Jhosagid\Invoices\Classes\Party;
+use Jhosagid\Invoices\Classes\InvoiceItem;
 
 // ...
 
@@ -289,10 +289,10 @@ return [
         /**
          * Class used in templates via $invoice->seller
          *
-         * Must implement LaravelDaily\Invoices\Contracts\PartyContract
-         *      or extend LaravelDaily\Invoices\Classes\Party
+         * Must implement Jhosagid\Invoices\Contracts\PartyContract
+         *      or extend Jhosagid\Invoices\Classes\Party
          */
-        'class' => \LaravelDaily\Invoices\Classes\Seller::class,
+        'class' => \Jhosagid\Invoices\Classes\Seller::class,
 
         /**
          * Default attributes for Seller::class
@@ -406,13 +406,13 @@ If you discover any security related issues, please email mysticcode@gmail.com i
 
 GPL-3.0-only. Please see the [license file](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/laraveldaily/laravel-invoices.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/laraveldaily/laravel-invoices.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/laraveldaily/laravel-invoices/master.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/jhosagid/laravel-invoices.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/jhosagid/laravel-invoices.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/jhosagid/laravel-invoices/master.svg?style=flat-square
 [ico-styleci]: https://styleci.io/repos/12345678/shield
 
-[link-packagist]: https://packagist.org/packages/laraveldaily/laravel-invoices
-[link-downloads]: https://packagist.org/packages/laraveldaily/laravel-invoices
-[link-travis]: https://travis-ci.org/laraveldaily/laravel-invoices
+[link-packagist]: https://packagist.org/packages/jhosagid/laravel-invoices
+[link-downloads]: https://packagist.org/packages/jhosagid/laravel-invoices
+[link-travis]: https://travis-ci.org/jhosagid/laravel-invoices
 [link-styleci]: https://styleci.io/repos/12345678
 [link-author]: https://github.com/mc0de

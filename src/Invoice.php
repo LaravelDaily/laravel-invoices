@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelDaily\Invoices;
+namespace Jhosagid\Invoices;
 
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Carbon\Carbon;
@@ -8,14 +8,14 @@ use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
-use LaravelDaily\Invoices\Classes\InvoiceItem;
-use LaravelDaily\Invoices\Classes\Party;
-use LaravelDaily\Invoices\Contracts\PartyContract;
-use LaravelDaily\Invoices\Traits\CurrencyFormatter;
-use LaravelDaily\Invoices\Traits\DateFormatter;
-use LaravelDaily\Invoices\Traits\InvoiceHelpers;
-use LaravelDaily\Invoices\Traits\SavesFiles;
-use LaravelDaily\Invoices\Traits\SerialNumberFormatter;
+use Jhosagid\Invoices\Classes\InvoiceItem;
+use Jhosagid\Invoices\Classes\Party;
+use Jhosagid\Invoices\Contracts\PartyContract;
+use Jhosagid\Invoices\Traits\CurrencyFormatter;
+use Jhosagid\Invoices\Traits\DateFormatter;
+use Jhosagid\Invoices\Traits\InvoiceHelpers;
+use Jhosagid\Invoices\Traits\SavesFiles;
+use Jhosagid\Invoices\Traits\SerialNumberFormatter;
 
 /**
  * Class Invoices.

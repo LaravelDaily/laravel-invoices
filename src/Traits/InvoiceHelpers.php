@@ -1,11 +1,11 @@
 <?php
 
-namespace LaravelDaily\Invoices\Traits;
+namespace Jhosagid\Invoices\Traits;
 
 use Exception;
 use Illuminate\Support\Str;
-use LaravelDaily\Invoices\Contracts\PartyContract;
-use LaravelDaily\Invoices\Services\PricingService;
+use Jhosagid\Invoices\Contracts\PartyContract;
+use Jhosagid\Invoices\Services\PricingService;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**

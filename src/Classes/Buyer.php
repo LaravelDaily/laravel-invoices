@@ -1,10 +1,8 @@
 <?php
 
-namespace LaravelDaily\Invoices\Classes;
+namespace Jhosagid\Invoices\Classes;
 
 /**
  * Class Buyer
  */
-class Buyer extends Party
-{
-}
+class Buyer extends Party {}

@@ -78,10 +78,10 @@ return [
         /*
          * Class used in templates via $invoice->seller
          *
-         * Must implement LaravelDaily\Invoices\Contracts\PartyContract
-         *      or extend LaravelDaily\Invoices\Classes\Party
+         * Must implement Jhosagid\Invoices\Contracts\PartyContract
+         *      or extend Jhosagid\Invoices\Classes\Party
          */
-        'class' => \LaravelDaily\Invoices\Classes\Seller::class,
+        'class' => \Jhosagid\Invoices\Classes\Seller::class,
 
         /*
          * Default attributes for Seller::class
