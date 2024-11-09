@@ -123,7 +123,7 @@ class Invoice
     /**
      * @var bool
      */
-    public $hasItemReference;
+    public $hasItemReference = true;
 
     /**
      * @var bool
