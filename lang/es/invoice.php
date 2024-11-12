@@ -40,7 +40,7 @@ return [
     'paid_date'              => 'Fecha de pago',
     'due'                    => 'Programado',
     'page'                   => 'Pagina',
-    'remission'              => 'N° REMISIONtt',
+    'remission'              => 'N° REMISION',
     'order'                  => 'N° ORDEN',
     'amount_due'             => 'Neto a pagar',
     'city'                   => 'Ciudad',
