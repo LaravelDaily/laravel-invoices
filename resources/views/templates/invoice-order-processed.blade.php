@@ -566,8 +566,7 @@
 
 
             <p class="box-disclaimer">
-                ESTIMADO CLIENTE DESPUES DE OCHO DIAS CALENDARIO NO SE ACEPTAN RECLAMOS NI
-                DEVOLUCIONES
+                ESTIMADO CLIENTE LOS PRECIOS Y EXISTENCIAS DE LOS PRODUCTOS ESTÁN SUJETOS A CAMBIOS SIN PREVIO AVISO.
             </p>
 
         @if($invoice->notes)
