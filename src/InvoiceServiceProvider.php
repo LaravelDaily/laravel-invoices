@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelDaily\Invoices;
+namespace Jhosagid\Invoices;
 
 use Illuminate\Support\ServiceProvider;
 

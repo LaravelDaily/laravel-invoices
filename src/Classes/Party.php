@@ -1,8 +1,8 @@
 <?php
 
-namespace LaravelDaily\Invoices\Classes;
+namespace Jhosagid\Invoices\Classes;
 
-use LaravelDaily\Invoices\Contracts\PartyContract;
+use Jhosagid\Invoices\Contracts\PartyContract;
 
 /**
  * Class Party

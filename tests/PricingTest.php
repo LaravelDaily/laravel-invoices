@@ -1,8 +1,8 @@
 <?php
 
-namespace LaravelDaily\Invoices\Tests;
+namespace Jhosagid\Invoices\Tests;
 
-use LaravelDaily\Invoices\Services\PricingService;
+use Jhosagid\Invoices\Services\PricingService;
 use PHPUnit\Framework\TestCase;
 
 class PricingTest extends TestCase

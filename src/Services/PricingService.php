@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelDaily\Invoices\Services;
+namespace Jhosagid\Invoices\Services;
 
 class PricingService
 {

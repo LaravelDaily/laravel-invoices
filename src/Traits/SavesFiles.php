@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelDaily\Invoices\Traits;
+namespace Jhosagid\Invoices\Traits;
 
 use Illuminate\Support\Facades\Storage;
 

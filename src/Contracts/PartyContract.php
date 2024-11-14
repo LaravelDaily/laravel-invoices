@@ -1,10 +1,8 @@
 <?php
 
-namespace LaravelDaily\Invoices\Contracts;
+namespace Jhosagid\Invoices\Contracts;
 
 /**
  * Interface PartyContract
  */
-interface PartyContract
-{
-}
+interface PartyContract {}

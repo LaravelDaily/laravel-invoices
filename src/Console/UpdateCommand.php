@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelDaily\Invoices\Console;
+namespace Jhosagid\Invoices\Console;
 
 use Illuminate\Console\Command;
 

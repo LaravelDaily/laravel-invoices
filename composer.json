@@ -1,16 +1,16 @@
 {
-    "name": "laraveldaily/laravel-invoices",
+    "name": "jhosagid/laravel-invoices",
     "description": "Missing invoices for Laravel",
     "license": "GPL-3.0-only",
     "authors": [
         {
-            "name": "David Lun",
-            "email": "mysticcode@gmail.com",
-            "homepage": "https://davidlun.com",
+            "name": "Jhonny Pirela",
+            "email": "jhosagid7@gmail.com",
+            "homepage": "https://github.com/jhosagid7",
             "role": "Developer"
         }
     ],
-    "homepage": "https://github.com/LaravelDaily/laravel-invoices",
+    "homepage": "https://github.com/jhosagid7/laravel-invoices",
     "keywords": ["Laravel", "Invoice", "Invoices", "PDF"],
     "require": {
         "php": ">=8.2",
@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "LaravelDaily\\Invoices\\": "src"
+            "Jhosagid\\Invoices\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "LaravelDaily\\Invoices\\Tests\\": "tests"
+            "Jhosagid\\Invoices\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -42,10 +42,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LaravelDaily\\Invoices\\InvoiceServiceProvider"
+                "Jhosagid\\Invoices\\InvoiceServiceProvider"
             ],
             "aliases": {
-                "Invoice": "LaravelDaily\\Invoices\\Facades\\Invoice"
+                "Invoice": "Jhosagid\\Invoices\\Facades\\Invoice"
             }
         }
     }

@@ -1,19 +1,19 @@
 ### Laravel version <= 9
 
 ```bash
-$ composer require laraveldaily/laravel-invoices:^3.3
+$ composer require jhosagid/laravel-invoices:^1.0
 ```
 
 ### Laravel version <= 8
 
 ```bash
-$ composer require laraveldaily/laravel-invoices:^2.0
+$ composer require jhosagid/laravel-invoices:^1.0
 ```
 
 ### Laravel version <= 7
 
 ```bash
-$ composer require laraveldaily/laravel-invoices:^1.3
+$ composer require jhosagid/laravel-invoices:^1.0
 ```
 
 ### If you're using Laravel version < 5.5
@@ -21,11 +21,11 @@ $ composer require laraveldaily/laravel-invoices:^1.3
 If you don't use auto-discovery, add the ServiceProvider to the providers array in `config/app.php`
 
 ```php
-LaravelDaily\Invoices\InvoiceServiceProvider::class,
+Jhosagid\Invoices\InvoiceServiceProvider::class,
 ```
 
 If you want to use the facade to generate invoices, add this to your facades in `config/app.php`
 
 ```php
-'Invoice' => LaravelDaily\Invoices\Facades\Invoice::class
+'Invoice' => Jhosagid\Invoices\Facades\Invoice::class
 ```
