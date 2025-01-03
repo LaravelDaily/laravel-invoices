@@ -112,4 +112,8 @@ return [
          */
         'logOutputFile' => '/dev/null',
     ],
+
+    'security' => [
+        'encryption' => true,
+    ]
 ];
