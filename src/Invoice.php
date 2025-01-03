@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Classes\Party;
 use LaravelDaily\Invoices\Contracts\PartyContract;
@@ -276,8 +277,13 @@ class Invoice
         $this->pdf = PDF::setOptions($this->options)
             ->setPaper($this->paperOptions['size'], $this->paperOptions['orientation'])
             ->loadHtml($html);
-        $this->output = $this->pdf->output();
 
+        if (config('invoices.security.encryption')) {
+            // By definition an invoice should not be changable by anyone, so use a random master password
+            $this->pdf->setEncryption('', Str::random(40), array('copy','print'));
+        }
+
+        $this->output = $this->pdf->output();
         return $this;
     }
 
