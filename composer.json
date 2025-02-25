@@ -14,9 +14,9 @@
     "keywords": ["Laravel", "Invoice", "Invoices", "PDF"],
     "require": {
         "php": ">=8.2",
-        "barryvdh/laravel-dompdf": "^v2.0",
-        "illuminate/http": "^10|^11",
-        "illuminate/support": "^10|^11",
+        "barryvdh/laravel-dompdf": "^v3.1.1",
+        "illuminate/http": "^10|^11|^12",
+        "illuminate/support": "^10|^11|^12",
         "symfony/http-foundation": "^6|^7"
     },
     "require-dev": {
