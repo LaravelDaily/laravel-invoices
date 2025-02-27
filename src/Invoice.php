@@ -168,7 +168,7 @@ class Invoice
         $this->name     = $name ?: __('invoices::invoice.invoice');
         $this->seller   = app()->make(config('invoices.seller.class'));
         $this->items    = Collection::make([]);
-        $this->template = 'default';
+        $this->template = 'invoices::templates.default';
 
         // Date
         $this->date           = Carbon::now();
@@ -269,8 +269,7 @@ class Invoice
 
         $this->beforeRender();
 
-        $template = sprintf('invoices::templates.%s', $this->template);
-        $view     = View::make($template, ['invoice' => $this]);
+        $view     = View::make($this->template, ['invoice' => $this]);
         $html     = mb_convert_encoding($view, 'HTML-ENTITIES', 'UTF-8');
 
         $this->pdf = PDF::setOptions($this->options)
@@ -283,9 +282,7 @@ class Invoice
 
     public function toHtml()
     {
-        $template = sprintf('invoices::templates.%s', $this->template);
-
-        return View::make($template, ['invoice' => $this]);
+        return View::make($this->template, ['invoice' => $this]);
     }
 
     /**

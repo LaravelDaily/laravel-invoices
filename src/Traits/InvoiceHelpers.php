@@ -176,13 +176,16 @@ trait InvoiceHelpers
     /**
      * @return $this
      */
-    public function template(string $template = 'default')
+    public function template(string $template = 'default', bool $from_default_resources = true)
     {
+        if ($from_default_resources) {
+            $template = sprintf('invoices::templates.%s', $template);
+        }
+
         $this->template = $template;
 
         return $this;
     }
-
     /**
      * @return $this
      */
