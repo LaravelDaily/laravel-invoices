@@ -36,5 +36,5 @@ return [
     'shipping'               => 'Verzending',
     'paid'                   => 'Betaald',
     'due'                    => 'Openstaand',
-    'page'                   => 'Side',
+    'page'                   => 'Pagina',
 ];
