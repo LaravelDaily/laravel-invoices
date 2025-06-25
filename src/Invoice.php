@@ -272,6 +272,7 @@ class Invoice
         $template = sprintf('invoices::templates.%s', $this->template);
         $view     = View::make($template, ['invoice' => $this]);
         $html     = htmlentities($view, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $html     = html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
         $this->pdf = PDF::setOptions($this->options)
             ->setPaper($this->paperOptions['size'], $this->paperOptions['orientation'])
