@@ -106,10 +106,5 @@ return [
 
     'dompdf_options' => [
         'enable_php' => true,
-        /**
-         * Do not write log.html or make it optional
-         *  @see https://github.com/dompdf/dompdf/issues/2810
-         */
-        'logOutputFile' => '/dev/null',
     ],
 ];
