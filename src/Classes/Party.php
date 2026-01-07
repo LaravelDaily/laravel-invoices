@@ -7,6 +7,7 @@ use LaravelDaily\Invoices\Contracts\PartyContract;
 /**
  * Class Party
  */
+#[\AllowDynamicProperties]
 class Party implements PartyContract
 {
     public $custom_fields;
