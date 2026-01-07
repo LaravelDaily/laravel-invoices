@@ -31,7 +31,7 @@ Invoice file can be stored, downloaded, streamed on any of the filesystems you h
 Via Composer
 
 ```bash
-$ composer require laraveldaily/laravel-invoices:^4.1
+$ composer require laraveldaily/laravel-invoices:^4.1.1
 ```
 
 > [Older versions](PREVIOUS.md)
