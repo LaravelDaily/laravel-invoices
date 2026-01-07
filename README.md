@@ -205,7 +205,7 @@ return Invoice::make()->buyer($customer)->addItem($item)->stream();
 
 After publishing assets you can modify or make your own template for invoices.
 
-Templates are stored in the `resources/views/vendor/invoices/templates` directory. There you will find `default.blade.php` template which is used by default.
+Templates are stored in the `resources/views/vendor/invoices/templates` directory by default. There you will find `default.blade.php` template which is used by default.
 
 You can specify which template to use by calling `template` method on Invoice object.
 
@@ -216,6 +216,13 @@ Invoice::make('receipt')->template('my_company');
 ```
 
 Too see how things work in a template you can view `default.blade.php` as an example.
+
+You can also define your own template path in this way.
+
+For example, if your application follows a modular architecture and stores resources in module-specific directories (e.g., `modules/users/resources/views/invoices/v1/simple.blade.php`), you can configure the path as follows:
+```php
+Invoice::make('receipt')->template('users::invoices.v1.simple', true);
+```
 
 ## Config
 
