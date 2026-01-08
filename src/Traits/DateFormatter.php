@@ -62,7 +62,7 @@ trait DateFormatter
      */
     public function getDate()
     {
-        return $this->date->isoFormat('LL');
+        return $this->date->translatedFormat($this->date_format);
     }
 
     /**
@@ -70,6 +70,6 @@ trait DateFormatter
      */
     public function getPayUntilDate()
     {
-        return $this->date->copy()->addDays($this->pay_until_days)->format($this->date_format);
+        return $this->date->copy()->addDays($this->pay_until_days)->translatedFormat($this->date_format);
     }
 }
