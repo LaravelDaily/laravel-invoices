@@ -89,6 +89,16 @@ trait InvoiceHelpers
     /**
      * @return $this
      */
+    public function taxInclusive(bool $inclusive = true)
+    {
+        $this->tax_inclusive = $inclusive;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
     public function taxableAmount(float $taxable_amount)
     {
         $this->taxable_amount = $taxable_amount;
@@ -286,14 +296,28 @@ trait InvoiceHelpers
         $this->taxable_amount = $this->total_amount;
         $totalAmount          = $this->taxable_amount;
 
-        if ($this->tax_rate) {
-            $newTotalAmount = PricingService::applyTax($totalAmount, $this->tax_rate, $this->currency_decimals, true);
-        } else {
-            $newTotalAmount = PricingService::applyTax($totalAmount, $this->total_taxes, $this->currency_decimals);
-        }
+        if ($this->tax_inclusive) {
 
-        $this->total_amount = $newTotalAmount;
-        $this->total_taxes  = $newTotalAmount - $totalAmount;
+            if ($this->tax_rate) {
+                $net = $totalAmount / (1 + ($this->tax_rate / 100));
+            } else {
+                $net = $totalAmount / (1 + ($this->total_taxes / 100));
+            }
+
+            $this->total_taxes    = $totalAmount - $net;
+            $this->taxable_amount = $net;
+
+        } else {
+
+            if ($this->tax_rate) {
+                $newTotalAmount = PricingService::applyTax($totalAmount, $this->tax_rate, $this->currency_decimals, true);
+            } else {
+                $newTotalAmount = PricingService::applyTax($totalAmount, $this->total_taxes, $this->currency_decimals);
+            }
+
+            $this->total_amount = $newTotalAmount;
+            $this->total_taxes  = $newTotalAmount - $totalAmount;
+        }
     }
 
     public function calculateShipping(): void
@@ -360,6 +384,7 @@ trait InvoiceHelpers
                     throw new Exception('Invoice: you must have discounts only on items or only on invoice.');
                 }
 
+                $item->setTaxInclusive($this->tax_inclusive);
                 $item->calculate($this->currency_decimals);
 
                 (! $item->hasUnits()) ?: $this->hasItemUnits = true;

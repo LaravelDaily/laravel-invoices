@@ -61,6 +61,11 @@ class InvoiceItem
     public $tax_percentage;
 
     /**
+     * @var bool
+     */
+    protected $tax_inclusive = false;
+
+    /**
      * InvoiceItem constructor.
      */
     public function __construct()
@@ -202,6 +207,17 @@ class InvoiceItem
     }
 
     /**
+     * @param bool $inclusive
+     * @return $this
+     */
+    public function setTaxInclusive(bool $inclusive)
+    {
+        $this->tax_inclusive = $inclusive;
+
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function hasUnits()
@@ -267,13 +283,39 @@ class InvoiceItem
         $subTotal = $this->sub_total_price;
 
         if ($this->tax_percentage) {
-            $newSubTotal = PricingService::applyTax($subTotal, $this->tax_percentage, $decimals, true);
-        } else {
-            $newSubTotal = PricingService::applyTax($subTotal, $this->tax, $decimals);
-        }
 
-        $this->sub_total_price = $newSubTotal;
-        $this->tax             = $newSubTotal - $subTotal;
+            if ($this->tax_inclusive) {
+
+                $net = $subTotal / (1 + ($this->tax_percentage / 100));
+                $this->tax = round($subTotal - $net, $decimals);
+
+                $this->sub_total_price = $subTotal;
+
+            } else {
+
+                $newSubTotal = PricingService::applyTax($subTotal, $this->tax_percentage, $decimals, true);
+
+                $this->sub_total_price = $newSubTotal;
+                $this->tax             = $newSubTotal - $subTotal;
+            }
+
+        } else {
+
+            if ($this->tax_inclusive) {
+
+                $net = $subTotal / (1 + ($this->tax / 100));
+                $this->tax = round($subTotal - $net, $decimals);
+
+                $this->sub_total_price = $subTotal;
+
+            } else {
+
+                $newSubTotal = PricingService::applyTax($subTotal, $this->tax, $decimals);
+
+                $this->sub_total_price = $newSubTotal;
+                $this->tax             = $newSubTotal - $subTotal;
+            }
+        }
     }
 
     /**

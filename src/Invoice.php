@@ -126,6 +126,11 @@ class Invoice
     public $hasItemTax;
 
     /**
+     * @var bool
+     */
+    public $tax_inclusive = false;
+    
+    /**
      * @var int
      */
     public $table_columns;
