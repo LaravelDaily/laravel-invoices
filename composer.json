@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": ">=8.2",
-        "barryvdh/laravel-dompdf": "^v3.1.1|dev-master",
+        "barryvdh/laravel-dompdf": "^v3.1.1",
         "illuminate/http": "^10|^11|^12|^13.0",
         "illuminate/support": "^10|^11|^12|^13.0",
         "symfony/http-foundation": "^6|^7"
