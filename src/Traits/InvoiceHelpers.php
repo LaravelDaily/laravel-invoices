@@ -3,6 +3,7 @@
 namespace LaravelDaily\Invoices\Traits;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use LaravelDaily\Invoices\Contracts\PartyContract;
 use LaravelDaily\Invoices\Services\PricingService;
@@ -276,7 +277,39 @@ trait InvoiceHelpers
         $this->total_amount   = $newTotalAmount;
         $this->total_discount = $totalAmount - $newTotalAmount;
     }
-
+    public function getGroupedTaxes(): array
+    {
+        $grouped = [];
+    
+        foreach ($this->items as $item) {
+    
+            $rate = (float) ($item->tax_percentage ?? 0);
+    
+            if ($rate == 0) {
+                continue;
+            }
+    
+            if (!isset($grouped[$rate])) {
+                $grouped[$rate] = [
+                    'net' => 0,
+                    'tax' => 0,
+                    'gross' => 0,
+                ];
+            }
+    
+            $gross = (float) $item->sub_total_price;
+            $tax   = (float) $item->tax;
+            $net   = $gross - $tax;
+    
+            $grouped[$rate]['net']   += $net;
+            $grouped[$rate]['tax']   += $tax;
+            $grouped[$rate]['gross'] += $gross;
+        }
+    
+        ksort($grouped);
+    
+        return $grouped;
+    }  
     public function calculateTax(): void
     {
         if ($this->taxable_amount) {

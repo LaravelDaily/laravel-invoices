@@ -330,14 +330,37 @@
                         </td>
                     </tr>
                 @endif
-                @if($invoice->hasItemOrInvoiceTax())
+                @php
+                $groupedTaxes = $invoice->getGroupedTaxes();
+                @endphp
+
+                @if(count($groupedTaxes) > 1)
+
+                    @foreach($groupedTaxes as $rate => $values)
+                        <tr>
+                            <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
+                            <td class="text-right pl-0">
+                                {{ __('invoices::invoice.tax') }} ({{ $rate }}%)
+                            </td>
+                            <td class="text-right pr-0">
+                                {{ $invoice->formatCurrency($values['tax']) }}
+                            </td>
+                        </tr>
+                    @endforeach
+
+                @elseif($invoice->hasItemOrInvoiceTax())
+
+                    {{-- Original behaviour --}}
                     <tr>
                         <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                        <td class="text-right pl-0">{{ __('invoices::invoice.total_taxes') }}</td>
+                        <td class="text-right pl-0">
+                            {{ __('invoices::invoice.total_taxes') }}
+                        </td>
                         <td class="text-right pr-0">
                             {{ $invoice->formatCurrency($invoice->total_taxes) }}
                         </td>
                     </tr>
+
                 @endif
                 @if($invoice->shipping_amount)
                     <tr>
